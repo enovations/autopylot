@@ -1,21 +1,23 @@
 # import the necessary packages
-from picamera.array import PiRGBArray
-from picamera import PiCamera
+# from picamera.array import PiRGBArray
+# from picamera import PiCamera
 import time
 import cv2
 import numpy as np
 
-# initialize the camera and grab a reference to the raw camera capture
-camera = PiCamera()
-camera.resolution = (640, 480)
-rawCapture = PiRGBArray(camera)
+# # initialize the camera and grab a reference to the raw camera capture
+# camera = PiCamera()
+# camera.resolution = (640, 480)
+# rawCapture = PiRGBArray(camera)
 
-# allow the camera to warmup
-time.sleep(0.1)
+# # allow the camera to warmup
+# time.sleep(0.1)
 
-# grab an image from the camera
-camera.capture(rawCapture, format='bgr')
-img = rawCapture.array
+# # grab an image from the camera
+# camera.capture(rawCapture, format='bgr')
+# img = rawCapture.array
+
+img = cv2.imread('sample.png')
 
 # transform
 w, h = 640, 480
@@ -29,8 +31,11 @@ img = cv2.warpPerspective(img, M, (w, h))
 # blur
 img = cv2.medianBlur(img, 5)
 
+cv2.imshow('image', img)
+cv2.waitKey(0)
+
 # threshold
-img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, \
+img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
                             cv2.THRESH_BINARY, 11, 2)
 
 cv2.imwrite('neki.jpg', img)
