@@ -3,12 +3,6 @@
 import cv2
 import numpy as np
 
-
-def click_and_crop(event, x, y, flags, param):
-    if event == cv2.EVENT_LBUTTONDOWN:
-        print(x, y)
-
-
 w, h = 1000, 750
 
 origimg = cv2.imread('../sample.jpg')
@@ -23,9 +17,6 @@ pts2 = np.float32([[177, 95], [401, 98], [178, 318], [398, 316]])
 
 M = cv2.getPerspectiveTransform(pts1, pts2)
 dst = cv2.warpPerspective(img, M, (w, h))
-
-cv2.namedWindow("image")
-cv2.setMouseCallback("image", click_and_crop)
 
 cv2.imshow('image', dst)
 cv2.waitKey(0)
