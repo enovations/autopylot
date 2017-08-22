@@ -1,11 +1,13 @@
 import cv2
 import time
+import threading
 
 from flask import Flask, Response
 
 import image_process
 
 nopi = False
+image = None
 
 try:
     from picamera.array import PiRGBArray
@@ -24,35 +26,37 @@ if not nopi:
 app = Flask(__name__)
 
 
-def rendered_image():
+def new_image():
+    global image
     if nopi:
         image = cv2.imread('sample.jpg')
     else:
-        rawCapture = PiRGBArray(camera)
+        rawcapture = PiRGBArray(camera)
         time.sleep(0.1)
-        camera.capture(rawCapture, format='bgr')
-        image = rawCapture.array
+        camera.capture(rawcapture, format='bgr')
+        image = rawcapture.array
 
-        image = image_process.transform_image(image)
+    image = image_process.transform_image(image)
 
     time.sleep(0.1)
 
-    return image
+
+t = threading.Thread(target=new_image)
+t.start()
 
 
 def gen():
+    global image
     while True:
-        image = rendered_image()
-
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + cv2.imencode('.jpg', image)[1].tostring() + b'\r\n\r\n')
 
 
-@app.route('/video_feed')
+@app.route('/')
 def video_feed():
     return Response(gen(),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0', debug=True, port=8063)
