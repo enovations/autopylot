@@ -29,23 +29,26 @@ app = Flask(__name__)
 
 def new_image():
     global sendimagedata
-    if nopi:
-        image = cv2.imread('sample.jpg')
-    else:
-        rawcapture = PiRGBArray(camera)
-        time.sleep(0.1)
-        camera.capture(rawcapture, format='bgr')
-        image = rawcapture.array
 
-    image = image_process.threshold_image(image)
-    image = image_process.transform_image(image)
-    image = image_process.crop_image(image)
-    image = image_process.resize(image)
-    line_detection.get_omega(image)
+    while True:
 
-    sendimagedata = cv2.imencode('.jpg', image)[1].tostring()
+        if nopi:
+            image = cv2.imread('sample.jpg')
+        else:
+            rawcapture = PiRGBArray(camera)
+            time.sleep(0.1)
+            camera.capture(rawcapture, format='bgr')
+            image = rawcapture.array
 
-    time.sleep(0.5)
+        image = image_process.threshold_image(image)
+        image = image_process.transform_image(image)
+        image = image_process.crop_image(image)
+        image = image_process.resize(image)
+        line_detection.get_omega(image)
+
+        sendimagedata = cv2.imencode('.jpg', image)[1].tostring()
+
+        time.sleep(0.5)
 
 
 t = threading.Thread(target=new_image)
