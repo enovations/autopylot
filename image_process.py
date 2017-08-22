@@ -4,7 +4,7 @@ import numpy as np
 
 def transform_image(img):
 
-    w, h = img.size
+    w, h = 640, 480
 
     # rotate image
     m_rot = cv2.getRotationMatrix2D((w / 2, h / 2), 180, 1.0)
@@ -18,21 +18,21 @@ def transform_image(img):
     matrix = cv2.getPerspectiveTransform(pts1, pts2)
     img = cv2.warpPerspective(img, matrix, (w, h))
 
+    m_rot = cv2.getRotationMatrix2D((w / 2, h / 2), 180, 1.0)
+    img = cv2.warpAffine(img, m_rot, (w, h))
+
     return img
 
 
-def crop_image(image):
-    return image[350:550, 150:600]
+def crop_and_resize_image(image):
+    img = cv2.resize(image, (160, 120))
+    return img[60:120, 0:160]
 
 
 def threshold_image(image):
     img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    img = cv2.medianBlur(img, 11)
+    img = cv2.medianBlur(img, 3)
     img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-                                cv2.THRESH_BINARY_INV, 401, 10)
+                                cv2.THRESH_BINARY_INV, 11, 5)
     # cv2.erode(img, None, dst=img, iterations=5)
     return img
-
-
-def resize(image):
-    return cv2.resize(image, (113, 50))

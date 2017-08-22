@@ -40,10 +40,9 @@ def new_image():
             camera.capture(rawcapture, format='bgr')
             image = rawcapture.array
 
-        image = image_process.threshold_image(image)
         image = image_process.transform_image(image)
-        image = image_process.crop_image(image)
-        image = image_process.resize(image)
+        image = image_process.crop_and_resize_image(image)
+        image = image_process.threshold_image(image)
         line_detection.get_omega(image)
 
         sendimagedata = cv2.imencode('.jpg', image)[1].tostring()
