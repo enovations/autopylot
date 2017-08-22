@@ -19,18 +19,9 @@ def crop_image(image):
     return image[350:550, 150:600]
 
 
-def treshold_image(image):
-    img = image
-    for j in range(len(img)):
-        for i in range(len(img[j])):
-            pixel = img[j][i]
-            if pixel[0] == 0 and pixel[1] == 0 and pixel[2] == 0:
-                for p in range(3):
-                    img[j][i][p] = 255
-
+def threshold_image(image):
     img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     img = cv2.medianBlur(img, 11)
-    # ret, img = cv2.threshold(img, 80, 255, cv2.THRESH_BINARY)
-    img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_MEAN_C,
-                                cv2.THRESH_BINARY, 35, 3)
+    img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+                                cv2.THRESH_BINARY_INV, 401, 10)
     return img
