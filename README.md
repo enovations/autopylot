@@ -6,6 +6,8 @@ This is our best autopylot yet. It finds a line and follows it. Probaby. Don't k
 
 - numpy
 - opencv
+- Flask
+- (for actual testing, can live without) picamera
 
 # Appendix
 
