@@ -27,7 +27,5 @@ while True:
         time.sleep(0.1)
         camera.capture(rawCapture, format='bgr')
         image = rawCapture.array
-
-    transformed_image = image_process.transform_image(image)
-
-    time.sleep(0.5)
+    image_process.transform_image(image)
+    time.sleep(0.1)
