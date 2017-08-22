@@ -10,7 +10,7 @@ def send(image):
     try:
 
         connection = client_socket.makefile('wb')
-        
+
         stream = cv2.imencode('.jpg', image)
 
         # Write the length of the capture to the stream and flush to  # ensure it actually gets sent
