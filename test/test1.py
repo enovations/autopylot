@@ -8,7 +8,6 @@ def click_and_crop(event, x, y, flags, param):
     if event == cv2.EVENT_LBUTTONDOWN:
         print(x, y)
 
-
 w, h = 1000, 750
 
 origimg = cv2.imread('../sample.jpg')
