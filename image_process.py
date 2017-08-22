@@ -31,8 +31,12 @@ def crop_and_resize_image(image):
 
 def threshold_image(image):
     img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    img = cv2.medianBlur(img, 3)
+    img = cv2.medianBlur(img, 5)
     img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-                                cv2.THRESH_BINARY_INV, 11, 5)
-    # cv2.erode(img, None, dst=img, iterations=5)
+                                cv2.THRESH_BINARY_INV, 11, 4)
+
+    mask = cv2.imread('res/mask.png')
+    mask = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
+    img = cv2.bitwise_and(img, mask)
+
     return img

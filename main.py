@@ -6,6 +6,7 @@ from flask import Flask, Response
 
 import image_process
 import line_detection
+import generate_masks
 
 nopi = False
 sendimagedata = None
@@ -26,6 +27,7 @@ if not nopi:
 
 app = Flask(__name__)
 
+masks = generate_masks.get_masks()
 
 def new_image():
     global sendimagedata
@@ -43,7 +45,7 @@ def new_image():
         image = image_process.transform_image(image)
         image = image_process.crop_and_resize_image(image)
         image = image_process.threshold_image(image)
-        line_detection.get_omega(image)
+        print(line_detection.get_radius(image, masks))
 
         sendimagedata = cv2.imencode('.jpg', image)[1].tostring()
 
