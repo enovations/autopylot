@@ -40,6 +40,7 @@ def new_image():
     image = image_process.threshold_image(image)
     image = image_process.transform_image(image)
     image = image_process.crop_image(image)
+    image = image_process.resize(image)
     line_detection.get_omega(image)
 
     sendimagedata = cv2.imencode('.jpg', image)[1].tostring()

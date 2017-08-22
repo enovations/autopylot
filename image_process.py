@@ -24,4 +24,9 @@ def threshold_image(image):
     img = cv2.medianBlur(img, 11)
     img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
                                 cv2.THRESH_BINARY_INV, 401, 10)
+    # cv2.erode(img, None, dst=img, iterations=5)
     return img
+
+
+def resize(image):
+    return cv2.resize(image, (113, 50))
