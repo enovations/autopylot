@@ -8,7 +8,7 @@ import image_process
 import line_detection
 
 nopi = False
-image = None
+sendimagedata = None
 
 try:
     from picamera.array import PiRGBArray
@@ -28,7 +28,7 @@ app = Flask(__name__)
 
 
 def new_image():
-    global image
+    global sendimagedata
     if nopi:
         image = cv2.imread('sample.jpg')
     else:
@@ -42,7 +42,9 @@ def new_image():
     image = image_process.crop_image(image)
     line_detection.get_omega(image)
 
-    time.sleep(0.1)
+    sendimagedata = cv2.imencode('.jpg', image)[1].tostring()
+
+    time.sleep(0.5)
 
 
 t = threading.Thread(target=new_image)
@@ -50,10 +52,10 @@ t.start()
 
 
 def gen():
-    global image
+    global sendimagedata
     while True:
         yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + cv2.imencode('.jpg', image)[1].tostring() + b'\r\n\r\n')
+               b'Content-Type: image/jpeg\r\n\r\n' + sendimagedata + b'\r\n\r\n')
 
 
 @app.route('/')
@@ -63,4 +65,4 @@ def video_feed():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True, port=8063)
+    app.run(host='0.0.0.0', port=1234)
