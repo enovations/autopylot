@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 
+
 def transform_image(image):
     # rotate and transform image
     w, h = 640, 480
@@ -10,3 +11,4 @@ def transform_image(image):
     pts2 = np.float32([[177, 95], [401, 98], [178, 318], [398, 316]])
     M = cv2.getPerspectiveTransform(pts1, pts2)
     image = cv2.warpPerspective(image, M, (w, h))
+    return image
