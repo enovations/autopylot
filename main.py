@@ -17,7 +17,7 @@ import numpy as np
 # camera.capture(rawCapture, format='bgr')
 # img = rawCapture.array
 
-img = cv2.imread('sample.png')
+img = cv2.imread('sample.jpg')
 
 # transform
 w, h = 640, 480
