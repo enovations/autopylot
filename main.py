@@ -1,18 +1,23 @@
+# set to False to disable flask
+###############################
+run_flask = True
+###############################
+
 import time
 import threading
 
 import cv2
-from flask import Flask, Response
+
+if run_flask:
+    try:
+        from flask import Flask, Response
+    except:
+        run_flask = False
 
 import image_process
 import line_detection
 import generate_masks
 import ros_control
-
-# set to False to disable flask
-###############################
-run_flask = True
-###############################
 
 nopi = False
 sendimagedata = None
