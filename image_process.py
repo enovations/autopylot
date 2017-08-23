@@ -7,7 +7,7 @@ mask = None
 def init():
     # create crop mask with our transformation
     global mask
-    mask = np.zeros((640, 480), dtype=np.uint8)
+    mask = np.zeros((480, 640), dtype=np.uint8)
     mask[:] = 255
     mask = transform_image(mask)
     cv2.erode(mask, None, dst=mask, iterations=5)
