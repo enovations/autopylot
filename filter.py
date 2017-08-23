@@ -3,23 +3,18 @@ import __conf__
 
 
 class Filter:
-    def __init__(self):
-        self.q = deque([(0, 0, 0) for _ in range(4)])
-        # self.weights = [1, 1, 2, 3, 3, 3, 4, 5, 5, 6]
-        self.weights = [1, 2, 3, 4]
+    def __init__(self, queue_size, weights):
+        self.q = deque([[0 for _ in range(len(weights))] for _ in range(queue_size)])
+        self.weights = weights
 
-    def get(self, new_r, new_s, new_position):
-        w = self.r_to_w(new_r)
+    def get(self, new_values):
         self.q.popleft()
-        self.q.append((w, new_s, new_position))
+        self.q.append(new_values)
         return self.calculate()
 
     def calculate(self):
-        # weighted = [self.weights[i] * tupl[1] for i, tupl in enumerate(self.q)]
-        # max = sum(weighted)
-        # weighted = [i / max for i in weighted]
-        # return sum(weighted[i] * tupl[0] for i, tupl in enumerate(self.q)) / len(weighted)
-        return sum(tupl[0]*self.weights[i] for i, tupl in enumerate(self.q)) / sum(self.weights), sum(tupl[2]*__conf__.position_gain*self.weights[i] for i, tupl in enumerate(self.q)) / sum(self.weights)
+        return [sum(elements[i] * self.weights[j] for j, elements in enumerate(self.q)) / sum(self.weights) / sum(self.weights) for i in range(len(self.weights))]
+        # return sum(tupl[0]*self.weights[i] for i, tupl in enumerate(self.q)) / sum(self.weights), sum(tupl[2]*__conf__.position_gain*self.weights[i] for i, tupl in enumerate(self.q)) / sum(self.weights)
 
     @staticmethod
     def r_to_w(r):
