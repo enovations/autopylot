@@ -34,7 +34,7 @@ if not nopi:
     # camera.shutter_speed = 6000000
     # camera.exposure_mode = 'off'
     # camera.iso = 800
-    time.sleep(2)
+    time.sleep(0.3)
     camera.start_preview()
 
 # generate turn masks
