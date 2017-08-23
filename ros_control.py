@@ -19,9 +19,9 @@ def init():
 
 
 def update_robot(v, w):
-    if w > 0.3: w = 0.3
-    if w < -0.3: w = -0.3
-    if v > 0.3: v = 0.3
+    if w > 0.6: w = 0.6
+    if w < -0.6: w = -0.6
+    if v > 0.3: v = 0.3<
 
 
     global client
