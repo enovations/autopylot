@@ -125,4 +125,6 @@ else:
 @atexit.register
 def stop():
     ros_control.close()
-    sys.exit(0)
+    if not nopi:
+        # fake shutdown hook
+        picamera.function_that_does_not_exist()
