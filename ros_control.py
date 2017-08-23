@@ -14,6 +14,8 @@ def init():
     if not noros:
         rospy.init_node('autopylot')
         robot_pub = rospy.Publisher('/robot/cmd_vel', Twist, queue_size=0)
+    else:
+        print('No ROS library')
 
 
 def update_robot(v, w):
