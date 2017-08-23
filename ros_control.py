@@ -16,19 +16,13 @@ def init():
         pntlt_pub = rospy.Publisher('/pan_tilt/cmd_vel', Twist, queue_size=0)
 
 
-def update_robot(v, r):
-
-    print(v, r)
+def update_robot(v, w):
+    print(v, w)
 
     if noros:
         return
 
     global robot_pub
-
-    if r == 0:
-        w = 0
-    else:
-        w = v / r
 
     message = Twist(Vector3(float(v), 0, 0), Vector3(0, 0, float(w)))
     robot_pub.publish(message)
