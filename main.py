@@ -11,6 +11,7 @@ import image_process
 import line_detection
 import generate_masks
 import ros_control
+import controller_driving
 from filter import Filter
 
 if __conf__.run_flask:
@@ -98,10 +99,12 @@ def process_image():
         else:
             r, s, position = line_detection.get_radius(image, masks)
 
+        v = controller_driving.get_speed(r*__conf__.meter_to_pixel_ratio, speed_filter)
+
         w, _, p = omega_filter.get([Filter.r_to_w(r), s, position])
         p *= __conf__.position_gain
 
-        ros_control.update_robot(__conf__.v, w + p * __conf__.position_gain)
+        ros_control.update_robot(v, w + p * __conf__.position_gain)
 
         if __conf__.run_flask:
             image = image_process.generate_preview(imgs, position)
