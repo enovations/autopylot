@@ -79,16 +79,15 @@ def new_image():
             imgs.append(image)
 
         if __conf__.run_flask:
-            r, s, image, mask = line_detection.get_radius(image, masks)
+            r, s, position, image, mask = line_detection.get_radius(image, masks)
             imgs.append(mask)
             imgs.append(image)
         else:
-            r, s = line_detection.get_radius(image, masks)
+            r, s, position = line_detection.get_radius(image, masks)
 
         w = filterus.get(r, s)
-        print(r, w)
-        print([i for i in filterus.q])
-        ros_control.update_robot(__conf__.v, w * __conf__.angularvel_factor_p)
+        print(r, w, position)
+        ros_control.update_robot(__conf__.v, w)
 
         if __conf__.run_flask:
             image = image_process.stitch_images(imgs)
