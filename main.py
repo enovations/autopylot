@@ -62,6 +62,7 @@ def new_image():
         if __conf__.run_flask:
             imgs = []
             orig_preview = cv2.resize(image, (160, 120))
+            orig_preview = image_process.grayscale(orig_preview)
             imgs.append(orig_preview)
 
         image = image_process.transform_image(image)
@@ -69,17 +70,17 @@ def new_image():
         image = image_process.grayscale(image)
 
         if __conf__.run_flask:
-            imgs.append(cv2.cvtColor(image, cv2.COLOR_GRAY2BGR))
+            imgs.append(image)
 
         image = image_process.threshold_image(image)
 
         if __conf__.run_flask:
-            imgs.append(cv2.cvtColor(image, cv2.COLOR_GRAY2BGR))
+            imgs.append(image)
 
         if __conf__.run_flask:
             r, s, position, image, mask = line_detection.get_radius(image, masks)
-            imgs.append(cv2.cvtColor(image, cv2.COLOR_GRAY2BGR))
-            imgs.append(cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR))
+            imgs.append(image)
+            imgs.append(image)
         else:
             r, s, position = line_detection.get_radius(image, masks)
 
@@ -88,7 +89,7 @@ def new_image():
         ros_control.update_robot(__conf__.v, w)
 
         if __conf__.run_flask:
-            image = image_process.generate_preview(imgs)
+            image = image_process.generate_preview(imgs, position)
             sendimagedata = cv2.imencode('.jpg', image)[1].tostring()
 
 
@@ -98,6 +99,7 @@ if __conf__.run_flask:
     t.start()
 
     app = Flask(__name__)
+
 
     def gen():
         global sendimagedata
