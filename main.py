@@ -14,8 +14,7 @@ nopi = False
 sendimagedata = None
 
 try:
-    from picamera.array import PiRGBArray
-    from picamera import PiCamera
+    import picamera, picamera.array
 except:
     nopi = True
 
@@ -33,6 +32,7 @@ app = Flask(__name__)
 
 masks = generate_masks.get_masks()
 
+
 def new_image():
     global sendimagedata
 
@@ -41,7 +41,7 @@ def new_image():
         if nopi:
             image = cv2.imread('sample.jpg')
         else:
-            with PiRGBArray.PiRGBArray(camera) as stream:
+            with picamera.array.PiRGBArray(camera) as stream:
                 camera.capture(stream, format='bgr')
                 image = stream.array
 
@@ -52,6 +52,7 @@ def new_image():
         print(r)
 
         sendimagedata = cv2.imencode('.jpg', image)[1].tostring()
+
 
 t = threading.Thread(target=new_image)
 t.start()
