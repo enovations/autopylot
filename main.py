@@ -1,5 +1,6 @@
 import __conf__
 
+import threading
 import time
 import atexit
 
@@ -13,7 +14,6 @@ from filter import Filter
 
 if __conf__.run_flask:
     try:
-        import threading
         from flask import Flask, Response
     except:
         __conf__.run_flask = False
