@@ -99,6 +99,7 @@ if __conf__.run_flask:
 
     app = Flask(__name__)
 
+
     def gen():
         global sendimagedata
         while True:
@@ -123,6 +124,6 @@ else:
 
 @atexit.register
 def stop():
-    print('papa. grem pancat.')
-    ros_control.update_robot(0, 0)
-    picamera.close()
+    ros_control.close()
+    if not nopi:
+        picamera.close()

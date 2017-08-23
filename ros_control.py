@@ -12,10 +12,8 @@ robot_pub = None
 def init():
     global robot_pub
     if not noros:
-        print('ros is hererererere!!!')
         rospy.init_node('autopylot', anonymous=True)
         robot_pub = rospy.Publisher('/robot/cmd_vel', Twist, queue_size=0)
-        pntlt_pub = rospy.Publisher('/pan_tilt/cmd_vel', Twist, queue_size=0)
 
 
 def update_robot(v, w):
@@ -28,3 +26,11 @@ def update_robot(v, w):
 
     message = Twist(Vector3(float(v), 0, 0), Vector3(0, 0, float(w)))
     robot_pub.publish(message)
+
+
+def close():
+    if noros:
+        return
+
+    update_robot(0, 0)
+    rospy.signal_shutdown('autopylot stopped')
