@@ -10,7 +10,7 @@ def get_radius(image, masks):
     r, s, position = 0, 0, 0
     bimg = image
     for k in masks.keys():
-        for i in range(masks[k]):
+        for i in range(len(masks[k])):
             res, img = evaluate(image, masks[k][i])
             if res > s:
                 r, s, position = k, res, i
