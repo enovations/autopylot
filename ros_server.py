@@ -6,13 +6,14 @@ from geometry_msgs.msg import Twist, Transform, Pose, PoseStamped, Point, Point3
 server = socket.socket(socket.AF_UNIX, socket.SOCK_DGRAM)
 server.bind('/tmp/autopylot_socket')
 
-rospy.init_node('slothface')
+rospy.init_node('autopylot')
 robot_pub = rospy.Publisher('/robot/cmd_vel', Twist, queue_size=0)
 
 rate = rospy.Rate(100)
 
 while not rospy.is_shutdown():
     datagram = server.recv(1024)
+
     if not datagram:
         break
 
