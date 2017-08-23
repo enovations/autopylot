@@ -1,13 +1,20 @@
 import __conf__
+import socket
+
+client = None
 
 
 def init():
-    pass
+    global client
+    client = socket.socket(socket.AF_UNIX, socket.SOCK_DGRAM)
+    client.connect('/tmp/autopylot_socket')
 
 
 def update_robot(v, w):
-    pass
+    global client
+    client.send(str(v) + ' ' + str(w))
 
 
 def close():
-    pass
+    global client
+    client.close()
