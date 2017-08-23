@@ -1,3 +1,5 @@
+import time
+
 import __conf__
 
 import threading
@@ -33,6 +35,7 @@ if not nopi:
     camera.resolution = (640, 480)
     camera.framerate = 30
 
+    time.sleep(0.3)
     camera.start_preview()
 
     rawcapture = picamera.array.PiRGBArray(camera)
