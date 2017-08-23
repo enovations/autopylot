@@ -98,7 +98,7 @@ def process_image():
         else:
             r, s, position = line_detection.get_radius(image, masks)
 
-        w, p = omega_filter.get([Filter.r_to_w(r), s, position])
+        w, _, p = omega_filter.get([Filter.r_to_w(r), s, position])
         p *= __conf__.position_gain
 
         ros_control.update_robot(__conf__.v, w + p * __conf__.position_gain)
