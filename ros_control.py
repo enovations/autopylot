@@ -1,4 +1,5 @@
 import socket
+import __conf__
 
 nounix = False
 
@@ -19,9 +20,9 @@ def init():
 
 
 def update_robot(v, w):
-    if w > 0.6: w = 0.6
-    if w < -0.6: w = -0.6
-    if v > 0.3: v = 0.3
+    if w > __conf__.max_w: w = __conf__.max_w
+    if w < -__conf__.max_w: w = -__conf__.max_w
+    if v > __conf__.max_speed: v = __conf__.max_speed
 
 
     global client
