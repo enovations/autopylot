@@ -89,7 +89,7 @@ def new_image():
         ros_control.update_robot(__conf__.v, w)
 
         if __conf__.run_flask:
-            image = image_process.stitch_images(imgs)
+            image = image_process.generate_preview(imgs)
             sendimagedata = cv2.imencode('.jpg', image)[1].tostring()
 
 
