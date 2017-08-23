@@ -123,5 +123,6 @@ else:
 
 @atexit.register
 def stop():
+    print('papa. grem pancat.')
     ros_control.update_robot(0, 0)
     picamera.close()

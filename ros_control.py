@@ -12,6 +12,7 @@ robot_pub = None
 def init():
     global robot_pub
     if not noros:
+        print('ros is hererererere!!!')
         robot_pub = rospy.Publisher('/robot/cmd_vel', Twist, queue_size=0)
         pntlt_pub = rospy.Publisher('/pan_tilt/cmd_vel', Twist, queue_size=0)
 
