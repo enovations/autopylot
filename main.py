@@ -9,6 +9,11 @@ import line_detection
 import generate_masks
 import ros_control
 
+# set to False to disable flask
+###############################
+run_flask = True
+###############################
+
 nopi = False
 sendimagedata = None
 
@@ -26,8 +31,6 @@ if not nopi:
     # camera.iso = 800
     time.sleep(2)
     camera.start_preview()
-
-app = Flask(__name__)
 
 # generate turn masks
 masks = generate_masks.get_masks()
@@ -52,41 +55,56 @@ def new_image():
                 image = stream.array
 
         imgs = []
+
         image = image_process.transform_image(image)
         image = image_process.crop_and_resize_image(image)
         image = image_process.grayscale(image)
+
         imgs.append(image)
         imgs.append(image_process.mask)
+
         image = image_process.threshold_image(image)
+
         imgs.append(image)
+
         r, image, mask = line_detection.get_radius(image, masks)
+
         imgs.append(mask)
         imgs.append(image)
+
         print(r)
 
         ros_control.update_robot(0, 0)
 
-        image = image_process.stitch_images(imgs)
-
-        sendimagedata = cv2.imencode('.jpg', image)[1].tostring()
-
-
-t = threading.Thread(target=new_image)
-t.start()
+        if run_flask:
+            image = image_process.stitch_images(imgs)
+            sendimagedata = cv2.imencode('.jpg', image)[1].tostring()
 
 
-def gen():
-    global sendimagedata
+if run_flask:
+
+    t = threading.Thread(target=new_image)
+    t.start()
+
+    app = Flask(__name__)
+
+
+    def gen():
+        global sendimagedata
+        while True:
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + sendimagedata + b'\r\n\r\n')
+
+
+    @app.route('/')
+    def video_feed():
+        return Response(gen(),
+                        mimetype='multipart/x-mixed-replace; boundary=frame')
+
+
+    if __name__ == '__main__':
+        app.run(host='0.0.0.0', port=1234, threaded=True)
+
+else:
     while True:
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + sendimagedata + b'\r\n\r\n')
-
-
-@app.route('/')
-def video_feed():
-    return Response(gen(),
-                    mimetype='multipart/x-mixed-replace; boundary=frame')
-
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=1234, threaded=True)
+        new_image()
