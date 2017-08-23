@@ -7,12 +7,16 @@ def evaluate(img1, img2):
 
 
 def get_radius(image, masks):
-    r, s = 0, 0
+    r, s, position = 0, 0, 0
     bimg = image
     for k in masks.keys():
-        for mask in masks[k]:
-            res, img = evaluate(image, mask)
+        for i in range(len(masks[k])):
+            res, img = evaluate(image, masks[k][i])
             if res > s:
-                s, r = res, k
+                r, s, position = k, res, i
                 bimg = img
-    return r, bimg
+
+    position -= len(masks[0]) // 2
+    position /= len(masks[0]) // 2
+    position = abs(position) + 0.5
+    return r*position, bimg

@@ -49,4 +49,4 @@ def threshold_image(image):
 
     img = cv2.bitwise_and(img, mask)
 
-    return img[30:60, 0:160]
+    return img[20:, :]
