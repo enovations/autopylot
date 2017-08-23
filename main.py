@@ -2,7 +2,6 @@ import __conf__
 
 import time
 import atexit
-import sys
 
 import cv2
 
@@ -100,7 +99,6 @@ if __conf__.run_flask:
 
     app = Flask(__name__)
 
-
     def gen():
         global sendimagedata
         while True:
@@ -125,9 +123,6 @@ else:
 
 @atexit.register
 def stop():
-    print('closing!')
     ros_control.close()
     if not nopi:
-        # fake shutdown hook
-        picamera.function_that_does_not_exist()
-    sys.exit()
+        camera.close()
