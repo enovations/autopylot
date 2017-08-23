@@ -10,11 +10,13 @@ This is our best autopylot yet. It finds a line and follows it. Probaby. Don't k
 
 # Dependencies
 
-- numpy
 - opencv
-- flask
-- (for actual using, can live without) picamera
-- (for actual using, can live without) rospy
+- numpy (comes with opencv)
+- (OPTIONAL: for opencv preview in browser) flask
+- (OPTIONAL: for use on actual Raspberry Pi) picamera
+- (OPTIONAL: for use on actual Raspberry Pi with ROS) rospy
+
+OPTIONAL libraries are not required. The code runs even without them, but some of the functions are ignored in such case. Without picamera, it uses sample.jpg for processing, without rospy, there is no control, but the commands are printed in console, without flask, there is no preview in browser.
 
 # Appendix
 
