@@ -39,7 +39,7 @@ if not nopi:
     time.sleep(0.3)
     camera.start_preview()
     rawcapture = picamera.array.PiRGBArray(camera)
-    stream = camera.capture_continous(rawcapture, format='bgr', use_video_port=True)
+    stream = camera.capture_continuous(rawcapture, format='bgr', use_video_port=True)
 
 def new_image():
     for f in stream:
