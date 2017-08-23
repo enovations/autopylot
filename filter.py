@@ -19,8 +19,6 @@ class Filter:
             vsota = sum([element[i]*self.weights[j] for j, element in enumerate(self.q)])
             result.append(vsota / sum(self.weights))
         return result
-        # return [sum(elements[i] * self.weights[j] for j, elements in enumerate(self.q)) / sum(self.weights) / sum(self.weights) for i in range(len(self.weights))]
-        # return sum(tupl[0]*self.weights[i] for i, tupl in enumerate(self.q)) / sum(self.weights), sum(tupl[2]*__conf__.position_gain*self.weights[i] for i, tupl in enumerate(self.q)) / sum(self.weights)
 
     @staticmethod
     def r_to_w(r):

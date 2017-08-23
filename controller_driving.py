@@ -8,4 +8,4 @@ def get_speed(r, filter):
     else:
         speed = max_speed * r * 0.15
 
-    return filter.get(min(speed, max_speed))
+    return filter.get([min(speed, max_speed)])
