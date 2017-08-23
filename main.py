@@ -101,7 +101,7 @@ def new_image():
         times.append(('update robot', time.time()))
 
         for i in range(1, len(times)):
-            print(str(times[i][0]) + '\t\t\t', times[i-1]-times[i])
+            print(str(times[i][0]) + '\t\t\t', times[i-1][1]-times[i][1])
 
         input()
 
