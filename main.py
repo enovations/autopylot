@@ -70,7 +70,6 @@ def new_image():
         image = image_process.grayscale(image)
 
         if __conf__.run_flask:
-            print(image.shape)
             imgs.append(image)
 
         image = image_process.threshold_image(image)
