@@ -1,4 +1,5 @@
 import controller_traffic
+import math
 
 
 def get_speed(r, filter):
@@ -8,5 +9,5 @@ def get_speed(r, filter):
     else:
         speed = max_speed * abs(r) * 0.15
 
-    v = filter.get([min(speed, max_speed)])
+    v = filter.get([min(math.sqrt(speed), max_speed)])
     return v
