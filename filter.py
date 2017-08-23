@@ -14,10 +14,11 @@ class Filter:
         return self.calculate()
 
     def calculate(self):
-        weighted = [self.weights[i] * tupl[1] for i, tupl in enumerate(self.q)]
-        max = sum(weighted)
-        weighted = [i / max for i in weighted]
-        return sum(weighted[i] * tupl[0] for i, tupl in enumerate(self.q)) / len(weighted)
+        # weighted = [self.weights[i] * tupl[1] for i, tupl in enumerate(self.q)]
+        # max = sum(weighted)
+        # weighted = [i / max for i in weighted]
+        # return sum(weighted[i] * tupl[0] for i, tupl in enumerate(self.q)) / len(weighted)
+        return sum((tupl[0] + tupl[1]*__conf__.position_gain)*self.weights[i] for i, tupl in enumerate(self.q)) / sum(self.weights)
 
     @staticmethod
     def r_to_w(r):
