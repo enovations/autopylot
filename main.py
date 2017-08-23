@@ -82,8 +82,8 @@ def new_image():
 
         w = filterus.get(r, s)
 
-        # ros_control.update_robot(__conf__.v, w)
         print(w, r, s)
+        ros_control.update_robot(__conf__.v, w)
 
         if __conf__.run_flask:
             image = image_process.stitch_images(imgs)

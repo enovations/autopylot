@@ -17,7 +17,7 @@ class Filter:
         weighted = [self.weights[i] * tupl[1] for i, tupl in enumerate(self.q)]
         max = sum(weighted)
         weighted = [i / max for i in weighted]
-        return int(sum(weighted[i] * tupl[0] for i, tupl in enumerate(self.q)) / len(weighted))
+        return sum(weighted[i] * tupl[0] for i, tupl in enumerate(self.q)) / len(weighted)
 
     def r_to_w(self, r):
         if r == 0: return 0
