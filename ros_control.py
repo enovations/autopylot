@@ -12,7 +12,7 @@ robot_pub = None
 def init():
     global robot_pub
     if not noros:
-        rospy.init_node('autopylot', anonymous=True)
+        rospy.init_node('autopylot')
         robot_pub = rospy.Publisher('/robot/cmd_vel', Twist, queue_size=0)
 
 
