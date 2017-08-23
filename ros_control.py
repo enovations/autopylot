@@ -24,7 +24,7 @@ def update_robot(v, w):
 
     global robot_pub
 
-    message = Twist(Vector3(float(v), 0, 0), Vector3(0, 0, float(w)))
+    message = Twist(Vector3(float(v), 0, 0), Vector3(0, 0, float(w*10)))
     robot_pub.publish(message)
 
 
