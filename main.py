@@ -1,11 +1,11 @@
-import time
-
 import __conf__
 
+import time
 import threading
 import atexit
 
 import cv2
+import numpy as np
 
 import image_process
 import line_detection
@@ -85,6 +85,10 @@ def process_image():
 
         if __conf__.run_flask:
             imgs.append(image)
+
+        # check for color of result
+        avg_bright = np.average(image)
+        print(avg_bright)
 
         image = image_process.threshold_image(image)
 
