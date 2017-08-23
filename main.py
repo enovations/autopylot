@@ -21,7 +21,8 @@ if __conf__.run_flask:
 
 nopi = False
 sendimagedata = None
-filterus = Filter()
+omega_filter = Filter(5, [1, 2, 3, 4])
+speed_filter = Filter(5, [1, 2, 3, 4])
 piimage = None
 
 try:
@@ -97,7 +98,8 @@ def process_image():
         else:
             r, s, position = line_detection.get_radius(image, masks)
 
-        w, p = filterus.get(r, s, position)
+        w, p = omega_filter.get([Filter.r_to_w(r), s, position])
+        p *= __conf__.position_gain
 
         ros_control.update_robot(__conf__.v, w + p * __conf__.position_gain)
 
