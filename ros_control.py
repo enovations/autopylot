@@ -19,6 +19,11 @@ def init():
 
 
 def update_robot(v, w):
+    if w > 0.1: w = 0.1
+    if w < -0.1: w = -0.1
+    if v > 0.1: v = 0.1
+
+
     global client
     if not nounix:
         message = str(v) + ' ' + str(w)
