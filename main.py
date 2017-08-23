@@ -124,6 +124,7 @@ def process_image():
             image = image_process.generate_preview(imgs, position)
             sendimagedata = cv2.imencode('.jpg', image)[1].tostring()
         print('final:', time.time() - times[0][1])
+        print()
 
 
 if __conf__.run_flask:

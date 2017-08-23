@@ -11,20 +11,21 @@ def get_masks(resolution=(160, 60)):
 
     masks = {}
     step = 2
+    offset_step = 160 // __conf__.num_of_mask_offsets
     r = min_rad
     while r <= max_rad:
         # create left arc
         left = []
-        for i in range(80):
+        for i in range(__conf__.num_of_mask_offsets):
             img = np.zeros((resolution[1], resolution[0]), dtype=np.uint8)
-            cv2.circle(img, (i*2 - r, center[1]), r, 255, brush_size)
+            cv2.circle(img, (i*offset_step - r, center[1]), r, 255, brush_size)
             left.append(img)
 
         # create right arc
         rigth = []
-        for i in range(80):
+        for i in range(__conf__.num_of_mask_offsets):
             img = np.zeros((resolution[1], resolution[0]), dtype=np.uint8)
-            cv2.circle(img, (i*2 + r, center[1]), r, 255, brush_size)
+            cv2.circle(img, (i*offset_step + r, center[1]), r, 255, brush_size)
             rigth.append(img)
 
         masks[-r] = left
@@ -35,9 +36,9 @@ def get_masks(resolution=(160, 60)):
 
     # create straight line
     straight = []
-    for i in range(80):
+    for i in range(__conf__.num_of_mask_offsets):
         img = np.zeros((resolution[1], resolution[0]), dtype=np.uint8)
-        cv2.line(img, (i*2, 0), (i*2, resolution[1]), 255, brush_size)
+        cv2.line(img, (i*offset_step, 0), (i*offset_step, resolution[1]), 255, brush_size)
         straight.append(img)
     masks[0] = straight
     return masks
