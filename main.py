@@ -4,12 +4,12 @@ run_flask = True
 ###############################
 
 import time
-import threading
 
 import cv2
 
 if run_flask:
     try:
+        import threading
         from flask import Flask, Response
     except:
         run_flask = False
