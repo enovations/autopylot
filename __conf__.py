@@ -10,3 +10,4 @@ flask_threaded = True
 ###############################
 v = 0.05  # speed of robot in m/s
 meter_to_pixel_ratio = 0.25 / 20  # ration of pixels on screen to meters in real world
+angularvel_factor_p = 50

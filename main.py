@@ -85,7 +85,7 @@ def new_image():
         w = filterus.get(r, s)
         print(r, w)
         print([i for i in filterus.q])
-        ros_control.update_robot(__conf__.v, w)
+        ros_control.update_robot(__conf__.v, w * __conf__.angularvel_factor_p)
 
         if __conf__.run_flask:
             image = image_process.stitch_images(imgs)
