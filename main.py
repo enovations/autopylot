@@ -83,7 +83,7 @@ def new_image():
             r, s, position = line_detection.get_radius(image, masks)
 
         w = filterus.get(r, s)
-        print(r, w, position)
+        print(r, w, position*__conf__.meter_to_pixel_ratio)
         ros_control.update_robot(__conf__.v, w)
 
         if __conf__.run_flask:
