@@ -3,6 +3,7 @@ import __conf__
 import time
 from filter import Filter
 import cv2
+import atexit
 
 if __conf__.run_flask:
     try:
@@ -117,3 +118,8 @@ else:
     while True:
         print('Running in daemon mode')
         new_image()
+
+
+@atexit.register
+def stop():
+    ros_control.update_robot(0, 0)
