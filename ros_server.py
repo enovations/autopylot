@@ -9,6 +9,8 @@ server.bind('/tmp/autopylot_socket')
 rospy.init_node('slothface')
 robot_pub = rospy.Publisher('/robot/cmd_vel', Twist, queue_size=0)
 
+rate = rospy.Rate(100)
+
 while not rospy.is_shutdown():
     datagram = server.recv(1024)
     if not datagram:
@@ -17,3 +19,5 @@ while not rospy.is_shutdown():
     v, w = datagram.split()
     message = Twist(Vector3(float(v), 0, 0), Vector3(0, 0, float(w)))
     robot_pub.publish(message)
+
+    rate.sleep()
