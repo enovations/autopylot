@@ -55,4 +55,11 @@ def stitch_images(images):
     for i in range(1, len(images)+1):
         if not i == 1:
             cv2.line(img, (0, 60*i), (160, 60*i), (0, 0, 255), 1)
+
+    cv2.putText(img, 'original', (1, 13), cv2.FONT_HERSHEY_PLAIN, 1, (0, 255, 0), 1, cv2.LINE_AA)
+    cv2.putText(img, 'transformed', (1, 13+120), cv2.FONT_HERSHEY_PLAIN, 1, (0, 255, 0), 1, cv2.LINE_AA)
+    cv2.putText(img, 'threshold', (1, 13+120+60), cv2.FONT_HERSHEY_PLAIN, 1, (0, 255, 0), 1, cv2.LINE_AA)
+    cv2.putText(img, 'best match', (1, 13+120+60+60), cv2.FONT_HERSHEY_PLAIN, 1, (0, 255, 0), 1, cv2.LINE_AA)
+    cv2.putText(img, 'image AND', (1, 13+120+60+60+60), cv2.FONT_HERSHEY_PLAIN, 1, (0, 255, 0), 1, cv2.LINE_AA)
+
     return img
