@@ -12,4 +12,4 @@ def get_radius(image, masks):
         for mask in masks[k]:
             res = evaluate(image, mask)
             if res > s: s, r = res, k
-    return r
+    return r, masks[r][40]
