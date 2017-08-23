@@ -1,20 +1,30 @@
-import __conf__
 import socket
+
+nounix = False
+
+try:
+    socket.AF_UNIX
+except:
+    nounix = True
 
 client = None
 
 
 def init():
     global client
-    client = socket.socket(socket.AF_UNIX, socket.SOCK_DGRAM)
-    client.connect('/tmp/autopylot_socket')
+
+    if not nounix:
+        client = socket.socket(socket.AF_UNIX, socket.SOCK_DGRAM)
+        client.connect('/tmp/autopylot_socket')
 
 
 def update_robot(v, w):
     global client
-    client.send(str(v) + ' ' + str(w))
+    if not nounix:
+        client.send(str(v) + ' ' + str(w))
 
 
 def close():
     global client
-    client.close()
+    if not nounix:
+        client.close()
