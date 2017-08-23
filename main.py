@@ -64,6 +64,8 @@ def new_image():
         imgs.append(image)
         print(r)
 
+        ros_control.update_robot(0, 0)
+
         image = image_process.stitch_images(imgs)
 
         sendimagedata = cv2.imencode('.jpg', image)[1].tostring()

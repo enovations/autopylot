@@ -13,5 +13,5 @@ def init():
         pntlt_pub = rospy.Publisher('/pan_tilt/cmd_vel', Twist, queue_size=0)
 
 
-def update_robot(w, v):
+def update_robot(v, w):
     pass
