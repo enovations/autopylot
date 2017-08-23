@@ -41,16 +41,17 @@ if not nopi:
     rawcapture = picamera.array.PiRGBArray(camera)
     stream = camera.capture_continuous(rawcapture, format='bgr', use_video_port=True)
 
+
 def new_image():
     global piimage
     for f in stream:
         piimage = f.array
         rawcapture.truncate(0)
 
+
 if not nopi:
     new_image_thread = threading.Thread(target=new_image)
     new_image_thread.start()
-
 
 # generate turn masks
 masks = generate_masks.get_masks()
@@ -109,11 +110,11 @@ def process_image():
         times.append(('filterus', time.time()))
         # print(w, p, w+p*__conf__.position_gain)
         # print(r*__conf__.meter_to_pixel_ratio, w, position*__conf__.meter_to_pixel_ratio)
-        ros_control.update_robot(__conf__.v, w+p*__conf__.position_gain)
+        ros_control.update_robot(__conf__.v, w + p * __conf__.position_gain)
         times.append(('update robot', time.time()))
 
         for i in range(1, len(times)):
-            print(str(times[i][0]) + '\t\t', times[i-1][1]-times[i][1])
+            print(str(times[i][0]) + '\t\t', times[i - 1][1] - times[i][1])
 
         # input()
 
@@ -125,7 +126,7 @@ def process_image():
 
 if __conf__.run_flask:
 
-    t = threading.Thread(target=process_image())
+    t = threading.Thread(target=process_image)
     t.start()
 
     app = Flask(__name__)
@@ -160,4 +161,3 @@ def stop():
         stream.close()
         rawcapture.close()
         camera.close()
-
