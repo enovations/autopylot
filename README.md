@@ -5,6 +5,8 @@ This is our best autopylot yet. It finds a line and follows it. Probaby. Don't k
 # Features
 
 - script runs and exits if you use force exit command
+- multithreaded opencv image process preview in browser on port 1234
+- single line curve detection and adaption
 
 # Dependencies
 
@@ -12,6 +14,7 @@ This is our best autopylot yet. It finds a line and follows it. Probaby. Don't k
 - opencv
 - flask
 - (for actual using, can live without) picamera
+- (for actual using, can live without) rospy
 
 # Appendix
 
