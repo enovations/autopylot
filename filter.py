@@ -21,7 +21,7 @@ class Filter:
 
     @staticmethod
     def r_to_w(r):
-        print(r)
         if r == 0: return 0
         r = float(r) * __conf__.meter_to_pixel_ratio  # convert to meters
+        print(r, __conf__.v / r)
         return __conf__.v / r
