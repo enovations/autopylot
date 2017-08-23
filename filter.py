@@ -21,5 +21,5 @@ class Filter:
 
     def r_to_w(self, r):
         if r == 0: return 0
-        r *= __conf__.meter_to_pixel_ratio  # convert to meters
+        r = float(r) * __conf__.meter_to_pixel_ratio  # convert to meters
         return __conf__.v / r
