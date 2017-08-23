@@ -18,11 +18,10 @@ class Filter:
         # max = sum(weighted)
         # weighted = [i / max for i in weighted]
         # return sum(weighted[i] * tupl[0] for i, tupl in enumerate(self.q)) / len(weighted)
-        return sum((tupl[0] + tupl[1]*__conf__.position_gain)*self.weights[i] for i, tupl in enumerate(self.q)) / sum(self.weights)
+        return sum(tupl[0]*self.weights[i] for i, tupl in enumerate(self.q)) / sum(self.weights), sum(tupl[1]*__conf__.position_gain*self.weights[i] for i, tupl in enumerate(self.q)) / sum(self.weights)
 
     @staticmethod
     def r_to_w(r):
         if r == 0: return 0
         r = float(r) * __conf__.meter_to_pixel_ratio  # convert to meters
-        print(r, __conf__.v / r)
         return __conf__.v / r
