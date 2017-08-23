@@ -1,7 +1,7 @@
 import __conf__
 
 import time
-
+from filter import Filter
 import cv2
 
 if __conf__.run_flask:
@@ -18,6 +18,7 @@ import ros_control
 
 nopi = False
 sendimagedata = None
+filterus = Filter()
 
 try:
     import picamera, picamera.array
@@ -73,13 +74,16 @@ def new_image():
             imgs.append(image)
 
         if __conf__.run_flask:
-            r, image, mask = line_detection.get_radius(image, masks)
+            r, s, image, mask = line_detection.get_radius(image, masks)
             imgs.append(mask)
             imgs.append(image)
         else:
-            r = line_detection.get_radius(image, masks)
+            r, s = line_detection.get_radius(image, masks)
 
-        ros_control.update_robot(0, r)
+        w = filterus.get(r, s)
+
+        # ros_control.update_robot(__conf__.v, w)
+        print(w, r, s)
 
         if __conf__.run_flask:
             image = image_process.stitch_images(imgs)
