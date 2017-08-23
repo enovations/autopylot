@@ -84,10 +84,10 @@ def new_image():
         else:
             r, s, position = line_detection.get_radius(image, masks)
 
-        w, p = filterus.get(r, s)
-        print(w, p)
+        w, p = filterus.get(r, s, position)
+        print(w, p, w+p*__conf__.position_gain)
         # print(r*__conf__.meter_to_pixel_ratio, w, position*__conf__.meter_to_pixel_ratio)
-        ros_control.update_robot(__conf__.v, w)
+        ros_control.update_robot(__conf__.v, w+p*__conf__.position_gain)
 
         if __conf__.run_flask:
             image = image_process.generate_preview(imgs, position)

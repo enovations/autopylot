@@ -4,13 +4,13 @@ import __conf__
 
 class Filter:
     def __init__(self):
-        self.q = deque([(0, 0) for _ in range(10)])
+        self.q = deque([(0, 0, 0) for _ in range(10)])
         self.weights = [1, 1, 2, 3, 3, 3, 4, 5, 5, 6]
 
-    def get(self, new_r, new_s):
+    def get(self, new_r, new_s, new_position):
         w = self.r_to_w(new_r)
         self.q.popleft()
-        self.q.append((w, new_s))
+        self.q.append((w, new_s, new_position))
         return self.calculate()
 
     def calculate(self):
@@ -18,7 +18,7 @@ class Filter:
         # max = sum(weighted)
         # weighted = [i / max for i in weighted]
         # return sum(weighted[i] * tupl[0] for i, tupl in enumerate(self.q)) / len(weighted)
-        return sum(tupl[0]*self.weights[i] for i, tupl in enumerate(self.q)) / sum(self.weights), sum(tupl[1]*__conf__.position_gain*self.weights[i] for i, tupl in enumerate(self.q)) / sum(self.weights)
+        return sum(tupl[0]*self.weights[i] for i, tupl in enumerate(self.q)) / sum(self.weights), sum(tupl[2]*__conf__.position_gain*self.weights[i] for i, tupl in enumerate(self.q)) / sum(self.weights)
 
     @staticmethod
     def r_to_w(r):
