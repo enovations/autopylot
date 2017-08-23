@@ -10,7 +10,7 @@ flask_threaded = True
 ###############################
 #       ROBOT SETTINGS        #
 ###############################
-v = 0.4  # speed of robot in m/s
+v = 0.3  # speed of robot in m/s
 
 # coordinate system calibration
 pixel_25cm_distance = 40
