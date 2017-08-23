@@ -18,6 +18,10 @@ This is our best autopylot yet. It finds a line and follows it. Probaby. Don't k
 
 OPTIONAL libraries are not required. The code runs even without them, but some of the functions are ignored in such case. Without picamera, it uses sample.jpg for processing, without rospy, there is no control, but the commands are printed in console, without flask, there is no preview in browser.
 
+# Running on Raspberry Pi
+
+You need to run both main.py (on Python 3) and ros_server.py (on Python 2). They communicate using unix socket. On test environment, if there is no unix socket, data is not sent.
+
 # Appendix
 
 ![SLOTH](https://i.ytimg.com/vi/mkQzYyi25sA/maxresdefault.jpg)
