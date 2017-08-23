@@ -61,14 +61,17 @@ def new_image():
 
         if __conf__.run_flask:
             imgs = []
+            orig_preview = cv2.resize(image, (160, 120))
+            orig_preview = image_process.grayscale(orig_preview);
+            imgs.append(orig_preview)
 
         image = image_process.transform_image(image)
         image = image_process.crop_and_resize_image(image)
         image = image_process.grayscale(image)
 
         if __conf__.run_flask:
+            print(image.shape)
             imgs.append(image)
-            imgs.append(image_process.mask)
 
         image = image_process.threshold_image(image)
 
