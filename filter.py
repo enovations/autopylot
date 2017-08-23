@@ -19,7 +19,8 @@ class Filter:
         weighted = [i / max for i in weighted]
         return sum(weighted[i] * tupl[0] for i, tupl in enumerate(self.q)) / len(weighted)
 
-    def r_to_w(self, r):
+    @staticmethod
+    def r_to_w(r):
         if r == 0: return 0
         r = float(r) * __conf__.meter_to_pixel_ratio  # convert to meters
         return __conf__.v / r
