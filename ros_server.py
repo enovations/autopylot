@@ -16,7 +16,7 @@ while not rospy.is_shutdown():
     if not datagram:
         break
 
-    v, w = datagram.split()
+    v, w = datagram.decode('utf8').split()
     message = Twist(Vector3(float(v), 0, 0), Vector3(0, 0, float(w)))
     robot_pub.publish(message)
 

@@ -21,7 +21,8 @@ def init():
 def update_robot(v, w):
     global client
     if not nounix:
-        client.send(str(v) + ' ' + str(w))
+        message = str(v) + ' ' + str(w)
+        client.send(message.encode('utf8'))
 
 
 def close():
