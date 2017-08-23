@@ -62,7 +62,6 @@ def new_image():
         if __conf__.run_flask:
             imgs = []
             orig_preview = cv2.resize(image, (160, 120))
-            orig_preview = image_process.grayscale(orig_preview);
             imgs.append(orig_preview)
 
         image = image_process.transform_image(image)
@@ -70,17 +69,17 @@ def new_image():
         image = image_process.grayscale(image)
 
         if __conf__.run_flask:
-            imgs.append(image)
+            imgs.append(cv2.cvtColor(image, cv2.COLOR_GRAY2BGR))
 
         image = image_process.threshold_image(image)
 
         if __conf__.run_flask:
-            imgs.append(image)
+            imgs.append(cv2.cvtColor(image, cv2.COLOR_GRAY2BGR))
 
         if __conf__.run_flask:
             r, s, position, image, mask = line_detection.get_radius(image, masks)
-            imgs.append(image)
-            imgs.append(mask)
+            imgs.append(cv2.cvtColor(image, cv2.COLOR_GRAY2BGR))
+            imgs.append(cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR))
         else:
             r, s, position = line_detection.get_radius(image, masks)
 
