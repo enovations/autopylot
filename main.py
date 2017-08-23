@@ -54,7 +54,9 @@ def new_image():
         imgs = []
         image = image_process.transform_image(image)
         image = image_process.crop_and_resize_image(image)
+        image = image_process.grayscale(image)
         imgs.append(image)
+        imgs.append(image_process.mask)
         image = image_process.threshold_image(image)
         imgs.append(image)
         r, image, mask = line_detection.get_radius(image, masks)
