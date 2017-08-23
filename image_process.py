@@ -1,20 +1,31 @@
 import cv2
 import numpy as np
 
+mask = None
+
+
+def init():
+    # create crop mask with our transformation
+    global mask
+    mask = np.zeros((640, 480), dtype=np.uint8)
+    mask[:] = 255
+    mask = transform_image(mask)
+    cv2.erode(mask, None, dst=mask, iterations=5)
+    mask = crop_and_resize_image(mask)
+
 
 def transform_image(img):
-
     w, h = 640, 480
 
     # rotate image
     m_rot = cv2.getRotationMatrix2D((w / 2, h / 2), 180, 1.0)
     img = cv2.warpAffine(img, m_rot, (w, h))
 
-    #transform image
+    # transform image
     ow, oh = 205, 0
     wi = 180
     pts1 = np.float32([[153, 169], [427, 170], [486, 359], [61, 357]])
-    pts2 = np.float32([[ow, oh+wi], [ow+wi, oh+wi], [ow+wi, oh], [ow, oh]])
+    pts2 = np.float32([[ow, oh + wi], [ow + wi, oh + wi], [ow + wi, oh], [ow, oh]])
     matrix = cv2.getPerspectiveTransform(pts1, pts2)
     img = cv2.warpPerspective(img, matrix, (w, h))
 
@@ -30,13 +41,12 @@ def crop_and_resize_image(image):
 
 
 def threshold_image(image):
+    global mask
     img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     img = cv2.medianBlur(img, 5)
     img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
                                 cv2.THRESH_BINARY_INV, 11, 4)
 
-    mask = cv2.imread('mask.png')
-    mask = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
     img = cv2.bitwise_and(img, mask)
 
     return img[30:60, 0:160]

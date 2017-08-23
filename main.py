@@ -1,7 +1,5 @@
 import time
 import threading
-import io
-import numpy as np
 
 import cv2
 from flask import Flask, Response
@@ -9,6 +7,7 @@ from flask import Flask, Response
 import image_process
 import line_detection
 import generate_masks
+import ros_control
 
 nopi = False
 sendimagedata = None
@@ -30,7 +29,14 @@ if not nopi:
 
 app = Flask(__name__)
 
+# generate turn masks
 masks = generate_masks.get_masks()
+
+# init image_process
+image_process.init()
+
+# init ros_control
+ros_control.init()
 
 
 def new_image():
