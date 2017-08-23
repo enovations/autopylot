@@ -54,6 +54,7 @@ def new_image():
         imgs = []
         image = image_process.transform_image(image)
         image = image_process.crop_and_resize_image(image)
+        image = image_process.grayscale(image)
         imgs.append(image)
         image = image_process.threshold_image(image)
         imgs.append(image)

@@ -30,14 +30,16 @@ def transform_image(img):
 
 def crop_and_resize_image(image):
     img = cv2.resize(image, (160, 120))
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     return img[60:120, 0:160]
+
+
+def grayscale(image):
+    return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 
 def threshold_image(image):
     global mask
-    img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    img = cv2.medianBlur(img, 5)
+    img = cv2.medianBlur(image, 5)
     img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
                                 cv2.THRESH_BINARY_INV, 11, 4)
 
