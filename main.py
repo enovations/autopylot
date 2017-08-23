@@ -1,9 +1,15 @@
 import __conf__
 
 import time
-from filter import Filter
-import cv2
 import atexit
+
+import cv2
+
+import image_process
+import line_detection
+import generate_masks
+import ros_control
+from filter import Filter
 
 if __conf__.run_flask:
     try:
@@ -11,11 +17,6 @@ if __conf__.run_flask:
         from flask import Flask, Response
     except:
         __conf__.run_flask = False
-
-import image_process
-import line_detection
-import generate_masks
-import ros_control
 
 nopi = False
 sendimagedata = None
@@ -123,3 +124,4 @@ else:
 @atexit.register
 def stop():
     ros_control.update_robot(0, 0)
+    picamera.close()
