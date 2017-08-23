@@ -13,6 +13,7 @@ def init():
     global robot_pub
     if not noros:
         print('ros is hererererere!!!')
+        rospy.init_node('autopylot', anonymous=True)
         robot_pub = rospy.Publisher('/robot/cmd_vel', Twist, queue_size=0)
         pntlt_pub = rospy.Publisher('/pan_tilt/cmd_vel', Twist, queue_size=0)
 
