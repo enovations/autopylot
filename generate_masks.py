@@ -4,7 +4,7 @@ import cv2
 
 def get_masks(resolution=(160, 30)):
     brush_size = int(4 / 160 * resolution[0])
-    min_rad = int(resolution[0] * 0.16)
+    min_rad = int(resolution[0] * 0.16) * 2
     max_rad = int(resolution[0] * 5.31)
 
     center = (resolution[0] // 2, resolution[1])
