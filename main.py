@@ -1,18 +1,15 @@
-# set to False to disable flask
-###############################
-run_flask = True
-###############################
+import __conf__
 
 import time
 
 import cv2
 
-if run_flask:
+if __conf__.run_flask:
     try:
         import threading
         from flask import Flask, Response
     except:
-        run_flask = False
+        __conf__.run_flask = False
 
 import image_process
 import line_detection
@@ -59,34 +56,37 @@ def new_image():
                 camera.capture(stream, format='bgr')
                 image = stream.array
 
-        imgs = []
+        if __conf__.run_flask:
+            imgs = []
 
         image = image_process.transform_image(image)
         image = image_process.crop_and_resize_image(image)
         image = image_process.grayscale(image)
 
-        imgs.append(image)
-        imgs.append(image_process.mask)
+        if __conf__.run_flask:
+            imgs.append(image)
+            imgs.append(image_process.mask)
 
         image = image_process.threshold_image(image)
 
-        imgs.append(image)
+        if __conf__.run_flask:
+            imgs.append(image)
 
-        r, image, mask = line_detection.get_radius(image, masks)
+        if __conf__.run_flask:
+            r, image, mask = line_detection.get_radius(image, masks)
+            imgs.append(mask)
+            imgs.append(image)
+        else:
+            r = line_detection.get_radius(image, masks)
 
-        imgs.append(mask)
-        imgs.append(image)
+        ros_control.update_robot(0, r)
 
-        print(r)
-
-        ros_control.update_robot(0, 0)
-
-        if run_flask:
+        if __conf__.run_flask:
             image = image_process.stitch_images(imgs)
             sendimagedata = cv2.imencode('.jpg', image)[1].tostring()
 
 
-if run_flask:
+if __conf__.run_flask:
 
     t = threading.Thread(target=new_image)
     t.start()

@@ -17,6 +17,11 @@ def init():
 
 
 def update_robot(v, r):
+
+    if noros:
+        print(v, r)
+        return
+
     global robot_pub
 
     if r == 0:

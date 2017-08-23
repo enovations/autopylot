@@ -1,4 +1,5 @@
 import cv2
+import __conf__
 
 
 def evaluate(img1, img2):
@@ -8,17 +9,26 @@ def evaluate(img1, img2):
 
 def get_radius(image, masks):
     r, s, position = 0, 0, 0
-    bimg = image
-    mask = image
+
+    if __conf__.run_flask:
+        bimg = image
+        mask = image
+
     for k in masks.keys():
         for i in range(len(masks[k])):
             res, img = evaluate(image, masks[k][i])
             if res >= s:
                 r, s, position = k, res, i
-                bimg = img
-                mask = masks[k][i]
+
+                if __conf__.run_flask:
+                    bimg = img
+                    mask = masks[k][i]
 
     position -= len(masks[0]) // 2
     position /= len(masks[0]) // 2
     position = abs(position) + 0.5
-    return r*position, bimg, mask
+
+    if __conf__.run_flask:
+        return r * position, bimg, mask
+    else:
+        return r * position
