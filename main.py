@@ -63,9 +63,6 @@ def process_image():
 
     while True:
 
-        times = []
-        times.append(('start', time.time()))
-
         if nopi:
             image = cv2.imread('sample.jpg')
         else:
@@ -78,17 +75,13 @@ def process_image():
             imgs.append(orig_preview)
 
         image = image_process.transform_image(image)
-        times.append(('transform', time.time()))
         image = image_process.crop_and_resize_image(image)
-        times.append(('crop and resize', time.time()))
         image = image_process.grayscale(image)
-        times.append(('grayscale', time.time()))
 
         if __conf__.run_flask:
             imgs.append(image)
 
         image = image_process.threshold_image(image)
-        times.append(('threshold', time.time()))
 
         if __conf__.run_flask:
             imgs.append(image)
@@ -97,29 +90,16 @@ def process_image():
             r, s, position, image, mask = line_detection.get_radius(image, masks)
             imgs.append(image)
             imgs.append(mask)
-            times.append(('line_detection', time.time()))
         else:
             r, s, position = line_detection.get_radius(image, masks)
-            times.append(('line_detection', time.time()))
 
         w, p = filterus.get(r, s, position)
-        times.append(('filterus', time.time()))
-        # print(w, p, w+p*__conf__.position_gain)
-        # print(r*__conf__.meter_to_pixel_ratio, w, position*__conf__.meter_to_pixel_ratio)
+
         ros_control.update_robot(__conf__.v, w + p * __conf__.position_gain)
-        times.append(('update robot', time.time()))
-
-        for i in range(1, len(times)):
-            print(str(times[i][0]) + '\t\t', times[i][1] - times[i - 1][1])
-
-        # input()
-
 
         if __conf__.run_flask:
             image = image_process.generate_preview(imgs, position)
             sendimagedata = cv2.imencode('.jpg', image)[1].tostring()
-        print('final:', time.time() - times[0][1])
-        print()
 
 
 if __conf__.run_flask:
