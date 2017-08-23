@@ -21,6 +21,7 @@ if __conf__.run_flask:
 nopi = False
 sendimagedata = None
 filterus = Filter()
+piimage = None
 
 try:
     import picamera, picamera.array
@@ -31,11 +32,24 @@ except:
 if not nopi:
     camera = picamera.PiCamera()
     camera.resolution = (640, 480)
+    camera.framerate = 30
     # camera.shutter_speed = 6000000
     # camera.exposure_mode = 'off'
     # camera.iso = 800
     time.sleep(0.3)
     camera.start_preview()
+    rawcapture = picamera.array.PiRGBArray(camera)
+    stream = camera.capture_continous(rawcapture, format='bgr', use_video_port=True)
+
+def new_image():
+    for f in stream:
+        piimage = f.array
+        rawcapture.turncate(0)
+
+if not nopi:
+    new_image_thread = threading.Thread(target=new_image)
+    new_image_thread.start()
+
 
 # generate turn masks
 masks = generate_masks.get_masks()
@@ -47,7 +61,7 @@ image_process.init()
 ros_control.init()
 
 
-def new_image():
+def process_image():
     global sendimagedata
 
     while True:
@@ -113,7 +127,7 @@ def new_image():
 
 if __conf__.run_flask:
 
-    t = threading.Thread(target=new_image)
+    t = threading.Thread(target=process_image())
     t.start()
 
     app = Flask(__name__)
@@ -136,13 +150,16 @@ if __conf__.run_flask:
         app.run(host='0.0.0.0', port=__conf__.flask_port, threaded=__conf__.flask_threaded)
 
 else:
+    print('Running in daemon mode')
     while True:
-        print('Running in daemon mode')
-        new_image()
+        process_image()
 
 
 @atexit.register
 def stop():
     ros_control.close()
     if not nopi:
+        stream.close()
+        rawcapture.close()
         camera.close()
+
