@@ -30,8 +30,7 @@ cv2.imshow('image', image)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
 
-ow, oh = 248, 117
-wi = 265
+ow, oh, wi = 248, 117, 265
 
 # rotate image - probably not necessary
 # m_rot = cv2.getRotationMatrix2D((w / 2, h / 2), 180, 1.0)

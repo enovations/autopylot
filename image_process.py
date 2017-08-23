@@ -1,6 +1,8 @@
 import cv2
 import numpy as np
 
+import __conf__
+
 mask = None
 
 
@@ -18,9 +20,8 @@ def transform_image(img):
     w, h = 640, 480
 
     # transform image
-    ow, oh = 248, 117
-    wi = 265
-    pts1 = np.float32([[219, 146], [602, 145], [528, 402], [244, 403]])
+    ow, oh, wi = __conf__.tx, __conf__.ty, __conf__.wi
+    pts1 = np.float32(__conf__.orig_sqre)
     pts2 = np.float32([[ow, oh + wi], [ow + wi, oh + wi], [ow + wi, oh], [ow, oh]])
     matrix = cv2.getPerspectiveTransform(pts1, pts2)
     img = cv2.warpPerspective(img, matrix, (w, h))
