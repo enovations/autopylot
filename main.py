@@ -36,7 +36,6 @@ if not nopi:
     camera.framerate = 30
 
     time.sleep(0.3)
-    camera.start_preview()
 
     rawcapture = picamera.array.PiRGBArray(camera)
     stream = camera.capture_continuous(rawcapture, format='bgr', use_video_port=True)
