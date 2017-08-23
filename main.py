@@ -45,7 +45,7 @@ def new_image():
     global piimage
     for f in stream:
         piimage = f.array
-        rawcapture.turncate(0)
+        rawcapture.truncate(0)
 
 if not nopi:
     new_image_thread = threading.Thread(target=new_image)
