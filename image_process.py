@@ -17,20 +17,13 @@ def init():
 def transform_image(img):
     w, h = 640, 480
 
-    # rotate image
-    m_rot = cv2.getRotationMatrix2D((w / 2, h / 2), 180, 1.0)
-    img = cv2.warpAffine(img, m_rot, (w, h))
-
     # transform image
-    ow, oh = 205, 0
+    ow, oh = 254, 238
     wi = 180
-    pts1 = np.float32([[153, 169], [427, 170], [486, 359], [61, 357]])
+    pts1 = np.float32([[156, 124], [578, 123], [487, 312], [217, 312]])
     pts2 = np.float32([[ow, oh + wi], [ow + wi, oh + wi], [ow + wi, oh], [ow, oh]])
     matrix = cv2.getPerspectiveTransform(pts1, pts2)
     img = cv2.warpPerspective(img, matrix, (w, h))
-
-    m_rot = cv2.getRotationMatrix2D((w / 2, h / 2), 180, 1.0)
-    img = cv2.warpAffine(img, m_rot, (w, h))
 
     return img
 

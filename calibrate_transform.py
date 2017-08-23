@@ -30,15 +30,16 @@ cv2.imshow('image', image)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
 
-ow, oh = 205, 0
+ow, oh = 254, 238
 wi = 180
 
+# rotate image - probably not necessary
 # m_rot = cv2.getRotationMatrix2D((w / 2, h / 2), 180, 1.0)
 # image = cv2.warpAffine(image, m_rot, (w, h))
 
 # test
 pts1 = np.float32(clicks1)
-# pts1 = np.float32([[153, 169], [427, 170], [486, 359], [61, 357]])
+# pts1 = np.float32([[156, 124], [578, 123], [487, 312], [217, 312]])
 
 matrix = cv2.getPerspectiveTransform(
     pts1,
