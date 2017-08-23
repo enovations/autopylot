@@ -1,11 +1,13 @@
 import controller_traffic
+import math
 
 
-def get_speed(w):
+def get_speed(r, filter):
     max_speed = controller_traffic.get_speed_limit()
-    if w == 0:
+    if r == 0:
         speed = max_speed
     else:
-        speed = max_speed * (1.0 / w)
-    # TODO: Filter when ziga is done with filter
-    return speed
+        speed = max_speed * abs(r) * 0.3
+
+    v = filter.get([min(math.sqrt(speed), max_speed)])
+    return v

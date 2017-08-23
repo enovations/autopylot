@@ -1,5 +1,5 @@
 # initial traffic conditions
-speed_limit = 0.5
+speed_limit = 1.0
 
 
 def get_speed_limit():
