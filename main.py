@@ -1,3 +1,5 @@
+import time
+
 import __conf__
 
 import threading
@@ -32,6 +34,9 @@ if not nopi:
     camera = picamera.PiCamera()
     camera.resolution = (640, 480)
     camera.framerate = 30
+
+    time.sleep(0.3)
+
     rawcapture = picamera.array.PiRGBArray(camera)
     stream = camera.capture_continuous(rawcapture, format='bgr', use_video_port=True)
 
