@@ -125,6 +125,4 @@ else:
 @atexit.register
 def stop():
     ros_control.close()
-    if not nopi:
-        picamera.close()
     sys.exit(0)
