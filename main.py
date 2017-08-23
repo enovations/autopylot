@@ -93,7 +93,6 @@ if __conf__.run_flask:
 
     app = Flask(__name__)
 
-
     def gen():
         global sendimagedata
         while True:
@@ -112,4 +111,5 @@ if __conf__.run_flask:
 
 else:
     while True:
+        print('Running in daemon mode')
         new_image()
