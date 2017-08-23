@@ -2,6 +2,7 @@ import __conf__
 
 import time
 import atexit
+import sys
 
 import cv2
 
@@ -84,7 +85,6 @@ def new_image():
 
         w = filterus.get(r, s)
 
-        print(w, r, s)
         ros_control.update_robot(__conf__.v, w)
 
         if __conf__.run_flask:
@@ -127,3 +127,4 @@ def stop():
     ros_control.close()
     if not nopi:
         picamera.close()
+    sys.exit(0)
