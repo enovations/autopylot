@@ -42,6 +42,7 @@ if not nopi:
     stream = camera.capture_continuous(rawcapture, format='bgr', use_video_port=True)
 
 def new_image():
+    global piimage
     for f in stream:
         piimage = f.array
         rawcapture.turncate(0)
@@ -62,7 +63,7 @@ ros_control.init()
 
 
 def process_image():
-    global sendimagedata
+    global sendimagedata, piimage
 
     while True:
 
