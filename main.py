@@ -49,9 +49,6 @@ def new_image():
 
         sendimagedata = cv2.imencode('.jpg', image)[1].tostring()
 
-        time.sleep(0.5)
-
-
 t = threading.Thread(target=new_image)
 t.start()
 
