@@ -33,11 +33,6 @@ if not nopi:
     camera = picamera.PiCamera()
     camera.resolution = (640, 480)
     camera.framerate = 30
-    # camera.shutter_speed = 6000000
-    # camera.exposure_mode = 'off'
-    # camera.iso = 800
-    time.sleep(0.3)
-    camera.start_preview()
     rawcapture = picamera.array.PiRGBArray(camera)
     stream = camera.capture_continuous(rawcapture, format='bgr', use_video_port=True)
 
