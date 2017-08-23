@@ -5,7 +5,7 @@ import __conf__
 def get_masks(resolution=(160, 60)):
     brush_size = int(4 / 160 * resolution[0])
     min_rad = int(resolution[0] * 0.16) * 2
-    max_rad = int(resolution[0] * 4.9)
+    max_rad = int(resolution[0] * 3.5)
 
     center = (resolution[0] // 2, resolution[1] + (2 * __conf__.pixel_25cm_distance - __conf__.first_cut_to_image_edge_in_pixels))
 

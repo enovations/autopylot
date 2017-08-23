@@ -19,8 +19,8 @@ def init():
 
 
 def update_robot(v, w):
-    if w > 0.1: w = 0.1
-    if w < -0.1: w = -0.1
+    if w > 0.3: w = 0.3
+    if w < -0.3: w = -0.3
     if v > 0.1: v = 0.1
 
 
