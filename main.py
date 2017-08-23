@@ -80,16 +80,18 @@ def process_image():
             orig_preview = image_process.grayscale(orig_preview)
             imgs.append(orig_preview)
 
-        image = image_process.transform_image(image)
-        image = image_process.crop_and_resize_image(image)
         image = image_process.grayscale(image)
-
-        if __conf__.run_flask:
-            imgs.append(image)
 
         # check for color of result
         avg_bright = np.average(image)
-        print(avg_bright)
+        if avg_bright < 65:
+            image = cv2.bitwise_not(image)
+
+        image = image_process.transform_image(image)
+        image = image_process.crop_and_resize_image(image)
+
+        if __conf__.run_flask:
+            imgs.append(image)
 
         image = image_process.threshold_image(image)
 
