@@ -1,7 +1,9 @@
-import cv2
 import time
 import threading
+import io
+import numpy as np
 
+import cv2
 from flask import Flask, Response
 
 import image_process
@@ -19,11 +21,13 @@ except:
 
 # init camera if can
 if not nopi:
-    camera = PiCamera()
+    camera = picamera.PiCamera()
     camera.resolution = (640, 480)
     # camera.shutter_speed = 6000000
     # camera.exposure_mode = 'off'
     # camera.iso = 800
+    time.sleep(2)
+    camera.start_preview()
 
 app = Flask(__name__)
 
@@ -37,10 +41,9 @@ def new_image():
         if nopi:
             image = cv2.imread('sample.jpg')
         else:
-            rawcapture = PiRGBArray(camera)
-            time.sleep(0.1)
-            camera.capture(rawcapture, format='bgr')
-            image = rawcapture.array
+            with picamera.array.PiRGBArray(camera) as stream:
+                camera.capture(stream, format='bgr')
+                image = stream.array
 
         image = image_process.transform_image(image)
         image = image_process.crop_and_resize_image(image)
