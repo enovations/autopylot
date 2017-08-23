@@ -1,7 +1,7 @@
 ###############################
 #       FLASK SETTINGS        #
 ###############################
-run_flask = False  # set to False to disable flask
+run_flask = True # set to False to disable flask
 flask_port = 1234
 flask_threaded = True
 

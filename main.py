@@ -115,7 +115,7 @@ def process_image():
         for i in range(1, len(times)):
             print(str(times[i][0]) + '\t\t', times[i-1][1]-times[i][1])
 
-        input()
+        # input()
 
 
         if __conf__.run_flask:
