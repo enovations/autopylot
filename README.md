@@ -1,6 +1,8 @@
 ![autopylot](http://i.imgur.com/HxtNn33.gif)
 
-This is our best autopylot yet. It finds a line and follows it. Probaby. Don't know yet. Haven't written any code yet. Sorry. Come back tomorrow.
+![python](http://images.indianexpress.com/2015/05/python.jpg)
+
+This is our best autopylot yet. It finds a line and follows it. Probaby. Don't know yet. Have written some code but didn't test it yet.
 
 # Features
 
@@ -11,7 +13,7 @@ This is our best autopylot yet. It finds a line and follows it. Probaby. Don't k
 - numpy
 - opencv
 - flask
-- (for actual testing, can live without) picamera
+- (for actual using, can live without) picamera
 
 # Appendix
 
