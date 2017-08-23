@@ -52,12 +52,16 @@ def new_image():
 
     while True:
 
+        times = []
+        times.append(('start', time.time()))
+
         if nopi:
             image = cv2.imread('sample.jpg')
         else:
             with picamera.array.PiRGBArray(camera) as stream:
                 camera.capture(stream, format='bgr')
                 image = stream.array
+                times.append(('kamera iz pija', time.time()))
 
         if __conf__.run_flask:
             imgs = []
@@ -66,13 +70,17 @@ def new_image():
             imgs.append(orig_preview)
 
         image = image_process.transform_image(image)
+        times.append(('transform', time.time()))
         image = image_process.crop_and_resize_image(image)
+        times.append(('crop and resize', time.time()))
         image = image_process.grayscale(image)
+        times.append(('grayscale', time.time()))
 
         if __conf__.run_flask:
             imgs.append(image)
 
         image = image_process.threshold_image(image)
+        times.append(('threshold', time.time()))
 
         if __conf__.run_flask:
             imgs.append(image)
@@ -83,11 +91,20 @@ def new_image():
             imgs.append(mask)
         else:
             r, s, position = line_detection.get_radius(image, masks)
+            times.append(('line_detection', time.time()))
 
         w, p = filterus.get(r, s, position)
-        print(w, p, w+p*__conf__.position_gain)
+        times.append(('filterus', time.time()))
+        # print(w, p, w+p*__conf__.position_gain)
         # print(r*__conf__.meter_to_pixel_ratio, w, position*__conf__.meter_to_pixel_ratio)
         ros_control.update_robot(__conf__.v, w+p*__conf__.position_gain)
+        times.append(('update robot', time.time()))
+
+        for i in range(1, len(times)):
+            print(times[i][0] + '\t\t\t', times[i-1]-time[i])
+
+        input()
+
 
         if __conf__.run_flask:
             image = image_process.generate_preview(imgs, position)
