@@ -25,6 +25,7 @@ def get_radius(image, masks):
                     mask = masks[k][i]
 
     position -= len(masks[0]) // 2
+    position *= 2
 
     if __conf__.run_flask:
         return r, s, position, bimg, mask
