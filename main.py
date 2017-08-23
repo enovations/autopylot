@@ -72,10 +72,7 @@ def process_image():
         if nopi:
             image = cv2.imread('sample.jpg')
         else:
-            with picamera.array.PiRGBArray(camera) as stream:
-                camera.capture(stream, format='bgr')
-                image = stream.array
-                times.append(('kamera iz pija', time.time()))
+            image = piimage
 
         if __conf__.run_flask:
             imgs = []
