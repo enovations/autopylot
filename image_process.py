@@ -39,4 +39,4 @@ def threshold_image(image):
     mask = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
     img = cv2.bitwise_and(img, mask)
 
-    return img
+    return img[20:, :]
