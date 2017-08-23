@@ -1,3 +1,5 @@
+import numpy as np
+
 ###############################
 #       FLASK SETTINGS        #
 ###############################
@@ -15,7 +17,12 @@ pixel_25cm_distance = 40
 first_cut_to_image_edge_in_pixels = 17
 meter_to_pixel_ratio = 0.25 / pixel_25cm_distance  # ratio of pixels on screen to meters in real world
 position_gain = -0.05
-
 angularvel_factor_p = 50
+
 tx, ty, wi = 248, 117, 265  # transformation result offset x, offset y and length of square
 orig_sqre = [[219, 146], [602, 145], [528, 402], [244, 403]]  # original map of pixels: define in clockwise direction
+pts1 = np.float32(orig_sqre)
+pts2 = np.float32([[tx, ty + wi], [tx + wi, ty + wi], [tx + wi, ty], [tx, ty]])
+
+full_dim = (640, 480)
+proc_dim = (160, 120)
