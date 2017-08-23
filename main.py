@@ -79,8 +79,8 @@ def new_image():
 
         if __conf__.run_flask:
             r, s, position, image, mask = line_detection.get_radius(image, masks)
-            imgs.append(mask)
             imgs.append(image)
+            imgs.append(mask)
         else:
             r, s, position = line_detection.get_radius(image, masks)
 
