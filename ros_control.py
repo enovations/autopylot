@@ -17,8 +17,6 @@ def init():
 
 
 def update_robot(v, w):
-    print(v, w)
-
     if noros:
         return
 

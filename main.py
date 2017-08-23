@@ -84,7 +84,8 @@ def new_image():
             r, s = line_detection.get_radius(image, masks)
 
         w = filterus.get(r, s)
-
+        print(r, w)
+        print([i for i in filterus.q])
         ros_control.update_robot(__conf__.v, w)
 
         if __conf__.run_flask:
@@ -124,7 +125,9 @@ else:
 
 @atexit.register
 def stop():
+    print('closing!')
     ros_control.close()
     if not nopi:
         # fake shutdown hook
         picamera.function_that_does_not_exist()
+    sys.exit()
