@@ -10,7 +10,7 @@ def init():
     mask = np.zeros((480, 640), dtype=np.uint8)
     mask[:] = 255
     mask = transform_image(mask)
-    cv2.erode(mask, None, dst=mask, iterations=5)
+    # cv2.erode(mask, None, dst=mask, iterations=5)
     mask = crop_and_resize_image(mask)
 
 
