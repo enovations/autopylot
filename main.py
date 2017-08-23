@@ -48,7 +48,7 @@ def new_image():
         image = image_process.transform_image(image)
         image = image_process.crop_and_resize_image(image)
         image = image_process.threshold_image(image)
-        r, image = line_detection.get_radius(image, masks)
+        r, _ = line_detection.get_radius(image, masks)
         print(r)
 
         sendimagedata = cv2.imencode('.jpg', image)[1].tostring()
