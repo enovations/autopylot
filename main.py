@@ -41,7 +41,7 @@ def new_image():
         if nopi:
             image = cv2.imread('sample.jpg')
         else:
-            with picamera.array.PiRGBArray(camera) as stream:
+            with PiRGBArray.PiRGBArray(camera) as stream:
                 camera.capture(stream, format='bgr')
                 image = stream.array
 
