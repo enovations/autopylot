@@ -30,6 +30,7 @@ def transform_image(img):
 
 def crop_and_resize_image(image):
     img = cv2.resize(image, (160, 120))
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     return img[60:120, 0:160]
 
 
@@ -42,4 +43,12 @@ def threshold_image(image):
 
     img = cv2.bitwise_and(img, mask)
 
-    return img[20:, :]
+    return img
+
+
+def stitch_images(images):
+    img = np.vstack(images)
+    img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+    for i in range(1, len(images)):
+        cv2.line(img, (0, 60*i), (160, 60*i), (0, 0, 255), 1)
+    return img

@@ -51,11 +51,18 @@ def new_image():
                 camera.capture(stream, format='bgr')
                 image = stream.array
 
+        imgs = []
         image = image_process.transform_image(image)
         image = image_process.crop_and_resize_image(image)
+        imgs.append(image)
         image = image_process.threshold_image(image)
-        r, _ = line_detection.get_radius(image, masks)
+        imgs.append(image)
+        r, image, mask = line_detection.get_radius(image, masks)
+        imgs.append(mask)
+        imgs.append(image)
         print(r)
+
+        image = image_process.stitch_images(imgs)
 
         sendimagedata = cv2.imencode('.jpg', image)[1].tostring()
 
