@@ -4,7 +4,7 @@ import __conf__
 
 class Filter:
     def __init__(self):
-        self.q = deque([(0, 0) for _ in range(10)])
+        self.q = deque([(0, 0, 0) for _ in range(10)])
         self.weights = [1, 1, 2, 3, 3, 3, 4, 5, 5, 6]
 
     def get(self, new_r, new_s, new_position):
