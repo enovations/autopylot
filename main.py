@@ -102,6 +102,7 @@ def process_image():
             r, s, position, image, mask = line_detection.get_radius(image, masks)
             imgs.append(image)
             imgs.append(mask)
+            times.append(('line_detection', time.time()))
         else:
             r, s, position = line_detection.get_radius(image, masks)
             times.append(('line_detection', time.time()))
@@ -114,7 +115,7 @@ def process_image():
         times.append(('update robot', time.time()))
 
         for i in range(1, len(times)):
-            print(str(times[i][0]) + '\t\t', times[i - 1][1] - times[i][1])
+            print(str(times[i][0]) + '\t\t', times[i][1] - times[i - 1][1])
 
         # input()
 
@@ -122,6 +123,7 @@ def process_image():
         if __conf__.run_flask:
             image = image_process.generate_preview(imgs, position)
             sendimagedata = cv2.imencode('.jpg', image)[1].tostring()
+        print('final:', time.time() - times[0][1])
 
 
 if __conf__.run_flask:
