@@ -21,8 +21,8 @@ if __conf__.run_flask:
 
 nopi = False
 sendimagedata = None
-omega_filter = Filter(5, [1, 2, 3, 4])
-speed_filter = Filter(5, [1, 2, 3, 4])
+omega_filter = Filter([1, 2, 3, 4], 3)
+speed_filter = Filter([1, 2, 3, 4], 1)
 piimage = None
 
 try:
