@@ -120,7 +120,7 @@ def process_image():
             x_offset += 20
 
         if __conf__.run_flask:
-            cv2.drawContours(orig_preview, contours, -1, (255, 255, 0), 1)
+            cv2.drawContours(orig_preview, contours, -1, (0, 255, 0), 1)
             imgs.append(orig_preview)
 
         trafficsign_detector.process_signs(signs)
