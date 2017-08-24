@@ -106,7 +106,7 @@ def process_image():
             r, s, position = line_detection.get_radius(image, masks)
 
         v = controller_driving.get_speed(r*__conf__.meter_to_pixel_ratio, speed_filter)
-        v = v[0]
+        #v = v[0]
 
         w, _, p = omega_filter.get([Filter.r_to_w(r), s, position])
         p *= __conf__.position_gain
