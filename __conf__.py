@@ -13,7 +13,8 @@ flask_threaded = True
 max_speed = 1.0
 max_w = 0.3
 ar_max = 0.05
-ar_factor = 0.05
+accel_filter_factor = 0.2
+deccl_filter_factor = 0.5
 
 # coordinate system calibration
 pixel_25cm_distance = 40

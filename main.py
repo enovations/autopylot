@@ -23,7 +23,6 @@ if __conf__.run_flask:
 nopi = False
 sendimagedata = None
 omega_filter = Filter([1, 2, 3, 4], 3)
-speed_filter = Filter([1, 2, 3, 4], 1)
 piimage = None
 
 try:
@@ -108,8 +107,7 @@ def process_image():
 
         r = float(r) * __conf__.meter_to_pixel_ratio  # convert to meters
 
-        v = controller_driving.get_speed(r, speed_filter)
-        # v = v[0]
+        v = controller_driving.get_speed(r)
 
         w, _, p = omega_filter.get([Filter.r_to_w(r, v), s, position])
         p *= __conf__.position_gain
