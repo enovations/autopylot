@@ -23,7 +23,7 @@ if __conf__.run_flask:
 
 nopi = False
 sendimagedata = None
-omega_filter = Filter([1, 2, 3, 4], 3)
+omega_filter = Filter([1, 2, 3, 4, 4], 3)
 navigation = Navigation()
 piimage = None
 
