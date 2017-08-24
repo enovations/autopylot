@@ -82,8 +82,7 @@ def new_image():
 
 
 if not nopi:
-    new_image_thread = threading.Thread(target=new_image)
-    new_image_thread.start()
+    new_image_thread = threading.Thread(target=new_image).start()
 
 
 def process_signs(signs):
@@ -103,12 +102,13 @@ def process_image():
         else:
             image = piimage
 
+        image = cv2.resize(image, (640, 480))
         image = image_process.transform_image(image)
 
         if __conf__.run_flask:
             imgs = [cv2.resize(image, preview_dim)]
 
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
         gray = cv2.bilateralFilter(gray, 11, 17, 17)
         edged = cv2.Canny(gray, 30, 200)
 
