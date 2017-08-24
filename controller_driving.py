@@ -4,7 +4,6 @@ import math
 
 
 def get_speed(r, filter):
-    max_speed = controller_traffic.get_speed_limit()
     if r == 0:
         return controller_traffic.get_speed_limit()
 
