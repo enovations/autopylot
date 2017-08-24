@@ -1,6 +1,12 @@
 # initial traffic conditions
 speed_limit = 0.7
 
+razcepi = [
+    ('lams', ('parkirisce', 'obvoznica')),
+    ('lams', ('parkirisce', 'obvoznica')),
+    ('lams', ('parkirisce', 'obvoznica'))
+]
+
 
 def get_speed_limit():
     global speed_limit
