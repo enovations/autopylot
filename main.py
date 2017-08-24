@@ -142,6 +142,8 @@ def process_image():
 
                 v = controller_driving.get_speed(r)
 
+                if len(matches > 1): v = 0.1
+
                 w = Filter.r_to_w(r, v)
                 p *= __conf__.position_gain
 
