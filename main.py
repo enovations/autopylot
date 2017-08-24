@@ -53,8 +53,9 @@ def new_image():
 
 def input_handler():
     while True:
-        navigation.current_dest = input('dest: ')
-        print(navigation.current_dest)
+        # navigation.current_dest = input('dest: ')
+        # print(navigation.current_dest)
+        a = 1
 
 
 if not nopi:
