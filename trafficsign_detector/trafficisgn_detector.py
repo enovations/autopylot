@@ -23,11 +23,9 @@ try:
     import picamera, picamera.array
 except:
     nopi = True
-    print('No PI!')
 
 # init camera if can
 if not nopi:
-    print('PI')
     camera = picamera.PiCamera()
     camera.resolution = (640, 480)
     camera.framerate = 30
@@ -40,6 +38,7 @@ if not nopi:
 
 def new_image():
     global piimage
+    print('nova slika')
     for f in stream:
         piimage = f.array
         rawcapture.truncate(0)
@@ -55,7 +54,7 @@ image_process.init()
 
 
 def process_image():
-    global sendimagedata, piimage
+    global sendimagedata
 
     while True:
         if nopi:
@@ -90,7 +89,7 @@ def process_image():
 
         if __conf__.run_flask:
             # image = image_process.generate_preview(imgs, [element[2] for element in matches], dark)
-            sendimagedata = cv2.imencode('.jpg', image)[1].tostring()
+            sendimagedata = cv2.imencode('.jpg', piimage)[1].tostring()
 
 
 if __conf__.run_flask:
