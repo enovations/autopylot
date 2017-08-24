@@ -9,10 +9,10 @@ def get_speed(r):
     global old_v
 
     if r == 0:
-        return controller_traffic.get_speed_limit()
+        return controller_traffic.speed_limit
 
     v = math.sqrt(__conf__.ar_max * abs(r))
-    v = min(v, controller_traffic.get_speed_limit())
+    v = min(v, controller_traffic.speed_limit)
 
     if abs(v) > abs(old_v):
         old_v = (old_v * (1 - __conf__.accel_filter_factor) + v * __conf__.accel_filter_factor)
