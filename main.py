@@ -120,7 +120,7 @@ def process_image():
             x_offset += 20
 
         if __conf__.run_flask:
-            cv2.drawContours(orig_preview, contours, -1, (0, 255, 0), 1)
+            cv2.drawContours(orig_preview, contours, -1, (0, 255, 0), 3)
             imgs.append(orig_preview)
 
         trafficsign_detector.process_signs(signs)
@@ -161,21 +161,18 @@ def process_image():
                 if len(matches) == 1:  # follow the only line
                     r = float(matches[0][0]) * __conf__.meter_to_pixel_ratio
                     p = matches[0][2]
-                    print('default')
                 elif navigation.get_split_direction('') == 1:  # go right
                     r = min([float(matches[0][0]),
                              float(matches[1][0])]) * __conf__.meter_to_pixel_ratio  # convert to meters
                     # r *= 0.1
                     p = min([float(matches[0][2]),
                              float(matches[1][2])]) * __conf__.meter_to_pixel_ratio  # convert to meters
-                    print(1, r)
                 else:  # go left
                     r = max([float(matches[0][0]),
                              float(matches[1][0])]) * __conf__.meter_to_pixel_ratio  # convert to meters
                     # r *= 0.1
                     p = max([float(matches[0][2]),
                              float(matches[1][2])]) * __conf__.meter_to_pixel_ratio  # convert to meters
-                    print(0, r)
 
                 v = controller_driving.get_speed(r)
 
