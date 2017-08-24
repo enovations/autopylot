@@ -8,6 +8,8 @@ import cv2
 import numpy as np
 
 import image_process
+from controller_navigation import Navigation
+from filter import Filter
 
 if __conf__.run_flask:
     try:
@@ -17,8 +19,9 @@ if __conf__.run_flask:
 
 nopi = False
 sendimagedata = None
+omega_filter = Filter([1, 2, 4], 3)
+navigation = Navigation()
 piimage = None
-preview_dim = (200, 150)
 
 try:
     import picamera, picamera.array
@@ -44,53 +47,20 @@ def new_image():
         rawcapture.truncate(0)
 
 
+def input_handler():
+    # while True:
+    #     # navigation.current_dest = input('dest: ')
+    #     # print(navigation.current_dest)
+    #     a = 1
+    pass
+
+
 if not nopi:
     new_image_thread = threading.Thread(target=new_image).start()
+    threading.Thread(target=input_handler()).start()
 
 # init image_process
 image_process.init()
-
-templates = []
-
-
-def load_templates():
-    for i in range(0, 5):
-        template = cv2.imread(str(i) + '.jpg')
-
-        template = cv2.cvtColor(template, cv2.COLOR_BGR2GRAY)
-        template = cv2.adaptiveThreshold(template, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-                                         cv2.THRESH_BINARY_INV, 5, 6)
-
-        templates.append((i, template))
-
-        for i2 in range(3):
-            template = cv2.rotate(template, cv2.ROTATE_90_CLOCKWISE)
-            templates.append((i, template))
-
-
-def match_image(image):
-    curr_min = 1e20
-    minx = -1
-
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    image = cv2.adaptiveThreshold(image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-                                  cv2.THRESH_BINARY_INV, 5, 6)
-
-    for template in templates:
-        result = cv2.matchTemplate(image, templ=template[1], method=cv2.TM_SQDIFF)
-        if curr_min > result:
-            curr_min = result
-            minx = template[0]
-
-    return minx
-
-
-load_templates()
-
-
-def process_signs(signs):
-    for sign in signs:
-        print(match_image(sign))
 
 
 def process_image():
@@ -108,13 +78,28 @@ def process_image():
             orig_preview = image_process.grayscale(orig_preview)
             imgs.append(orig_preview)
 
+        image = image_process.grayscale(image)
+
+        # check for color of result
+        avg_bright = np.average(image)
+        dark = avg_bright < 65
+        if dark:
+            image = cv2.bitwise_not(image)
+
+        image = image_process.transform_image(image)
+        image = image_process.crop_and_resize_image(image)
+
         if __conf__.run_flask:
-            outimg = np.vstack(imgs)
+            imgs.append(image)
 
-            for i in range(1, len(imgs) + 1):
-                cv2.line(outimg, (0, preview_dim[1] * i), (preview_dim[0], preview_dim[1] * i), (255, 255, 255), 1)
+        image = image_process.threshold_image(image)
 
-            sendimagedata = cv2.imencode('.jpg', outimg)[1].tostring()
+        if __conf__.run_flask:
+            imgs.append(image)
+
+        #if __conf__.run_flask:
+        #    image = image_process.generate_preview(imgs, [element[2] for element in matches], dark)
+            sendimagedata = cv2.imencode('.jpg', image)[1].tostring()
 
 
 if __conf__.run_flask:
