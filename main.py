@@ -108,11 +108,11 @@ def process_image():
                     imgs.append(cv2.bitwise_or(matches[0][-1], matches[1][-1]))
 
 
-            r = float(matches[0][0]) * __conf__.meter_to_pixel_ratio  # convert to meters
+            r = float(matches[-1][0]) * __conf__.meter_to_pixel_ratio  # convert to meters
 
             v = controller_driving.get_speed(r)
 
-            w, _, p = omega_filter.get([Filter.r_to_w(r, v), matches[0][1], matches[0][2]])
+            w, _, p = omega_filter.get([Filter.r_to_w(r, v), matches[-1][1], matches[-1][2]])
             p *= __conf__.position_gain
 
             ros_control.update_robot(v, w + p * __conf__.position_gain)
