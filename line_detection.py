@@ -28,9 +28,9 @@ def detect(image, masks):
                 position *= 160 // __conf__.num_of_mask_offsets
 
                 if __conf__.run_flask:
-                    matches.append(k, res, position, img, masks[k][i])  # r, s, position, bimg, mask
+                    matches.append([k, res, position, img, masks[k][i]])  # r, s, position, bimg, mask
                 else:
-                    matches.append(k, res, position)  # r, s, position
+                    matches.append([k, res, position])  # r, s, position
 
     matches.sort(key=lambda x: x[1], reverse=True)
 
