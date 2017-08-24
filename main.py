@@ -95,8 +95,7 @@ def process_image():
 
         image = image_process.transform_image(image)
 
-        gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
-        gray = cv2.bilateralFilter(gray, 11, 17, 17)
+        gray = cv2.bilateralFilter(image, 11, 17, 17)
         edged = cv2.Canny(gray, 30, 200)
 
         im2, contours, hierarchy = cv2.findContours(edged, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)

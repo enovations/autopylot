@@ -1,5 +1,4 @@
 import cv2
-import numpy as np
 
 templates = []
 
@@ -43,35 +42,3 @@ def process_signs(signs):
             print(id)
         else:
             print('no sign!')
-
-
-def find_signs(image):
-    gray = cv2.bilateralFilter(image, 11, 17, 17)
-    edged = cv2.Canny(gray, 30, 200)
-
-    im2, contours, hierarchy = cv2.findContours(edged, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    contours = sorted(contours, key=cv2.contourArea, reverse=True)[:2]
-
-    # edged = cv2.cvtColor(edged, cv2.COLOR_GRAY2BGR)
-
-    # cv2.drawContours(edged, contours, -1, (255, 255, 0), 4)
-
-    x_offset = 0
-
-    signs = []
-
-    for con in contours:
-        rect = cv2.minAreaRect(con)
-        box = cv2.boxPoints(rect)
-        box = np.float32(box)
-
-        matrix = cv2.getPerspectiveTransform(box, np.float32([[0, 0], [0, 100], [100, 100], [100, 0]]))
-        img_sign = cv2.warpPerspective(image, matrix, (100, 100))
-
-        # edged[0:0 + img_sign.shape[0], x_offset:x_offset + img_sign.shape[1]] = img_sign
-
-        signs.append(cv2.resize(img_sign, (48, 48)))
-
-        # x_offset += 100
-
-    process_signs(signs)
