@@ -120,6 +120,7 @@ def process_image():
             ros_control.update_robot(0, 0)
             if __conf__.run_flask:
                 imgs.append(np.zeros((60, 160), dtype=np.uint8))
+                imgs.append(np.zeros((60, 160), dtype=np.uint8))
 
         if __conf__.run_flask:
             image = image_process.generate_preview(imgs, [element[2] for element in matches], dark)
