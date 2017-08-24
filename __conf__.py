@@ -10,7 +10,7 @@ flask_threaded = True
 ###############################
 #       ROBOT SETTINGS        #
 ###############################
-max_speed = 0.3
+max_speed = 0.9
 max_w = 1.0
 ar_max = 0.3
 accel_filter_factor = 0.18
