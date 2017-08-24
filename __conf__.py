@@ -10,11 +10,11 @@ flask_threaded = True
 ###############################
 #       ROBOT SETTINGS        #
 ###############################
-max_speed = 1.0
+max_speed = 1.5
 max_w = 0.3
-ar_max = 0.05
-accel_filter_factor = 0.2
-deccl_filter_factor = 0.5
+ar_max = 0.1
+accel_filter_factor = 0.18
+deccl_filter_factor = 0.35
 
 # coordinate system calibration
 pixel_25cm_distance = 40
