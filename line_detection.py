@@ -42,4 +42,5 @@ def detect(image, masks):
                 if r_diff(result[0][0], matches[i][0]) >= __conf__.min_split_r:
                     result.append(matches[i])
                     break
+    else: result = []
     return result
