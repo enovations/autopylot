@@ -34,5 +34,5 @@ proc_dim = (160, 120)
 
 # line detection bounds
 min_line_match = 85
-min_match_ratio = 0.9
-min_split_r = 2
+min_match_ratio = 0.8
+min_split_r = 1.8
