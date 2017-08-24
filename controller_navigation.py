@@ -25,7 +25,10 @@ def path_from_to(start, stop):
 
 
 def get_split_direction(current_split):
-    global location
     global current_dest
-    location = current_split
-    return path_from_to(current_split, current_dest)
+    if current_dest == 'left': return 0
+    return 1
+    # global location
+    # global current_dest
+    # location = current_split
+    # return path_from_to(current_split, current_dest)
