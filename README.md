@@ -1,6 +1,6 @@
 ![autopylot](http://i.imgur.com/HxtNn33.gif)
 
-This is our best autopylot yet. It finds a line and follows it. Probaby. Don't know yet. Have written some code but didn't test it yet.
+This is our best autopylot yet. It finds a line and follows it, obeys traffic signs and is a good driver. It can also drive you to the desired destination. It uses OpenCV and tensorflow neural netwrok for traffic sign detection.
 
 # Features
 
