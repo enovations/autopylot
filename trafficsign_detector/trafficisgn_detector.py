@@ -63,7 +63,7 @@ def process_image():
 
         if __conf__.run_flask:
             imgs = []
-            orig_preview = cv2.resize(image, (640, 480))
+            orig_preview = cv2.resize(image, __conf__.proc_dim)
             orig_preview = image_process.grayscale(orig_preview)
             imgs.append(orig_preview)
 
