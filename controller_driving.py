@@ -7,6 +7,8 @@ def get_speed(r, filter):
     if r == 0:
         return controller_traffic.get_speed_limit()
 
+    # v = math.e ** r * __conf__,ar_factor
+
     v = math.sqrt(__conf__.ar_max * abs(r))
 
     v = min(v, controller_traffic.get_speed_limit())

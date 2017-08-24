@@ -16,12 +16,12 @@ class Filter:
     def calculate(self):
         result = []
         for i in range(self.num_of_fields):
-            vsota = sum([element[i]*self.weights[j] for j, element in enumerate(self.q)])
+            vsota = sum([element[i] * self.weights[j] for j, element in enumerate(self.q)])
             result.append(vsota / sum(self.weights))
         return result
 
     @staticmethod
-    def r_to_w(r):
-        if r == 0: return 0
-        r = float(r) * __conf__.meter_to_pixel_ratio  # convert to meters
-        return __conf__.v / r
+    def r_to_w(r, v):
+        if r == 0:
+            return 0
+        return v / r

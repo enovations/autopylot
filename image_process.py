@@ -43,7 +43,7 @@ def threshold_image(image):
     return img
 
 
-def generate_preview(images, line_position):
+def generate_preview(images, line_position, dark):
     img = np.vstack(images)
     img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
 
@@ -60,7 +60,10 @@ def generate_preview(images, line_position):
     cv2.putText(img, 'best curve match', (1, 310), cv2.FONT_HERSHEY_PLAIN, 0.7, (100, 100, 100), 1, cv2.LINE_AA)
 
     limit = controller_traffic.speed_limit * 3.6
-    cv2.putText(img, 'Limit: ' + ('{0:.1f}'.format(limit)) + " km/h", (1, 13), cv2.FONT_HERSHEY_PLAIN, 1,
+    cv2.putText(img, 'Limit: ' + ('{0:.1f}'.format(limit)) + ' km/h', (5, 13), cv2.FONT_HERSHEY_PLAIN, 0.8,
                 (255, 255, 0), 1, cv2.LINE_AA)
+    if dark:
+        cv2.putText(img, 'DARK', (123, 13), cv2.FONT_HERSHEY_PLAIN, 0.8,
+                    (0, 0, 255), 1, cv2.LINE_AA)
 
     return img

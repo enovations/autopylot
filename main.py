@@ -84,7 +84,8 @@ def process_image():
 
         # check for color of result
         avg_bright = np.average(image)
-        if avg_bright < 65:
+        dark = avg_bright < 65
+        if dark:
             image = cv2.bitwise_not(image)
 
         image = image_process.transform_image(image)
@@ -105,16 +106,18 @@ def process_image():
         else:
             r, s, position = line_detection.get_radius(image, masks)
 
-        v = controller_driving.get_speed(r*__conf__.meter_to_pixel_ratio, speed_filter)
-        #v = v[0]
+        r = float(r) * __conf__.meter_to_pixel_ratio  # convert to meters
 
-        w, _, p = omega_filter.get([Filter.r_to_w(r), s, position])
+        v = controller_driving.get_speed(r, speed_filter)
+        # v = v[0]
+
+        w, _, p = omega_filter.get([Filter.r_to_w(r, v), s, position])
         p *= __conf__.position_gain
 
         ros_control.update_robot(v, w + p * __conf__.position_gain)
 
         if __conf__.run_flask:
-            image = image_process.generate_preview(imgs, position)
+            image = image_process.generate_preview(imgs, position, dark)
             sendimagedata = cv2.imencode('.jpg', image)[1].tostring()
 
 
