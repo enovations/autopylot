@@ -13,6 +13,7 @@ flask_threaded = True
 v = 0.3  # speed of robot in m/s
 max_speed = 1.0
 max_w = 0.3
+ar_max = 0.1
 
 # coordinate system calibration
 pixel_25cm_distance = 40
