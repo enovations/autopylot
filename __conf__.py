@@ -36,3 +36,5 @@ proc_dim = (160, 120)
 min_line_match = 120
 min_match_ratio = 0.6
 min_split_r = 1.3
+
+marker_ids = {30, 31, 32}
