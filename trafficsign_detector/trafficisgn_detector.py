@@ -48,8 +48,10 @@ if not nopi:
     new_image_thread = threading.Thread(target=new_image)
     new_image_thread.start()
 
-def process_sign(sign_image):
+
+def process_signs(signs):
     pass
+
 
 def process_image():
     global sendimagedata, piimage
@@ -80,6 +82,9 @@ def process_image():
         cv2.drawContours(edged, contours, -1, (255, 255, 0), 4)
 
         x_offset = 0
+
+        signs = []
+
         for con in contours:
             rect = cv2.minAreaRect(con)
             box = cv2.boxPoints(rect)
@@ -90,9 +95,11 @@ def process_image():
 
             edged[0:0 + img_sign.shape[0], x_offset:x_offset + img_sign.shape[1]] = img_sign
 
-            process_sign(cv2.resize(img_sign, (32, 32)))
+            signs.append(cv2.resize(img_sign, (32, 32)))
 
             x_offset += 100
+
+        process_signs(signs)
 
         if __conf__.run_flask:
             imgs.append(cv2.resize(edged, preview_dim))
