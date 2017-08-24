@@ -43,13 +43,14 @@ def threshold_image(image):
     return img
 
 
-def generate_preview(images, line_position, dark):
+def generate_preview(images, positions, dark):
     img = np.vstack(images)
     img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
 
     cv2.line(img, (80, 120), (80, 180), (255, 0, 255), 1)
 
-    cv2.line(img, (80 + line_position, 120), (80 + line_position, 180), (100, 255, 255), 1)
+    for position in positions:
+        cv2.line(img, (80 + position, 120), (80 + position, 180), (100, 255, 255), 1)
 
     for i in range(2, len(images) + 1):
         cv2.line(img, (0, 60 * i), (160, 60 * i), (255, 255, 255), 1)
