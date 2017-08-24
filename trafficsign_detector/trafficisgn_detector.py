@@ -30,7 +30,7 @@ if not nopi:
     camera.resolution = (640, 480)
     camera.framerate = 30
 
-    time.sleep(0.3)
+    time.sleep(2)
 
     rawcapture = picamera.array.PiRGBArray(camera)
     stream = camera.capture_continuous(rawcapture, format='bgr', use_video_port=True)
@@ -38,6 +38,7 @@ if not nopi:
 
 def new_image():
     global piimage
+    print('nova slika')
     for f in stream:
         piimage = f.array
         rawcapture.truncate(0)
@@ -53,7 +54,7 @@ image_process.init()
 
 
 def process_image():
-    global sendimagedata, piimage
+    global sendimagedata
 
     while True:
         if nopi:
@@ -61,34 +62,34 @@ def process_image():
         else:
             image = piimage
 
-        if __conf__.run_flask:
-            imgs = []
-            orig_preview = cv2.resize(image, __conf__.proc_dim)
-            orig_preview = image_process.grayscale(orig_preview)
-            imgs.append(orig_preview)
-
-        image = image_process.grayscale(image)
-
-        # check for color of result
-        avg_bright = np.average(image)
-        dark = avg_bright < 65
-        if dark:
-            image = cv2.bitwise_not(image)
-
-        image = image_process.transform_image(image)
-        image = image_process.crop_and_resize_image(image)
-
-        if __conf__.run_flask:
-            imgs.append(image)
-
-        image = image_process.threshold_image(image)
-
-        if __conf__.run_flask:
-            imgs.append(image)
+        # if __conf__.run_flask:
+        #     imgs = []
+        #     orig_preview = cv2.resize(image, __conf__.proc_dim)
+        #     orig_preview = image_process.grayscale(orig_preview)
+        #     imgs.append(orig_preview)
+        #
+        # image = image_process.grayscale(image)
+        #
+        # # check for color of result
+        # avg_bright = np.average(image)
+        # dark = avg_bright < 65
+        # if dark:
+        #     image = cv2.bitwise_not(image)
+        #
+        # image = image_process.transform_image(image)
+        # image = image_process.crop_and_resize_image(image)
+        #
+        # if __conf__.run_flask:
+        #     imgs.append(image)
+        #
+        # image = image_process.threshold_image(image)
+        #
+        # if __conf__.run_flask:
+        #     imgs.append(image)
 
         if __conf__.run_flask:
             # image = image_process.generate_preview(imgs, [element[2] for element in matches], dark)
-            sendimagedata = cv2.imencode('.jpg', image)[1].tostring()
+            sendimagedata = cv2.imencode('.jpg', piimage)[1].tostring()
 
 
 if __conf__.run_flask:
