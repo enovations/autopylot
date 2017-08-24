@@ -1,5 +1,6 @@
 import __conf__
 import cv2.aruco as aruco
+import cv2
 
 
 def detect_marker(image):
@@ -10,12 +11,23 @@ def detect_marker(image):
 
     res = []
 
+    if ids is None:
+        return []
+
     for i in range(len(ids)):
-        if ids[i] not in __conf__.marker_ids:
+        if ids[i][0] not in __conf__.marker_ids:
             continue
 
-        if corners[i][0] > corners[i][3]:
-            res.append((ids[i], True))
+        if corners[i][0][0][1] < corners[i][0][3][1]:
+            res.append((ids[i][0], True))
         else:
-            res.append((ids[i], False))
+            res.append((ids[i][0], False))
     return res
+
+
+cap = cv2.VideoCapture(0)
+
+while True:
+    _, img = cap.read()
+    res = detect_marker(img)
+    print(res)
