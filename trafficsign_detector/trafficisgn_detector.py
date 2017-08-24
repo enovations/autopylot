@@ -1,3 +1,5 @@
+import numpy as np
+
 import __conf__
 
 import time
@@ -5,6 +7,8 @@ import threading
 import atexit
 
 import cv2
+
+import image_process
 
 if __conf__.run_flask:
     try:
@@ -44,9 +48,13 @@ if not nopi:
     new_image_thread = threading.Thread(target=new_image)
     new_image_thread.start()
 
+def process_sign(sign_image):
+    pass
 
 def process_image():
     global sendimagedata, piimage
+
+    preview_dim = (200, 150)
 
     while True:
 
@@ -55,9 +63,47 @@ def process_image():
         else:
             image = piimage
 
+        image = image_process.transform_image(image)
+
         if __conf__.run_flask:
-            imgs = []
-            imgs.append(image)
+            imgs = [cv2.resize(image, preview_dim)]
+
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        gray = cv2.bilateralFilter(gray, 11, 17, 17)
+        edged = cv2.Canny(gray, 30, 200)
+
+        im2, contours, hierarchy = cv2.findContours(edged, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        contours = sorted(contours, key=cv2.contourArea, reverse=True)[:2]
+
+        edged = cv2.cvtColor(edged, cv2.COLOR_GRAY2BGR)
+
+        cv2.drawContours(edged, contours, -1, (255, 255, 0), 4)
+
+        x_offset = 0
+        for con in contours:
+            rect = cv2.minAreaRect(con)
+            box = cv2.boxPoints(rect)
+            box = np.float32(box)
+
+            matrix = cv2.getPerspectiveTransform(box, np.float32([[0, 0], [0, 100], [100, 100], [100, 0]]))
+            img_sign = cv2.warpPerspective(image, matrix, (100, 100))
+
+            edged[0:0 + img_sign.shape[0], x_offset:x_offset + img_sign.shape[1]] = img_sign
+
+            process_sign(cv2.resize(img_sign, (32, 32)))
+
+            x_offset += 100
+
+        if __conf__.run_flask:
+            imgs.append(cv2.resize(edged, preview_dim))
+
+        if __conf__.run_flask:
+            outimg = np.vstack(imgs)
+
+            for i in range(1, len(imgs) + 1):
+                cv2.line(outimg, (0, preview_dim[1] * i), (preview_dim[0], preview_dim[1] * i), (255, 255, 255), 1)
+
+            sendimagedata = cv2.imencode('.jpg', outimg)[1].tostring()
 
 
 if __conf__.run_flask:
