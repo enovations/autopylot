@@ -2,7 +2,9 @@
 speed_limit = 0.7
 
 splits = {
-    'lams': ('obvoznica', 'parkirisce'),
-    'lmsv': ('parkirisce', 'obvoznica'),
-    'hodnik': ('obvoznica', 'zunanjost')
+    'lams': ['hodnik', 'parkirisce'],
+    'lmsv': ['parkirisce', 'lmsv'],
+    'hodnik': ['lams', 'zunanjost'],
+    'zunanjost': [],
+    'parkirisce': []
 }

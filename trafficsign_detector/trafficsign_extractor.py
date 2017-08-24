@@ -5,7 +5,7 @@ import image_process
 
 for i2 in range(13, 19):
 
-    image = cv2.imread('known_signs/'+str(i2)+'.jpg')
+    image = cv2.imread('sample.jpg')
 
     image = image_process.transform_image(image)
 
@@ -14,7 +14,7 @@ for i2 in range(13, 19):
     edged = cv2.Canny(gray, 30, 200)
 
     im2, contours, hierarchy = cv2.findContours(edged, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    contours = sorted(contours, key=cv2.contourArea, reverse=True)[:10]
+    contours = sorted(contours, key=cv2.contourArea, reverse=True)[:1]
 
     i = 0
     for con in contours:
@@ -22,8 +22,8 @@ for i2 in range(13, 19):
         box = cv2.boxPoints(rect)
         box = np.float32(box)
 
-        matrix = cv2.getPerspectiveTransform(box, np.float32([[0, 0], [0, 48], [48, 48], [48, 0]]))
-        img = cv2.warpPerspective(image, matrix, (48, 48))
+        matrix = cv2.getPerspectiveTransform(box, np.float32([[0, 0], [0, 156], [156, 156], [156, 0]]))
+        img = cv2.warpPerspective(image, matrix, (156, 156))
 
         cv2.imwrite('known_signs/'+str(i2)+'_' + str(i) + '.jpg', img)
 
