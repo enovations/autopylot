@@ -86,11 +86,6 @@ def process_image():
         else:
             image = piimage
 
-        if __conf__.run_flask:
-            imgs = []
-            orig_preview = cv2.resize(image, __conf__.proc_dim)
-            imgs.append(orig_preview)
-
 
         # find signs
         ##########################################
@@ -101,6 +96,13 @@ def process_image():
 
         im2, contours, hierarchy = cv2.findContours(edged, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         contours = sorted(contours, key=cv2.contourArea, reverse=True)[:2]
+
+        if __conf__.run_flask:
+            imgs = []
+            orig_preview = cv2.resize(image, (640, 480))
+            cv2.drawContours(orig_preview, contours, -1, (0, 255, 255), 3)
+            orig_preview = cv2.resize(orig_preview, __conf__.proc_dim)
+            imgs.append(orig_preview)
 
         signs = []
 
@@ -128,9 +130,7 @@ def process_image():
         image = image_process.transform_image(image)
 
         if __conf__.run_flask:
-            prev_cont = cv2.cvtColor(cv2.resize(image, __conf__.proc_dim), cv2.COLOR_GRAY2BGR)
-            cv2.drawContours(prev_cont, contours, -1, (0, 255, 0), 1)
-            imgs.append(prev_cont)
+            imgs.append(cv2.cvtColor(cv2.resize(image, __conf__.proc_dim), cv2.COLOR_GRAY2BGR))
 
         image = image_process.crop_and_resize_image(image)
         image = image_process.threshold_image(image)
