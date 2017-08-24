@@ -10,6 +10,8 @@ This is our best autopylot yet. It finds a line and follows it, obeys traffic si
 
 # Dependencies
 
+Use pip to manage dependencies.
+
 - opencv
 - numpy (comes with opencv)
 - (OPTIONAL: for traffic sign detection) tensorflow
