@@ -34,7 +34,7 @@ def detect(image, masks):
 
     matches.sort(key=lambda x: x[1], reverse=True)
 
-    if len(matches > 0):
+    if len(matches) > 0:
         result = [matches[0]]
 
         if len(matches) > 1:
