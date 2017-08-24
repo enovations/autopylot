@@ -33,12 +33,16 @@ def match_image(image):
             curr_min = result
             minx = template[0]
 
-    return minx
+    return minx, curr_min
 
 
 def process_signs(signs):
     for sign in signs:
-        print(match_image(sign))
+        id, val = match_image(sign)
+        if val < 25000000:
+            print(id)
+        else:
+            print('no sign!')
 
 
 def find_signs(image):

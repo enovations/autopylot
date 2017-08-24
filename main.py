@@ -100,11 +100,9 @@ def process_image():
         edged = cv2.Canny(gray, 30, 200)
 
         im2, contours, hierarchy = cv2.findContours(edged, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-        contours = sorted(contours, key=cv2.contourArea, reverse=True)[:2]
+        contours = sorted(contours, key=cv2.contourArea, reverse=True)[:1]
 
         signs = []
-
-        x_offset = 0
 
         for con in contours:
             rect = cv2.minAreaRect(con)
@@ -113,8 +111,6 @@ def process_image():
 
             matrix = cv2.getPerspectiveTransform(box, np.float32([[0, 0], [0, 48], [48, 48], [48, 0]]))
             img_sign = cv2.warpPerspective(image, matrix, (48, 48))
-
-            # orig_preview[0:0 + img_sign.shape[0], x_offset:x_offset + img_sign.shape[1]] = img_sign
 
             signs.append(img_sign)
 
