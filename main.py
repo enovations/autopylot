@@ -123,7 +123,7 @@ def process_image():
             else:
                 if len(matches) == 1:  # follow the only line
                     r = float(matches[0][0]) * __conf__.meter_to_pixel_ratio
-                    print('default')
+                    print('default', matches[0][1])
                 elif navigation.get_split_direction('') == 1:  # go right
                     r = max([float(matches[0][0]),
                              float(matches[1][0])]) * __conf__.meter_to_pixel_ratio  # convert to meters
