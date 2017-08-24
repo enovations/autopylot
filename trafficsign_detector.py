@@ -38,7 +38,7 @@ def match_image(image):
 def process_signs(signs):
     for sign in signs:
         id, val = match_image(sign)
-        if val < 25000000:
-            print(id)
-        else:
-            print('no sign!')
+        # if val < 25000000:
+        #     print(id)
+        # else:
+        #     print('no sign!')

@@ -15,6 +15,7 @@ import controller_driving
 import trafficsign_detector
 from controller_navigation import Navigation
 from filter import Filter
+from trafficsign_detector import aruco_detector
 
 if __conf__.run_flask:
     try:
@@ -91,7 +92,7 @@ def process_image():
             orig_preview = cv2.resize(image, __conf__.proc_dim)
 
         # find signs
-        ##########################################
+        markers = aruco_detector.detect_marker(image)
 
         image = image_process.transform_image(image)
 
@@ -154,21 +155,25 @@ def process_image():
             if navigation.current_dest is None:
                 ros_control.update_robot(0, 0)
             else:
-                if len(matches) == 1:  # follow the only line
-                    r = float(matches[0][0]) * __conf__.meter_to_pixel_ratio
+                if len(matches) == 1 or len(markers) == 0 or markers[0][1] is False:  # follow the only line
+                    r = float(matches[0][0])
                     p = matches[0][2]
-                elif navigation.get_split_direction('') == 1:  # go right
-                    r = min([float(matches[0][0]),
-                             float(matches[1][0])]) * __conf__.meter_to_pixel_ratio  # convert to meters
-                    # r *= 0.1
-                    p = min([float(matches[0][2]),
-                             float(matches[1][2])]) * __conf__.meter_to_pixel_ratio  # convert to meters
-                else:  # go left
-                    r = max([float(matches[0][0]),
-                             float(matches[1][0])]) * __conf__.meter_to_pixel_ratio  # convert to meters
-                    # r *= 0.1
-                    p = max([float(matches[0][2]),
-                             float(matches[1][2])]) * __conf__.meter_to_pixel_ratio  # convert to meters
+                else:  # ask for navigation
+                    turn = navigation.get_split_direction(markers[0][0])
+
+                    if turn == 1:
+                        r = min([float(matches[0][0]),
+                                 float(matches[1][0])])
+                        p = min([float(matches[0][2]),
+                                 float(matches[1][2])])
+                    else:  # go left
+                        r = max([float(matches[0][0]),
+                                 float(matches[1][0])])
+                        p = max([float(matches[0][2]),
+                                 float(matches[1][2])])
+
+                r *= __conf__.meter_to_pixel_ratio
+                p *= __conf__.meter_to_pixel_ratio
 
                 v = controller_driving.get_speed(r)
 
