@@ -1,8 +1,8 @@
 import controller_traffic
 from collections import deque
 
-current_dest = 'parkirisce'
-location = 'parkirisce'
+current_dest = None  # where we want to go
+location = None  # where we are
 
 
 def path_from_to(start, stop):
@@ -25,4 +25,7 @@ def path_from_to(start, stop):
 
 
 def get_split_direction(current_split):
+    global location
+    global current_dest
+    location = current_split
     return path_from_to(current_split, current_dest)
