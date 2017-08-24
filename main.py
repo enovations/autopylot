@@ -123,19 +123,24 @@ def process_image():
             else:
                 if len(matches) == 1:  # follow the only line
                     r = float(matches[0][0]) * __conf__.meter_to_pixel_ratio
+                    p = matches[0][2]
                     print('default', matches[0][1])
                 elif navigation.get_split_direction('') == 1:  # go right
                     r = max([float(matches[0][0]),
                              float(matches[1][0])]) * __conf__.meter_to_pixel_ratio  # convert to meters
+                    p = max([float(matches[0][2]),
+                             float(matches[1][2])]) * __conf__.meter_to_pixel_ratio  # convert to meters
                     print(1, r)
                 else:  # go left
                     r = min([float(matches[0][0]),
                              float(matches[1][0])]) * __conf__.meter_to_pixel_ratio  # convert to meters
+                    p = min([float(matches[0][2]),
+                             float(matches[1][2])]) * __conf__.meter_to_pixel_ratio  # convert to meters
                     print(0, r)
 
                 v = controller_driving.get_speed(r)
 
-                w, _, p = omega_filter.get([Filter.r_to_w(r, v), matches[0][1], matches[0][2]])
+                w = Filter.r_to_w(r, v)
                 p *= __conf__.position_gain
 
                 ros_control.update_robot(v, w + p * __conf__.position_gain)
