@@ -128,14 +128,14 @@ def process_image():
                 elif navigation.get_split_direction('') == 1:  # go right
                     r = max([float(matches[0][0]),
                              float(matches[1][0])]) * __conf__.meter_to_pixel_ratio  # convert to meters
-                    r *= 0.1
+                    # r *= 0.1
                     p = max([float(matches[0][2]),
                              float(matches[1][2])]) * __conf__.meter_to_pixel_ratio  # convert to meters
                     print(1, r)
                 else:  # go left
                     r = min([float(matches[0][0]),
                              float(matches[1][0])]) * __conf__.meter_to_pixel_ratio  # convert to meters
-                    r *= 0.1
+                    # r *= 0.1
                     p = min([float(matches[0][2]),
                              float(matches[1][2])]) * __conf__.meter_to_pixel_ratio  # convert to meters
                     print(0, r)
@@ -147,7 +147,7 @@ def process_image():
                 w = Filter.r_to_w(r, v)
                 p *= __conf__.position_gain
 
-                ros_control.update_robot(v, w + p * __conf__.position_gain)
+                ros_control.update_robot(v, w + p)
         else:
             ros_control.update_robot(0.1, 0)
             if __conf__.run_flask:
