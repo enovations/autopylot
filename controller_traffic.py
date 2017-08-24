@@ -2,9 +2,9 @@
 speed_limit = 0.7
 
 razcepi = [
-    ('lams', ('parkirisce', 'obvoznica')),
-    ('lams', ('parkirisce', 'obvoznica')),
-    ('lams', ('parkirisce', 'obvoznica'))
+    ('lams', ('obvoznica', 'parkirisce')),
+    ('lmsv', ('parkirisce', 'obvoznica')),
+    ('hodnik', ('obvoznica', 'zunanjost'))
 ]
 
 
