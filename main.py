@@ -91,15 +91,14 @@ def process_image():
             orig_preview = cv2.resize(image, __conf__.proc_dim)
             imgs.append(orig_preview)
 
-        orig_img = image
 
         # find signs
         ##########################################
 
-        orig_img = image_process.transform_image(orig_img)
-
-        gray = cv2.bilateralFilter(orig_img, 11, 17, 17)
+        gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+        gray = cv2.bilateralFilter(gray, 11, 17, 17)
         edged = cv2.Canny(gray, 30, 200)
+
         im2, contours, hierarchy = cv2.findContours(edged, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         contours = sorted(contours, key=cv2.contourArea, reverse=True)[:2]
 
@@ -110,7 +109,7 @@ def process_image():
             box = cv2.boxPoints(rect)
             box = np.float32(box)
 
-            matrix = cv2.getPerspectiveTransform(box, np.float32([[0, 0], [0, 100], [100, 100], [100, 0]]))
+            matrix = cv2.getPerspectiveTransform(box, np.float32([[0, 0], [0, 48], [48, 48], [48, 0]]))
             img_sign = cv2.warpPerspective(image, matrix, (48, 48))
 
             signs.append(img_sign)
