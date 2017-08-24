@@ -117,7 +117,7 @@ def process_image():
 
             ros_control.update_robot(v, w + p * __conf__.position_gain)
         else:
-            ros_control.update_robot(0, 0)
+            ros_control.update_robot(0.05, 0)
             if __conf__.run_flask:
                 imgs.append(np.zeros((60, 160), dtype=np.uint8))
 
