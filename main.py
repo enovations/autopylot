@@ -89,20 +89,19 @@ def process_image():
         if __conf__.run_flask:
             imgs = []
             orig_preview = cv2.resize(image, __conf__.proc_dim)
+            imgs.append(orig_preview)
 
-        image = image_process.grayscale(image)
+        orig_img = image
 
         # find signs
         ##########################################
 
-        gray = cv2.bilateralFilter(image, 11, 17, 17)
+        orig_img = image_process.transform_image(orig_img)
+
+        gray = cv2.bilateralFilter(orig_img, 11, 17, 17)
         edged = cv2.Canny(gray, 30, 200)
         im2, contours, hierarchy = cv2.findContours(edged, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         contours = sorted(contours, key=cv2.contourArea, reverse=True)[:2]
-
-        if __conf__.run_flask:
-            cv2.drawContours(orig_preview, contours, -1, (0, 255, 0), 3)
-            imgs.append(orig_preview)
 
         signs = []
 
@@ -117,8 +116,9 @@ def process_image():
             signs.append(img_sign)
 
         trafficsign_detector.process_signs(signs)
-
         ##########################################
+
+        image = image_process.grayscale(image)
 
         # check for color of result
         avg_bright = np.average(image)
@@ -127,11 +127,13 @@ def process_image():
             image = cv2.bitwise_not(image)
 
         image = image_process.transform_image(image)
-        image = image_process.crop_and_resize_image(image)
 
         if __conf__.run_flask:
-            imgs.append(cv2.cvtColor(image, cv2.COLOR_GRAY2BGR))
+            prev_cont = cv2.cvtColor(cv2.resize(image, __conf__.proc_dim), cv2.COLOR_GRAY2BGR)
+            cv2.drawContours(prev_cont, contours, -1, (0, 255, 0), 1)
+            imgs.append(prev_cont)
 
+        image = image_process.crop_and_resize_image(image)
         image = image_process.threshold_image(image)
 
         if __conf__.run_flask:

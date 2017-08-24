@@ -46,18 +46,19 @@ def threshold_image(image):
 def generate_preview(images, positions, dark):
     img = np.vstack(images)
 
-    cv2.line(img, (80, 120), (80, 180), (255, 0, 255), 1)
+    cv2.line(img, (80, 120), (80, 180+60), (255, 0, 255), 1)
 
     for position in positions:
-        cv2.line(img, (80 + position, 120), (80 + position, 180), (100, 255, 255), 1)
+        cv2.line(img, (80 + position, 120), (80 + position, 180+60), (100, 255, 255), 1)
 
-    for i in range(2, len(images) + 1):
-        cv2.line(img, (0, 60 * i), (160, 60 * i), (255, 255, 255), 1)
+    for i in range(2, len(images) + 2):
+        if not i == 3:
+            cv2.line(img, (0, 60 * i), (160, 60 * i), (255, 255, 255), 1)
 
     cv2.putText(img, 'transformed', (1, 130), cv2.FONT_HERSHEY_PLAIN, 0.7, (100, 100, 100), 1, cv2.LINE_AA)
-    cv2.putText(img, 'threshold', (1, 190), cv2.FONT_HERSHEY_PLAIN, 0.7, (100, 100, 100), 1, cv2.LINE_AA)
-    cv2.putText(img, 'threshold & match', (1, 250), cv2.FONT_HERSHEY_PLAIN, 0.7, (100, 100, 100), 1, cv2.LINE_AA)
-    cv2.putText(img, 'best curve match', (1, 310), cv2.FONT_HERSHEY_PLAIN, 0.7, (100, 100, 100), 1, cv2.LINE_AA)
+    cv2.putText(img, 'threshold', (1, 60+190), cv2.FONT_HERSHEY_PLAIN, 0.7, (100, 100, 100), 1, cv2.LINE_AA)
+    cv2.putText(img, 'threshold & match', (1, 60+250), cv2.FONT_HERSHEY_PLAIN, 0.7, (100, 100, 100), 1, cv2.LINE_AA)
+    cv2.putText(img, 'best curve match', (1, 60+310), cv2.FONT_HERSHEY_PLAIN, 0.7, (100, 100, 100), 1, cv2.LINE_AA)
 
     limit = controller_traffic.speed_limit * 3.6
     cv2.putText(img, 'Limit: ' + ('{0:.1f}'.format(limit)) + ' km/h', (5, 13), cv2.FONT_HERSHEY_PLAIN, 0.8,
