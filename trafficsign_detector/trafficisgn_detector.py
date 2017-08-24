@@ -8,10 +8,6 @@ import cv2
 import numpy as np
 
 import image_process
-import line_detection
-import generate_masks
-import ros_control
-import controller_driving
 from controller_navigation import Navigation
 from filter import Filter
 
