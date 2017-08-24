@@ -31,3 +31,7 @@ pts2 = np.float32([[tx, ty + wi], [tx + wi, ty + wi], [tx + wi, ty], [tx, ty]])
 
 full_dim = (640, 480)
 proc_dim = (160, 120)
+
+# line detection bounds
+min_line_match = 150
+min_split_r = 0.2
