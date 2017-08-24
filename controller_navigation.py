@@ -28,7 +28,7 @@ class Navigation:
 
     def get_split_direction(self, current_split):
         if self.current_dest == 'left': return 0
-        return 1
+        return 0
         # global location
         # global current_dest
         # location = current_split

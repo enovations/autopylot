@@ -24,7 +24,7 @@ if __conf__.run_flask:
 
 nopi = False
 sendimagedata = None
-omega_filter = Filter([1, 2, 4], 3)
+omega_filter = Filter([1, 2, 3, 4], 3)
 navigation = Navigation()
 piimage = None
 
@@ -155,7 +155,7 @@ def process_image():
                     imgs.append(cv2.cvtColor(cv2.bitwise_or(matches[0][-1], matches[1][-1]), cv2.COLOR_GRAY2BGR))
 
             # decide where to go
-            if navigation.current_dest == None:
+            if navigation.current_dest is None:
                 ros_control.update_robot(0, 0)
             else:
                 if len(matches) == 1:  # follow the only line
@@ -163,17 +163,17 @@ def process_image():
                     p = matches[0][2]
                     print('default')
                 elif navigation.get_split_direction('') == 1:  # go right
-                    r = max([float(matches[0][0]),
+                    r = min([float(matches[0][0]),
                              float(matches[1][0])]) * __conf__.meter_to_pixel_ratio  # convert to meters
-                    r *= 0.1
-                    p = max([float(matches[0][2]),
+                    # r *= 0.1
+                    p = min([float(matches[0][2]),
                              float(matches[1][2])]) * __conf__.meter_to_pixel_ratio  # convert to meters
                     print(1, r)
                 else:  # go left
-                    r = min([float(matches[0][0]),
+                    r = max([float(matches[0][0]),
                              float(matches[1][0])]) * __conf__.meter_to_pixel_ratio  # convert to meters
-                    r *= 0.1
-                    p = min([float(matches[0][2]),
+                    # r *= 0.1
+                    p = max([float(matches[0][2]),
                              float(matches[1][2])]) * __conf__.meter_to_pixel_ratio  # convert to meters
                     print(0, r)
 
