@@ -99,6 +99,8 @@ def process_image():
             imgs.append(image)
 
         matches = line_detection.detect(image, masks)
+        print([m[0] for m in matches])
+
         if len(matches) > 0:
             if __conf__.run_flask:
                 imgs.append(image)
