@@ -12,6 +12,7 @@ import line_detection
 import generate_masks
 import ros_control
 import controller_driving
+import trafficsign_detector
 from controller_navigation import Navigation
 from filter import Filter
 
@@ -72,6 +73,9 @@ image_process.init()
 # init ros_control
 ros_control.init()
 
+# init sign templates
+trafficsign_detector.load_templates()
+
 
 def process_image():
     global sendimagedata, piimage
@@ -85,10 +89,43 @@ def process_image():
         if __conf__.run_flask:
             imgs = []
             orig_preview = cv2.resize(image, __conf__.proc_dim)
-            orig_preview = image_process.grayscale(orig_preview)
-            imgs.append(orig_preview)
 
         image = image_process.grayscale(image)
+
+        # find signs
+        ##########################################
+
+        gray = cv2.bilateralFilter(image, 11, 17, 17)
+        edged = cv2.Canny(gray, 30, 200)
+        im2, contours, hierarchy = cv2.findContours(edged, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        contours = sorted(contours, key=cv2.contourArea, reverse=True)[:2]
+
+        x_offset = 0
+
+        signs = []
+
+        for con in contours:
+            rect = cv2.minAreaRect(con)
+            box = cv2.boxPoints(rect)
+            box = np.float32(box)
+
+            matrix = cv2.getPerspectiveTransform(box, np.float32([[0, 0], [0, 100], [100, 100], [100, 0]]))
+            img_sign = cv2.warpPerspective(image, matrix, (48, 48))
+
+            #orig_preview[0:0 + img_sign.shape[0], x_offset:x_offset + img_sign.shape[1]] = cv2.cvtColor(img_sign,
+            #                                                                                            cv2.COLOR_GRAY2BGR)
+
+            signs.append(img_sign)
+
+            x_offset += 20
+
+        if __conf__.run_flask:
+            cv2.drawContours(orig_preview, contours, -1, (255, 255, 0), 1)
+            imgs.append(orig_preview)
+
+        trafficsign_detector.process_signs(signs)
+
+        ##########################################
 
         # check for color of result
         avg_bright = np.average(image)
@@ -100,22 +137,22 @@ def process_image():
         image = image_process.crop_and_resize_image(image)
 
         if __conf__.run_flask:
-            imgs.append(image)
+            imgs.append(cv2.cvtColor(image, cv2.COLOR_GRAY2BGR))
 
         image = image_process.threshold_image(image)
 
         if __conf__.run_flask:
-            imgs.append(image)
+            imgs.append(cv2.cvtColor(image, cv2.COLOR_GRAY2BGR))
 
         matches = line_detection.detect(image, masks)
 
         if len(matches) > 0:
             if __conf__.run_flask:
-                imgs.append(image)
+                imgs.append(cv2.cvtColor(image, cv2.COLOR_GRAY2BGR))
                 if len(matches) == 1:
-                    imgs.append(matches[0][-1])
+                    imgs.append(cv2.cvtColor(matches[0][-1], cv2.COLOR_GRAY2BGR))
                 else:
-                    imgs.append(cv2.bitwise_or(matches[0][-1], matches[1][-1]))
+                    imgs.append(cv2.cvtColor(cv2.bitwise_or(matches[0][-1], matches[1][-1]), cv2.COLOR_GRAY2BGR))
 
             # decide where to go
             if navigation.current_dest == None:
@@ -142,7 +179,8 @@ def process_image():
 
                 v = controller_driving.get_speed(r)
 
-                if len(matches) > 1: v = 0.1
+                if len(matches) > 1:
+                    v = 0.1
 
                 w = Filter.r_to_w(r, v)
                 p *= __conf__.position_gain
@@ -151,8 +189,8 @@ def process_image():
         else:
             ros_control.update_robot(0.1, 0)
             if __conf__.run_flask:
-                imgs.append(np.zeros((60, 160), dtype=np.uint8))
-                imgs.append(np.zeros((60, 160), dtype=np.uint8))
+                imgs.append(np.zeros((60, 160, 3), dtype=np.uint8))
+                imgs.append(np.zeros((60, 160, 3), dtype=np.uint8))
 
         if __conf__.run_flask:
             image = image_process.generate_preview(imgs, [element[2] for element in matches], dark)
