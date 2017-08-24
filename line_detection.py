@@ -6,13 +6,14 @@ def evaluate(img1, img2):
     img = cv2.bitwise_and(img1, img2)
     return cv2.countNonZero(img), img
 
-def r_diff(r1, r2):
-    r1, r2 = r1*__conf__.meter_to_pixel_ratio, r2*__conf__.meter_to_pixel_ratio
-    if r1 == 0 and r2 == 0: return 0
-    if r1 == 0: return abs(1/r2)
-    if r2 == 0: return abs(1/r1)
 
-    return abs(1/r1 - 1/r2)
+def r_diff(r1, r2):
+    r1, r2 = r1 * __conf__.meter_to_pixel_ratio, r2 * __conf__.meter_to_pixel_ratio
+    if r1 == 0 and r2 == 0: return 0
+    if r1 == 0: return abs(1 / r2)
+    if r2 == 0: return abs(1 / r1)
+
+    return abs(1 / r1 - 1 / r2)
 
 
 def detect(image, masks):
@@ -39,8 +40,10 @@ def detect(image, masks):
 
         if len(matches) > 1:
             for i in range(1, len(matches)):
-                if r_diff(result[0][0], matches[i][0]) >= __conf__.min_split_r:
+                if r_diff(result[0][0], matches[i][0]) >= __conf__.min_split_r and matches[i][
+                    1] >= __conf__.min_match_ratio * result[0][1]:
                     result.append(matches[i])
                     break
-    else: result = []
+    else:
+        result = []
     return result

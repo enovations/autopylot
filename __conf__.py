@@ -33,5 +33,6 @@ full_dim = (640, 480)
 proc_dim = (160, 120)
 
 # line detection bounds
-min_line_match = 90
+min_line_match = 120
+min_match_ratio = 0.7
 min_split_r = 0.3
