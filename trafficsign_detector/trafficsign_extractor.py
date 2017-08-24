@@ -3,7 +3,7 @@ import numpy as np
 
 import image_process
 
-for i2 in range(1, 13):
+for i2 in range(13, 19):
 
     image = cv2.imread('known_signs/'+str(i2)+'.jpg')
 
@@ -14,7 +14,7 @@ for i2 in range(1, 13):
     edged = cv2.Canny(gray, 30, 200)
 
     im2, contours, hierarchy = cv2.findContours(edged, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    contours = sorted(contours, key=cv2.contourArea, reverse=True)[:20]
+    contours = sorted(contours, key=cv2.contourArea, reverse=True)[:10]
 
     i = 0
     for con in contours:
