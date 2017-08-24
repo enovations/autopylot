@@ -100,7 +100,9 @@ def process_image():
         im2, contours, hierarchy = cv2.findContours(edged, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         contours = sorted(contours, key=cv2.contourArea, reverse=True)[:2]
 
-        x_offset = 0
+        if __conf__.run_flask:
+            cv2.drawContours(orig_preview, contours, -1, (0, 255, 0), 3)
+            imgs.append(orig_preview)
 
         signs = []
 
@@ -112,16 +114,7 @@ def process_image():
             matrix = cv2.getPerspectiveTransform(box, np.float32([[0, 0], [0, 100], [100, 100], [100, 0]]))
             img_sign = cv2.warpPerspective(image, matrix, (48, 48))
 
-            #orig_preview[0:0 + img_sign.shape[0], x_offset:x_offset + img_sign.shape[1]] = cv2.cvtColor(img_sign,
-            #                                                                                            cv2.COLOR_GRAY2BGR)
-
             signs.append(img_sign)
-
-            x_offset += 20
-
-        if __conf__.run_flask:
-            cv2.drawContours(orig_preview, contours, -1, (0, 255, 0), 3)
-            imgs.append(orig_preview)
 
         trafficsign_detector.process_signs(signs)
 
