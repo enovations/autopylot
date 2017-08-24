@@ -46,8 +46,10 @@ def new_image():
 if not nopi:
     new_image_thread = threading.Thread(target=new_image).start()
 
+
 # init image_process
 image_process.init()
+
 
 
 def process_image():
@@ -84,8 +86,8 @@ def process_image():
         if __conf__.run_flask:
             imgs.append(image)
 
-        #if __conf__.run_flask:
-        #    image = image_process.generate_preview(imgs, [element[2] for element in matches], dark)
+        if __conf__.run_flask:
+            # image = image_process.generate_preview(imgs, [element[2] for element in matches], dark)
             sendimagedata = cv2.imencode('.jpg', image)[1].tostring()
 
 
