@@ -131,7 +131,7 @@ def process_image():
                 else:  # go left
                     r = min([float(matches[0][0]),
                              float(matches[1][0])]) * __conf__.meter_to_pixel_ratio  # convert to meters
-                    print(1, r)
+                    print(0, r)
 
                 v = controller_driving.get_speed(r)
 
