@@ -103,10 +103,10 @@ def process_image():
         if len(matches) > 0:
             if __conf__.run_flask:
                 imgs.append(image)
-                if len(matches) == 1: imgs.append(matches[0][-1])
+                if len(matches) == 1:
+                    imgs.append(matches[0][-1])
                 else:
                     imgs.append(cv2.bitwise_or(matches[0][-1], matches[1][-1]))
-
 
             r = float(matches[-1][0]) * __conf__.meter_to_pixel_ratio  # convert to meters
 
