@@ -23,15 +23,15 @@ def detect(image, masks):
         for i in range(len(masks[k])):
             res, img = evaluate(image, masks[k][i])
 
-            # if res >= __conf__.min_line_match:
-            position = i
-            position -= len(masks[0]) // 2
-            position *= 160 // __conf__.num_of_mask_offsets
+            if res > 4:
+                position = i
+                position -= len(masks[0]) // 2
+                position *= 160 // __conf__.num_of_mask_offsets
 
-            if __conf__.run_flask:
-                matches.append([k, res, position, img, masks[k][i]])  # r, s, position, bimg, mask
-            else:
-                matches.append([k, res, position])  # r, s, position
+                if __conf__.run_flask:
+                    matches.append([k, res, position, img, masks[k][i]])  # r, s, position, bimg, mask
+                else:
+                    matches.append([k, res, position])  # r, s, position
 
     matches.sort(key=lambda x: x[1], reverse=True)
 
@@ -43,6 +43,4 @@ def detect(image, masks):
                 result.append(matches[i])
                 print(r_diff(result[0][0], matches[i][0]))
                 break
-    else:
-        result = []
     return result
