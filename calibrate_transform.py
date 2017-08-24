@@ -19,7 +19,7 @@ def click(event, x, y, flags, param):
 w, h = 640, 480
 
 # click on point in clockwise direction, first current, then desired shape
-image = cv2.imread('sample.jpg')
+image = cv2.imread('sample1.jpg')
 
 cv2.resize(image, (w, h))
 

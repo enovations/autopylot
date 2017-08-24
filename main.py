@@ -82,13 +82,18 @@ def process_image():
 
     while True:
         if nopi:
-            image = cv2.imread('sample.jpg')
+            image = cv2.imread('sample1.jpg')
         else:
             image = piimage
 
+        if __conf__.run_flask:
+            imgs = []
+            orig_preview = cv2.resize(image, __conf__.proc_dim)
 
         # find signs
         ##########################################
+
+        image = image_process.transform_image(image)
 
         gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
         gray = cv2.bilateralFilter(gray, 11, 17, 17)
@@ -97,14 +102,9 @@ def process_image():
         im2, contours, hierarchy = cv2.findContours(edged, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         contours = sorted(contours, key=cv2.contourArea, reverse=True)[:2]
 
-        if __conf__.run_flask:
-            imgs = []
-            orig_preview = cv2.resize(image, (640, 480))
-            cv2.drawContours(orig_preview, contours, -1, (0, 255, 255), 3)
-            orig_preview = cv2.resize(orig_preview, __conf__.proc_dim)
-            imgs.append(orig_preview)
-
         signs = []
+
+        x_offset = 0
 
         for con in contours:
             rect = cv2.minAreaRect(con)
@@ -114,9 +114,15 @@ def process_image():
             matrix = cv2.getPerspectiveTransform(box, np.float32([[0, 0], [0, 48], [48, 48], [48, 0]]))
             img_sign = cv2.warpPerspective(image, matrix, (48, 48))
 
+            # orig_preview[0:0 + img_sign.shape[0], x_offset:x_offset + img_sign.shape[1]] = img_sign
+
             signs.append(img_sign)
 
         trafficsign_detector.process_signs(signs)
+
+        if __conf__.run_flask:
+            imgs.append(orig_preview)
+
         ##########################################
 
         image = image_process.grayscale(image)
@@ -127,10 +133,11 @@ def process_image():
         if dark:
             image = cv2.bitwise_not(image)
 
-        image = image_process.transform_image(image)
-
         if __conf__.run_flask:
-            imgs.append(cv2.cvtColor(cv2.resize(image, __conf__.proc_dim), cv2.COLOR_GRAY2BGR))
+            aaa = cv2.cvtColor(cv2.resize(image, __conf__.full_dim), cv2.COLOR_GRAY2BGR)
+            cv2.drawContours(aaa, contours, -1, (255, 255, 0), 3)
+            aaa = cv2.resize(aaa, __conf__.proc_dim)
+            imgs.append(aaa)
 
         image = image_process.crop_and_resize_image(image)
         image = image_process.threshold_image(image)
