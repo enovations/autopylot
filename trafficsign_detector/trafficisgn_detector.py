@@ -8,8 +8,6 @@ import cv2
 import numpy as np
 
 import image_process
-from controller_navigation import Navigation
-from filter import Filter
 
 if __conf__.run_flask:
     try:
@@ -19,8 +17,6 @@ if __conf__.run_flask:
 
 nopi = False
 sendimagedata = None
-omega_filter = Filter([1, 2, 4], 3)
-navigation = Navigation()
 piimage = None
 
 try:
@@ -47,17 +43,8 @@ def new_image():
         rawcapture.truncate(0)
 
 
-def input_handler():
-    # while True:
-    #     # navigation.current_dest = input('dest: ')
-    #     # print(navigation.current_dest)
-    #     a = 1
-    pass
-
-
 if not nopi:
     new_image_thread = threading.Thread(target=new_image).start()
-    threading.Thread(target=input_handler()).start()
 
 # init image_process
 image_process.init()
