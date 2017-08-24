@@ -153,8 +153,7 @@ if __conf__.run_flask:
 
 else:
     print('Running in daemon mode')
-    while True:
-        process_image()
+    process_image()
 
 
 @atexit.register
