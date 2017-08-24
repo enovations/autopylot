@@ -41,6 +41,6 @@ def detect(image, masks):
         for i in range(1, len(matches)):
             if matches[i][1] > __conf__.min_line_match and r_diff(result[0][0], matches[i][0]) >= __conf__.min_split_r and matches[i][1] >= __conf__.min_match_ratio * result[0][1]:
                 result.append(matches[i])
-                print(r_diff(result[0][0], matches[i][0]))
+                # print(r_diff(result[0][0], matches[i][0]))
                 break
     return result

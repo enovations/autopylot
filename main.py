@@ -118,7 +118,7 @@ def process_image():
                     imgs.append(cv2.bitwise_or(matches[0][-1], matches[1][-1]))
 
             # decide where to go
-            if navigation.current_dest == None:
+            if navigation.current_dest is None:
                 ros_control.update_robot(0, 0)
             else:
                 if len(matches) == 1:  # follow the only line
