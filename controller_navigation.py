@@ -23,11 +23,10 @@ def path_from_to(start, stop):
 
 class Navigation:
     def __init__(self):
-        self.current_dest = None  # where we want to go
+        self.current_dest = 'left'  # where we want to go
         self.location = None  # where we are
 
     def get_split_direction(self, current_split):
-        self.current_dest
         if self.current_dest == 'left': return 0
         return 1
         # global location
