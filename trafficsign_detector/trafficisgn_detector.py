@@ -1,5 +1,3 @@
-import numpy as np
-
 import __conf__
 
 import time
@@ -7,8 +5,15 @@ import threading
 import atexit
 
 import cv2
+import numpy as np
 
 import image_process
+import line_detection
+import generate_masks
+import ros_control
+import controller_driving
+from controller_navigation import Navigation
+from filter import Filter
 
 if __conf__.run_flask:
     try:
@@ -18,12 +23,36 @@ if __conf__.run_flask:
 
 nopi = False
 sendimagedata = None
+omega_filter = Filter([1, 2, 3, 4, 4], 3)
+navigation = Navigation()
 piimage = None
 
 try:
     import picamera, picamera.array
 except:
     nopi = True
+
+# init camera if can
+if not nopi:
+    camera = picamera.PiCamera()
+    camera.resolution = (640, 480)
+    camera.framerate = 30
+
+    time.sleep(0.3)
+
+    rawcapture = picamera.array.PiRGBArray(camera)
+    stream = camera.capture_continuous(rawcapture, format='bgr', use_video_port=True)
+
+
+def new_image():
+    global piimage
+    for f in stream:
+        piimage = f.array
+        rawcapture.truncate(0)
+
+
+if not nopi:
+    new_image_thread = threading.Thread(target=new_image).start()
 
 templates = []
 
@@ -62,28 +91,6 @@ def match_image(image):
 
 load_templates()
 
-# init camera if can
-if not nopi:
-    camera = picamera.PiCamera()
-    camera.resolution = (640, 480)
-    camera.framerate = 30
-
-    time.sleep(0.3)
-
-    rawcapture = picamera.array.PiRGBArray(camera)
-    stream = camera.capture_continuous(rawcapture, format='bgr', use_video_port=True)
-
-
-def new_image():
-    global piimage
-    for f in stream:
-        piimage = f.array
-        rawcapture.truncate(0)
-
-
-if not nopi:
-    new_image_thread = threading.Thread(target=new_image).start()
-
 
 def process_signs(signs):
     for sign in signs:
@@ -102,7 +109,6 @@ def process_image():
         else:
             image = piimage
 
-        image = cv2.resize(image, (640, 480))
         image = image_process.transform_image(image)
 
         if __conf__.run_flask:
