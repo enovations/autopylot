@@ -12,6 +12,7 @@ import line_detection
 import generate_masks
 import ros_control
 import controller_driving
+from controller_navigation import Navigation
 from filter import Filter
 
 if __conf__.run_flask:
@@ -22,7 +23,8 @@ if __conf__.run_flask:
 
 nopi = False
 sendimagedata = None
-omega_filter = Filter([1, 2, 3, 4], 3)
+omega_filter = Filter([1, 2, 3, 4, 4], 3)
+navigation = Navigation()
 piimage = None
 
 try:
@@ -49,9 +51,17 @@ def new_image():
         rawcapture.truncate(0)
 
 
+def input_handler():
+    # while True:
+    #     # navigation.current_dest = input('dest: ')
+    #     # print(navigation.current_dest)
+    #     a = 1
+    pass
+
+
 if not nopi:
-    new_image_thread = threading.Thread(target=new_image)
-    new_image_thread.start()
+    new_image_thread = threading.Thread(target=new_image).start()
+    threading.Thread(target=input_handler()).start()
 
 # generate turn masks
 masks = generate_masks.get_masks()
@@ -67,7 +77,6 @@ def process_image():
     global sendimagedata, piimage
 
     while True:
-
         if nopi:
             image = cv2.imread('sample.jpg')
         else:
@@ -108,16 +117,30 @@ def process_image():
                 else:
                     imgs.append(cv2.bitwise_or(matches[0][-1], matches[1][-1]))
 
-            r = float(matches[0][0]) * __conf__.meter_to_pixel_ratio  # convert to meters
+            # decide where to go
+            if navigation.current_dest == None:
+                ros_control.update_robot(0, 0)
+            else:
+                if len(matches) == 1:  # follow the only line
+                    r = float(matches[0][0]) * __conf__.meter_to_pixel_ratio
+                    print('default', matches[0][1])
+                elif navigation.get_split_direction('') == 1:  # go right
+                    r = max([float(matches[0][0]),
+                             float(matches[1][0])]) * __conf__.meter_to_pixel_ratio  # convert to meters
+                    print(1, r)
+                else:  # go left
+                    r = min([float(matches[0][0]),
+                             float(matches[1][0])]) * __conf__.meter_to_pixel_ratio  # convert to meters
+                    print(1, r)
 
-            v = controller_driving.get_speed(r)
+                v = controller_driving.get_speed(r)
 
-            w, _, p = omega_filter.get([Filter.r_to_w(r, v), matches[0][1], matches[0][2]])
-            p *= __conf__.position_gain
+                w, _, p = omega_filter.get([Filter.r_to_w(r, v), matches[0][1], matches[0][2]])
+                p *= __conf__.position_gain
 
-            ros_control.update_robot(v, w + p * __conf__.position_gain)
+                ros_control.update_robot(v, w + p * __conf__.position_gain)
         else:
-            ros_control.update_robot(0.05, 0)
+            ros_control.update_robot(0.1, 0)
             if __conf__.run_flask:
                 imgs.append(np.zeros((60, 160), dtype=np.uint8))
                 imgs.append(np.zeros((60, 160), dtype=np.uint8))
