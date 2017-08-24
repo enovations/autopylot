@@ -11,8 +11,8 @@ flask_threaded = True
 #       ROBOT SETTINGS        #
 ###############################
 max_speed = 1.5
-max_w = 0.3
-ar_max = 0.1
+max_w = 1.0
+ar_max = 0.3
 accel_filter_factor = 0.18
 deccl_filter_factor = 0.35
 
@@ -33,6 +33,6 @@ full_dim = (640, 480)
 proc_dim = (160, 120)
 
 # line detection bounds
-min_line_match = 20
+min_line_match = 120
 min_match_ratio = 0.8
 min_split_r = 1.8
