@@ -1,24 +1,25 @@
-import atexit
-import threading
+import __conf__
+
 import time
+import threading
+import atexit
+import socket
 
 import cv2
 import numpy as np
 
 import __conf__
 import detector_aruco
-import controller_driving
-import generate_masks
 import image_process
 import detector_line
 import generate_masks
 import ros_control
 import controller_driving
 import controller_traffic
+import controller_navigation
 import detector_trafficsign
 from controller_navigation import Navigation
 from filter import Filter
-from detector_trafficsign import aruco_detector
 
 if __conf__.run_flask:
     try:
@@ -57,14 +58,22 @@ def new_image():
 
 
 def input_handler():
+    server = socket.socket(socket.AF_UNIX, socket.SOCK_DGRAM)
+    server.bind('/tmp/autopylot_input_socket')
     while True:
-        navigation.current_dest = input('dest: ')
-        print(navigation.current_dest)
+        datagram = server.recv(1024)
+
+        if not datagram:
+            break
+
+        dest = datagram.decode('utf8')
+        controller_navigation.current_dest = dest
+        time.sleep(0.05)
 
 
 if not nopi:
     new_image_thread = threading.Thread(target=new_image).start()
-    threading.Thread(target=input_handler()).start()
+    threading.Thread(target=input_handler).start()
 
 # generate turn masks
 masks = generate_masks.get_masks()
