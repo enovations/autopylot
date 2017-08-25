@@ -6,19 +6,19 @@ import cv2
 import numpy as np
 
 import __conf__
-import aruco_detector
+import detector_aruco
 import controller_driving
 import generate_masks
 import image_process
-import line_detection
+import detector_line
 import generate_masks
 import ros_control
 import controller_driving
 import controller_traffic
-import trafficsign_detector
+import detector_trafficsign
 from controller_navigation import Navigation
 from filter import Filter
-from trafficsign_detector import aruco_detector
+from detector_trafficsign import aruco_detector
 
 if __conf__.run_flask:
     try:
@@ -76,7 +76,7 @@ image_process.init()
 ros_control.init()
 
 # init sign templates
-trafficsign_detector.load_templates()
+detector_trafficsign.load_templates()
 
 
 def process_image():
@@ -93,7 +93,7 @@ def process_image():
             orig_preview = cv2.resize(image, __conf__.proc_dim)
 
         # find markers
-        markers = aruco_detector.detect_marker(image)
+        markers = detector_aruco.detect_marker(image)
 
         image = image_process.transform_image(image)
 
@@ -115,7 +115,7 @@ def process_image():
 
             signs.append(img_sign)
 
-        trafficsign_detector.process_signs(signs)
+        detector_trafficsign.process_signs(signs)
 
         if __conf__.run_flask:
             imgs.append(orig_preview)
@@ -142,7 +142,7 @@ def process_image():
         if __conf__.run_flask:
             imgs.append(cv2.cvtColor(image, cv2.COLOR_GRAY2BGR))
 
-        matches = line_detection.detect(image, masks)
+        matches = detector_line.detect(image, masks)
 
         if len(matches) > 0:
             if __conf__.run_flask:
