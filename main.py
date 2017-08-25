@@ -198,12 +198,14 @@ def process_image():
                                  float(matches[1][0])])
                         p = min([float(matches[0][2]),
                                  float(matches[1][2])])
+                        controller_lights.set_direction(controller_lights.Direction.RIGHT)
                         print('right')
                     else:  # go left
                         r = max([float(matches[0][0]),
                                  float(matches[1][0])])
                         p = max([float(matches[0][2]),
                                  float(matches[1][2])])
+                        controller_lights.set_direction(controller_lights.Direction.LEFT)
                         print('left')
 
                 # r *= __conf__.meter_to_pixel_ratio
@@ -238,7 +240,7 @@ def process_image():
             image = image_process.generate_preview(imgs, [element[2] for element in matches], dark)
             sendimagedata = cv2.imencode('.jpg', image)[1].tostring()
 
-        print(time.time()-last_iteration_time)
+        # print(time.time()-last_iteration_time)
         last_iteration_time = time.time()
 
 

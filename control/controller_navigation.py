@@ -24,7 +24,7 @@ def path_from_to(start, stop):
 
 class Navigation:
     def __init__(self):
-        self.current_dest = 'parkirisce'  # where we want to go
+        self.current_dest = None  # where we want to go
 
     def get_split_direction(self, current_split):
         if current_split == self.current_dest: self.current_dest = None
