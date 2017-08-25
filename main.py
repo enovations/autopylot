@@ -3,20 +3,20 @@ import socket
 import threading
 import time
 
-import controller_lights
-import controller_navigation
-import controller_ros
-import controller_traffic
 import cv2
-import detector_aruco
-import detector_line
-import image_process
 import numpy as np
-from controller_navigation import Navigation
 
 import __conf__
 from control import controller_driving
+from control import controller_lights
+from control import controller_navigation
+from control import controller_ros
+from control import controller_traffic
+from control.controller_navigation import Navigation
+from detection import detector_aruco
+from detection import detector_line
 from detection import detector_trafficsign
+from util import image_process
 from util.filter import Filter
 
 if __conf__.run_flask:
