@@ -140,6 +140,7 @@ def process_image():
 
         # find tfs
         ###########################################
+        # gray = cv2.cv2.medianBlur(image, 5)
         # gray = cv2.bilateralFilter(image, 11, 17, 17)
         # edged = cv2.Canny(gray, 30, 200)
         #
@@ -174,7 +175,7 @@ def process_image():
 
         if len(matches) > 0:
             if __conf__.run_flask:
-                imgs.append(image)
+                imgs.append(matches[0][-2])
                 if len(matches) == 1:
                     imgs.append(matches[0][-1])
                 else:
