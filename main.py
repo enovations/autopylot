@@ -226,11 +226,10 @@ def process_image():
                 print(r, p)
 
                 w = Filter.r_to_w(r, __conf__.max_speed)
-                # w = omega_filter.get(w)
+                w = omega_filter.get(w)
                 w *= __conf__.omega_gain
-                p *= __conf__.position_gain
 
-                controller_ros.update_robot(__conf__.max_speed, w + p)
+                controller_ros.update_robot(__conf__.max_speed, w + p * __conf__.position_gain)
         else:
             controller_ros.update_robot(0.1, 0)
             if __conf__.run_flask:
