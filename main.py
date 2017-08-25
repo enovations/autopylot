@@ -195,7 +195,8 @@ def process_image():
                     r = float(matches[0][0])
                     p = matches[0][2]
                 else:  # ask for navigation
-                    turn = navigation.get_split_direction(controller_traffic.aryco_id_to_split_name[markers[0][0]])
+                    turn, pt = navigation.get_split_direction(controller_traffic.aryco_id_to_split_name[markers[0][0]])
+                    path = pt
                     # turn = 0
 
                     if turn == 1:
