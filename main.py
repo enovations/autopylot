@@ -12,6 +12,7 @@ import line_detection
 import generate_masks
 import ros_control
 import controller_driving
+import controller_traffic
 import trafficsign_detector
 from controller_navigation import Navigation
 from filter import Filter
@@ -157,7 +158,7 @@ def process_image():
                     r = float(matches[0][0])
                     p = matches[0][2]
                 else:  # ask for navigation
-                    turn = navigation.get_split_direction(markers[0][0])
+                    turn = navigation.get_split_direction(controller_traffic.aryco_id_to_split_name[markers[0][0]])
 
                     if turn == 1:
                         r = min([float(matches[0][0]),
