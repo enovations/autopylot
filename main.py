@@ -124,16 +124,16 @@ def process_image():
         else:
             image = piimage
 
+        # find markers
+        markers = detector_aruco.detect_marker(image)
+        if len(markers) > 0:
+            print(markers)
+
         # grayscale image
         image = image_process.grayscale(image)
 
         if __conf__.run_flask:
             imgs = [cv2.resize(image, __conf__.proc_dim)]
-
-        # find markers
-        markers = detector_aruco.detect_marker(image)
-        if len(markers) > 0:
-            print(markers)
 
         # transform image
         image = image_process.transform_image(image)
