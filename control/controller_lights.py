@@ -73,8 +73,8 @@ def run():
             else:
                 for i in range(33, 33 + indicator_step):
                     LED.Set(i, 20, 10, 0)
-                    indicator_step += 1
-                    sleep *= 0.9
+                indicator_step += 1
+                sleep *= 0.9
 
         LED.Update()
         time.sleep(sleep)
