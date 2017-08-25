@@ -76,7 +76,7 @@ def run():
                 indicator_step = 0
                 sleep = 0.06
                 for i in range(10):
-                    LED.Set(i, 0, 0, 0)
+                    LED.Set(i, 50, 50, 50)
             else:
                 for i in range(9, 9 - indicator_step, -1):
                     LED.Set(i, 50, 20, 0)
@@ -89,7 +89,7 @@ def run():
                 indicator_step = 0
                 sleep = 0.06
                 for i in range(34, 44):
-                    LED.Set(i, 0, 0, 0)
+                    LED.Set(i, 50, 50, 50)
             else:
                 for i in range(34, 34 + indicator_step):
                     LED.Set(i, 50, 20, 0)
