@@ -65,7 +65,6 @@ def generate_preview(images, positions, dark, path, v):
     limit = v * 3.6
     cv2.putText(img, 'v: ' + ('{0:.2f}'.format(limit)) + ' km/h', (5, 13), cv2.FONT_HERSHEY_PLAIN, 0.8,
                 (255, 255, 0), 1, cv2.LINE_AA)
-    print(path)
     cv2.putText(img, 'p: ' + ' > '.join(path), (5, 26), cv2.FONT_HERSHEY_PLAIN, 0.8,
                 (100, 255, 0), 1, cv2.LINE_AA)
     if dark:

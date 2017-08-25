@@ -19,7 +19,7 @@ def path_from_to(start, stop):
 
         for option in controller_traffic.splits[current]:
             if option not in seen:
-                to_check.append((option, turns + [controller_traffic.splits[current].index(option)], path + turns))
+                to_check.append((option, turns + [controller_traffic.splits[current].index(option)], path+[option]))
                 seen.add(option)
 
     return -1
