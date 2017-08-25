@@ -1,6 +1,6 @@
-import __conf__
 import cv2.aruco as aruco
-import cv2
+
+import __conf__
 
 
 def detect_marker(image):
