@@ -42,6 +42,14 @@ def check_tethered_mode():
         __conf__.max_w = 0
 
 
+nounix = False
+
+try:
+    socket.AF_UNIX
+except:
+    nounix = True
+    print('This OS does not have Unix sockets!')
+
 try:
     import picamera, picamera.array
 except:
@@ -85,6 +93,8 @@ def input_handler():
 
 if not nopi:
     new_image_thread = threading.Thread(target=new_image).start()
+
+if not nounix:
     threading.Thread(target=input_handler).start()
 
 # init image_process
@@ -113,54 +123,42 @@ def process_image():
         image = image_process.grayscale(image)
 
         if __conf__.run_flask:
-            imgs = []
-            orig_preview = cv2.resize(image, __conf__.proc_dim)
-            imgs.append(orig_preview)
+            imgs = [cv2.resize(image, __conf__.proc_dim)]
 
         # find markers
         markers = detector_aruco.detect_marker(image)
-
         if len(markers) > 0:
             print(markers)
 
+        # transform image
         image = image_process.transform_image(image)
 
         # find signs
         ###########################################
+        gray = cv2.bilateralFilter(image, 11, 17, 17)
+        edged = cv2.Canny(gray, 30, 200)
 
-        # gray = cv2.bilateralFilter(image, 11, 17, 17)
-        # edged = cv2.Canny(gray, 30, 200)
-        #
-        # im2, contours, hierarchy = cv2.findContours(edged, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-        # contours = sorted(contours, key=cv2.contourArea, reverse=True)[:1]
-        #
-        # signs = []
-        #
-        # for con in contours:
-        #     rect = cv2.minAreaRect(con)
-        #     box = cv2.boxPoints(rect)
-        #     box = np.float32(box)
-        #
-        #     matrix = cv2.getPerspectiveTransform(box, np.float32([[0, 0], [0, 64], [64, 64], [64, 0]]))
-        #     img_sign = cv2.warpPerspective(image, matrix, (64, 64))
-        #
-        #     signs.append(img_sign)
-        #
-        # detector_trafficsign.process_signs(signs)
-        #
+        im2, contours, hierarchy = cv2.findContours(edged, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        contours = sorted(contours, key=cv2.contourArea, reverse=True)[:1]
+
+        rect = cv2.minAreaRect(contours[0])
+        box = cv2.boxPoints(rect)
+        box = np.float32(box)
+
+        matrix = cv2.getPerspectiveTransform(box, np.float32([[0, 0], [0, 64], [64, 64], [64, 0]]))
+        detector_trafficsign.process_sign(cv2.warpPerspective(image, matrix, (64, 64)))
         ##########################################
 
-        # check for color of result
+        # check for average color, invert if white line
         avg_bright = np.average(image)
         dark = avg_bright < 65
         if dark:
             image = cv2.bitwise_not(image)
 
         if __conf__.run_flask:
-            # aaa = cv2.cvtColor(cv2.resize(image, __conf__.full_dim), cv2.COLOR_GRAY2BGR)
-            # cv2.drawContours(aaa, contours, -1, (255, 255, 0), 3)
             imgs.append(cv2.resize(image, __conf__.proc_dim))
 
+        # crop and resize for line detection
         image = image_process.crop_and_resize_image(image)
         image = image_process.threshold_image(image)
 
@@ -221,8 +219,6 @@ def process_image():
         if __conf__.run_flask:
             image = image_process.generate_preview(imgs, [element[2] for element in matches], dark)
             sendimagedata = cv2.imencode('.jpg', image)[1].tostring()
-
-        print('aa')
 
 
 if __conf__.run_flask:

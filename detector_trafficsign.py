@@ -7,7 +7,7 @@ templates = []
 
 
 def load_templates():
-    for i in range(0, 6):
+    for i in range(3):
         template = cv2.imread(str(i) + '.jpg')
 
         template = cv2.resize(template, (64, 64))
@@ -42,14 +42,12 @@ def match_image(image):
 sign_history = deque([-1 for _ in range(5)])
 
 
-def process_signs(signs):
-    for sign in signs:
-        sign_id, val = match_image(sign)
-        if val > 25000000:  # nod good enough match
-            sign_id = -1
-        sign_history.popleft()
-        sign_history.append(sign_id)
+def process_sign(sign):
+    sign_id, val = match_image(sign)
+    if val > 25000000:  # nod good enough match
+        sign_id = -1
+    sign_history.popleft()
+    sign_history.append(sign_id)
 
     most_probable_match = mode(sign_history)
-
     print('Sign match: ' + str(most_probable_match), ', hist: ', sign_history)
