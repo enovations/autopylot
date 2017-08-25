@@ -27,7 +27,7 @@ if __conf__.run_flask:
 
 nopi = False
 sendimagedata = None
-omega_filter = Filter([1, 2, 3, 4], 1)
+omega_filter = Filter([1, 2, 3, 4, 5, 6, 7], 1)
 navigation = Navigation()
 piimage = None
 last_iteration_time = time.time()
