@@ -4,8 +4,10 @@ from enum import Enum
 
 import LED as L
 
+
 LED = None
 max_led = 43
+no_led = False
 
 
 class Direction(Enum):
@@ -18,8 +20,13 @@ direction = Direction.NONE
 
 
 def init():
+    global no_led
     global LED
-    LED = L.rumbaLED()
+    try:
+        LED = L.rumbaLED()
+    except:
+        no_led = True
+        return
     LED.SetAll(0, 0, 0)
     LED.Update()
     t = threading.Thread(target=run)
@@ -28,6 +35,10 @@ def init():
 
 def run():
     global LED
+    global no_led
+
+    if no_led:
+        return
 
     while True:
         if direction == Direction.NONE:
@@ -40,5 +51,12 @@ def run():
 
 def close():
     global LED
+    global no_led
+
+    if no_led:
+        return
+
+    print('closing led')
+
     LED.SetAll(0, 0, 0)
     LED.Update()
