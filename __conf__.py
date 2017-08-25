@@ -10,7 +10,7 @@ flask_threaded = True
 ###############################
 #       ROBOT SETTINGS        #
 ###############################
-max_speed = 0.3
+max_speed = 0.2
 max_w = 1.0
 
 # coordinate system calibration

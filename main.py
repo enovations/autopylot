@@ -131,9 +131,9 @@ def process_image():
             imgs = [cv2.resize(image, __conf__.proc_dim)]
 
         # find markers
-        markers = detector_aruco.detect_marker(image)
-        if len(markers) > 0:
-            print(markers)
+        # markers = detector_aruco.detect_marker(image)
+        # if len(markers) > 0:
+        #     print(markers)
 
         # transform image
         image = image_process.transform_image(image)
