@@ -196,6 +196,7 @@ def process_image():
                     p = matches[0][2]
                 else:  # ask for navigation
                     turn, pt = navigation.get_split_direction(controller_traffic.aryco_id_to_split_name[markers[0][0]])
+                    print(pt)
                     path = pt
                     # turn = 0
 
