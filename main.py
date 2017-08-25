@@ -8,7 +8,7 @@ import numpy as np
 
 import __conf__
 import controller_driving
-import controller_indicators
+import controller_lights
 import controller_navigation
 import controller_ros
 import controller_traffic
@@ -111,7 +111,7 @@ controller_ros.init()
 detector_trafficsign.load_templates()
 
 # init zmigovce
-controller_indicators.init()
+controller_lights.init()
 
 
 def process_image():
@@ -261,4 +261,4 @@ def stop():
         stream.close()
         rawcapture.close()
         camera.close()
-    controller_indicators.close()
+    controller_lights.close()
