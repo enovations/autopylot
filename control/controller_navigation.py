@@ -14,6 +14,7 @@ def path_from_to(start, stop):
 
         if stop in controller_traffic.splits[current]:
             turns.append(controller_traffic.splits[current].index(stop))
+            path.append(stop)
             return turns, path
 
         for option in controller_traffic.splits[current]:
