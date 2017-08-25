@@ -46,19 +46,19 @@ def threshold_image(image):
 def generate_preview(images, positions, dark):
     img = np.vstack(images)
 
-    cv2.line(img, (80, 120), (80, 180+60), (255, 0, 255), 1)
+    cv2.line(img, (80, 120), (80, 180 + 60), (255, 0, 255), 1)
 
     for position in positions:
-        cv2.line(img, (80 + position, 120), (80 + position, 180+60), (100, 255, 255), 1)
+        cv2.line(img, (80 + position, 120), (80 + position, 180 + 60), (100, 255, 255), 1)
 
     for i in range(2, len(images) + 2):
         if not i == 3:
             cv2.line(img, (0, 60 * i), (160, 60 * i), (255, 255, 255), 1)
 
     cv2.putText(img, 'transformed', (1, 130), cv2.FONT_HERSHEY_PLAIN, 0.7, (100, 100, 100), 1, cv2.LINE_AA)
-    cv2.putText(img, 'threshold', (1, 60+190), cv2.FONT_HERSHEY_PLAIN, 0.7, (100, 100, 100), 1, cv2.LINE_AA)
-    cv2.putText(img, 'threshold & match', (1, 60+250), cv2.FONT_HERSHEY_PLAIN, 0.7, (100, 100, 100), 1, cv2.LINE_AA)
-    cv2.putText(img, 'best curve match', (1, 60+310), cv2.FONT_HERSHEY_PLAIN, 0.7, (100, 100, 100), 1, cv2.LINE_AA)
+    cv2.putText(img, 'threshold', (1, 60 + 190), cv2.FONT_HERSHEY_PLAIN, 0.7, (100, 100, 100), 1, cv2.LINE_AA)
+    cv2.putText(img, 'threshold & match', (1, 60 + 250), cv2.FONT_HERSHEY_PLAIN, 0.7, (100, 100, 100), 1, cv2.LINE_AA)
+    cv2.putText(img, 'best curve match', (1, 60 + 310), cv2.FONT_HERSHEY_PLAIN, 0.7, (100, 100, 100), 1, cv2.LINE_AA)
 
     limit = controller_traffic.speed_limit * 3.6
     cv2.putText(img, 'Limit: ' + ('{0:.1f}'.format(limit)) + ' km/h', (5, 13), cv2.FONT_HERSHEY_PLAIN, 0.8,
@@ -68,3 +68,47 @@ def generate_preview(images, positions, dark):
                     (0, 0, 255), 1, cv2.LINE_AA)
 
     return img
+
+
+def get_masks(resolution=(160, 60)):
+    brush_size = int(4 / 160 * resolution[0])
+    min_rad = int(resolution[0] * 0.16) * 2
+    max_rad = int(resolution[0] * 3.5)
+
+    center = (
+        resolution[0] // 2,
+        resolution[1] + (2 * __conf__.pixel_25cm_distance - __conf__.first_cut_to_image_edge_in_pixels))
+
+    masks = {}
+    step = 2
+    offset_step = 160 // __conf__.num_of_mask_offsets
+    r = min_rad
+    while r <= max_rad:
+        # create left arc
+        left = []
+        for i in range(__conf__.num_of_mask_offsets):
+            img = np.zeros((resolution[1], resolution[0]), dtype=np.uint8)
+            cv2.circle(img, (i * offset_step - r, center[1]), r, 255, brush_size)
+            left.append(img)
+
+        # create right arc
+        rigth = []
+        for i in range(__conf__.num_of_mask_offsets):
+            img = np.zeros((resolution[1], resolution[0]), dtype=np.uint8)
+            cv2.circle(img, (i * offset_step + r, center[1]), r, 255, brush_size)
+            rigth.append(img)
+
+        masks[-r] = left
+        masks[r] = rigth
+
+        r += step
+        step = int(step * 1.5)
+
+    # create straight line
+    straight = []
+    for i in range(__conf__.num_of_mask_offsets):
+        img = np.zeros((resolution[1], resolution[0]), dtype=np.uint8)
+        cv2.line(img, (i * offset_step, 0), (i * offset_step, resolution[1]), 255, brush_size)
+        straight.append(img)
+    masks[0] = straight
+    return masks

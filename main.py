@@ -8,10 +8,8 @@ import numpy as np
 import __conf__
 import detector_aruco
 import controller_driving
-import generate_masks
 import image_process
 import detector_line
-import generate_masks
 import ros_control
 import controller_driving
 import controller_traffic
@@ -66,11 +64,11 @@ if not nopi:
     new_image_thread = threading.Thread(target=new_image).start()
     threading.Thread(target=input_handler()).start()
 
-# generate turn masks
-masks = generate_masks.get_masks()
-
 # init image_process
 image_process.init()
+
+# generate turn masks
+masks = image_process.get_masks()
 
 # init ros_control
 ros_control.init()
