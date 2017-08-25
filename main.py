@@ -1,21 +1,20 @@
-import __conf__
-
-import time
-import threading
 import atexit
+import threading
+import time
 
 import cv2
 import numpy as np
 
+import __conf__
+import aruco_detector
+import controller_driving
+import generate_masks
 import image_process
 import line_detection
-import generate_masks
 import ros_control
-import controller_driving
 import trafficsign_detector
 from controller_navigation import Navigation
 from filter import Filter
-from trafficsign_detector import aruco_detector
 
 if __conf__.run_flask:
     try:
@@ -81,7 +80,7 @@ def process_image():
 
     while True:
         if nopi:
-            image = cv2.imread('sample1.jpg')
+            image = cv2.imread('sample.jpg')
         else:
             image = piimage
 
@@ -89,7 +88,7 @@ def process_image():
             imgs = []
             orig_preview = cv2.resize(image, __conf__.proc_dim)
 
-        # find signs
+        # find markers
         markers = aruco_detector.detect_marker(image)
 
         image = image_process.transform_image(image)
