@@ -12,8 +12,9 @@ This is our best autopylot yet. It finds a line and follows it, obeys traffic si
 
 Use pip to manage dependencies.
 
-- opencv (including contrib module)
-- numpy (comes with opencv)
+- opencv-python
+- opencv-contrib-python
+- numpy (comes with opencv-python)
 - (OPTIONAL: for traffic sign detection) tensorflow
 - (OPTIONAL: for opencv preview in browser) flask
 - (OPTIONAL: for use on actual Raspberry Pi) picamera
