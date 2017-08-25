@@ -13,7 +13,7 @@ import detector_aruco
 import controller_driving
 import image_process
 import detector_line
-import ros_control
+import controller_ros
 import controller_driving
 import controller_traffic
 import controller_navigation
@@ -82,7 +82,7 @@ image_process.init()
 masks = image_process.get_masks()
 
 # init ros_control
-ros_control.init()
+controller_ros.init()
 
 # init sign templates
 detector_trafficsign.load_templates()
@@ -163,7 +163,7 @@ def process_image():
 
             # decide where to go
             if navigation.current_dest is None:
-                ros_control.update_robot(0, 0)
+                controller_ros.update_robot(0, 0)
             else:
                 if len(matches) == 1 or len(markers) == 0 or markers[0][1] is False:  # follow the only line
                     r = float(matches[0][0])
@@ -193,9 +193,9 @@ def process_image():
                 w = Filter.r_to_w(r, v)
                 p *= __conf__.position_gain
 
-                ros_control.update_robot(v, w + p * __conf__.position_gain)
+                controller_ros.update_robot(v, w + p * __conf__.position_gain)
         else:
-            ros_control.update_robot(0.1, 0)
+            controller_ros.update_robot(0.1, 0)
             if __conf__.run_flask:
                 imgs.append(np.zeros((60, 160, 3), dtype=np.uint8))
                 imgs.append(np.zeros((60, 160, 3), dtype=np.uint8))
@@ -236,7 +236,7 @@ else:
 
 @atexit.register
 def stop():
-    ros_control.close()
+    controller_ros.close()
     if not nopi:
         stream.close()
         rawcapture.close()

@@ -4,7 +4,7 @@ templates = []
 
 
 def load_templates():
-    for i in range(0, 5):
+    for i in range(0, 6):
         template = cv2.imread('signs/' + str(i) + '.jpg')
 
         template = cv2.cvtColor(template, cv2.COLOR_BGR2GRAY)
