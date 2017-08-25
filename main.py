@@ -186,25 +186,25 @@ def process_image():
             if navigation.current_dest is None:
                 controller_ros.update_robot(0, 0)
             else:
-                # if len(matches) == 1 or len(markers) == 0 or markers[0][1] is False:  # follow the only line
-                #     r = float(matches[0][0])
-                #     p = matches[0][2]
-                # else:  # ask for navigation
-                #     turn = navigation.get_split_direction(controller_traffic.aryco_id_to_split_name[markers[0][0]])
-                #
-                #     if turn == 1:
-                #         r = min([float(matches[0][0]),
-                #                  float(matches[1][0])])
-                #         p = min([float(matches[0][2]),
-                #                  float(matches[1][2])])
-                #         print('right')
-                #     else:  # go left
-                #         r = max([float(matches[0][0]),
-                #                  float(matches[1][0])])
-                #         p = max([float(matches[0][2]),
-                #                  float(matches[1][2])])
-                #         print('left')
-                #
+                if len(matches) == 1 or len(markers) == 0 or markers[0][1] is False:  # follow the only line
+                    r = float(matches[0][0])
+                    p = matches[0][2]
+                else:  # ask for navigation
+                    turn = navigation.get_split_direction(controller_traffic.aryco_id_to_split_name[markers[0][0]])
+
+                    if turn == 1:
+                        r = min([float(matches[0][0]),
+                                 float(matches[1][0])])
+                        p = min([float(matches[0][2]),
+                                 float(matches[1][2])])
+                        print('right')
+                    else:  # go left
+                        r = max([float(matches[0][0]),
+                                 float(matches[1][0])])
+                        p = max([float(matches[0][2]),
+                                 float(matches[1][2])])
+                        print('left')
+
                 # r *= __conf__.meter_to_pixel_ratio
                 # # p *= __conf__.meter_to_pixel_ratio
                 # print(r, p)
@@ -219,12 +219,8 @@ def process_image():
                 # p *= __conf__.position_gain
                 #
                 # controller_ros.update_robot(v, p)
-                r = float(matches[0][0])
-                p = matches[0][2]
 
                 r *= __conf__.meter_to_pixel_ratio
-                # p *= __conf__.meter_to_pixel_ratio s
-                # print(r, p)
 
                 w = Filter.r_to_w(r, __conf__.max_speed)
                 w = omega_filter.get(w)

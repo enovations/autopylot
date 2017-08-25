@@ -27,4 +27,5 @@ class Navigation:
         self.current_dest = 'hodnik'  # where we want to go
 
     def get_split_direction(self, current_split):
+        if current_split == self.current_dest: self.current_dest = None
         return path_from_to(current_split, self.current_dest)[0][0]
