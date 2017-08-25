@@ -48,7 +48,7 @@ def run():
 
     while running:
         LED.SetAll(0, 0, 0)
-        for i in range(10, 35):
+        for i in range(10, 34):
             LED.Set(i, 20, 20, 20)
 
         if direction == Direction.LEFT:
