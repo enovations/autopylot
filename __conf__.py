@@ -10,18 +10,18 @@ flask_threaded = True
 ###############################
 #       ROBOT SETTINGS        #
 ###############################
-max_speed = 0.2
+max_speed = 0.6
 max_w = 1.0
 ar_max = 0.3
 accel_filter_factor = 0.18
-deccl_filter_factor = 0.35
+deccl_filter_factor = 0.6
 
 # coordinate system calibration
 pixel_25cm_distance = 40
 first_cut_to_image_edge_in_pixels = 17
 meter_to_pixel_ratio = 0.25 / pixel_25cm_distance  # ratio of pixels on screen to meters in real world
 position_gain = 0.015
-omega_gain = 0.8
+omega_gain = 1
 num_of_mask_offsets = 10
 angularvel_factor_p = 50
 
