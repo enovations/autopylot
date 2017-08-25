@@ -16,6 +16,7 @@ from detection import detector_line
 from detection import detector_trafficsign
 from util import image_process
 from util.filter import Filter
+from control import controller_driving
 
 if __conf__.run_flask:
     try:
