@@ -68,6 +68,7 @@ def input_handler():
 
         dest = datagram.decode('utf8')
         controller_navigation.current_dest = dest
+        print('dest set:', dest)
         time.sleep(0.05)
 
 
