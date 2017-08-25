@@ -6,19 +6,20 @@ from control import controller_traffic
 def path_from_to(start, stop):
     # BFS
     to_check = deque()
-    to_check.append((controller_traffic.splits[start], []))  # current node, turns
+    to_check.append((start, []))  # current node, turns
     seen = set()
 
     while len(to_check) > 0:
-        options, turns = to_check.popleft()
+        current, turns = to_check.popleft()
 
-        if stop in options:
+        if stop in controller_traffic.splits[current]:
+            turns.append(controller_traffic.splits[current].index(stop))
             return turns
 
-        for i in range(len(options)):
-            if not controller_traffic.splits[options[i]] in seen:
-                to_check.append((controller_traffic.splits[options[i]], turns + [i]))
-                seen.add(controller_traffic.splits[options[i]])
+        for option in controller_traffic.splits[current]:
+            if option not in seen:
+                to_check.append((option, turns + [controller_traffic.splits[current].index(option)]))
+                seen.add(option)
 
     return -1
 
@@ -32,4 +33,3 @@ class Navigation:
             self.current_dest = None
             return 0
         return path_from_to(current_split, self.current_dest)[0]
-
