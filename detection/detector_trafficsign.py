@@ -28,7 +28,7 @@ def match_image(image):
     minx = -1
 
     # image = cv2.adaptiveThreshold(image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-                                  cv2.THRESH_BINARY_INV, 5, 6)
+    #                               cv2.THRESH_BINARY_INV, 5, 6)
 
     for template in templates:
         result = cv2.matchTemplate(image, templ=template[1], method=cv2.TM_SQDIFF)
