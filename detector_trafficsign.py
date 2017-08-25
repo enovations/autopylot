@@ -53,4 +53,4 @@ def process_signs(signs):
 
     most_probable_match = mode(sign_history)
 
-    print('Sign match: ' + most_probable_match)
+    print('Sign match: ' + str(most_probable_match))
