@@ -214,7 +214,7 @@ def process_image():
                 w = Filter.r_to_w(r, v)
                 p *= __conf__.position_gain
 
-                controller_ros.update_robot(v, w + p)
+                controller_ros.update_robot(v, w)
         else:
             controller_ros.update_robot(0.1, 0)
             if __conf__.run_flask:
