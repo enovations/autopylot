@@ -193,13 +193,13 @@ def process_image():
                                  float(matches[1][0])])
                         p = min([float(matches[0][2]),
                                  float(matches[1][2])])
-                        print('left')
+                        print('right')
                     else:  # go left
                         r = max([float(matches[0][0]),
                                  float(matches[1][0])])
                         p = max([float(matches[0][2]),
                                  float(matches[1][2])])
-                        print('right')
+                        print('left')
 
                 r *= __conf__.meter_to_pixel_ratio
                 p *= __conf__.meter_to_pixel_ratio
