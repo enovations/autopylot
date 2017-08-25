@@ -40,7 +40,7 @@ def match_image(image):
     return minx, curr_min
 
 
-sign_history = deque([-1 for _ in range(10)])
+sign_history = deque([-1 for _ in range(5)])
 
 
 def process_signs(signs):
@@ -53,4 +53,4 @@ def process_signs(signs):
 
     most_probable_match = mode(sign_history)
 
-    print('Sign match: ' + str(most_probable_match))
+    print('Sign match: ' + str(most_probable_match), ', hist: ', sign_history)
