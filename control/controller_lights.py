@@ -17,7 +17,16 @@ class Direction(Enum):
     STOP = 2
 
 
-direction = Direction.STOP
+direction = Direction.NONE
+last_time = time.time()
+
+
+def set_direction(d):
+    global direction
+    global last_time
+
+    direction = d
+    last_time = time.time()
 
 
 def init():
@@ -39,6 +48,7 @@ def run():
     global LED
     global no_led
     global running
+    global last_time
 
     if no_led:
         return
@@ -97,6 +107,10 @@ def run():
 
         LED.Update()
         time.sleep(sleep)
+
+        if direction != Direction.NONE and time.time() - last_time > 2:
+            global direction
+            direction = Direction.NONE
 
     LED.SetAll(0, 0, 0)
     LED.Update()
