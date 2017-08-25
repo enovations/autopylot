@@ -64,10 +64,10 @@ def run():
         #    LED.Set(i, 50, 50, 50)
 
         # tesla like headlights 
-        for i in range(0, 12):
+        for i in range(0, 14):
             LED.Set(i, 50, 50, 50)
 
-        for i in range(32, 44):
+        for i in range(30, 44):
             LED.Set(i, 50, 50, 50)
 
         if direction == Direction.LEFT:
