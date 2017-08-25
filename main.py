@@ -235,7 +235,7 @@ def process_image():
                 imgs.append(np.zeros((60, 160, 1), dtype=np.uint8))
 
         if __conf__.run_flask:
-            image = image_process.generate_preview(imgs, [element[2] for element in matches], dark, path, global_v)
+            image = image_process.generate_preview(imgs, [element[2] for element in matches], dark, path, global_v, navigation.current_dest)
             sendimagedata = cv2.imencode('.jpg', image)[1].tostring()
 
         # print(time.time()-last_iteration_time)

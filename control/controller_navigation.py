@@ -34,5 +34,4 @@ class Navigation:
             self.current_dest = None
             return 0
         turns, path = path_from_to(current_split, self.current_dest)
-        print(path)
         return turns[0], path
