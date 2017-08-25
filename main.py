@@ -7,9 +7,7 @@ import cv2
 import numpy as np
 
 import __conf__
-from control import controller_driving
 from control import controller_lights
-from control import controller_navigation
 from control import controller_ros
 from control import controller_traffic
 from control.controller_navigation import Navigation
@@ -126,11 +124,15 @@ def process_image():
 
         # find markers
         markers = detector_aruco.detect_marker(image)
-        if len(markers) > 0:
-            print(markers)
+        # if len(markers) > 0:
+        #    print(markers)
 
         # grayscale image
         image = image_process.grayscale(image)
+
+        for marker in markers:
+            corners = marker[2]
+            cv2.fillPoly(image, np.array([corners]), (255, 255, 255))
 
         if __conf__.run_flask:
             imgs = [cv2.resize(image, __conf__.proc_dim)]
