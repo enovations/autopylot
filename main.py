@@ -225,14 +225,12 @@ def process_image():
                 # p *= __conf__.meter_to_pixel_ratio
                 print(r, p)
 
-                v = controller_driving.get_speed(r)
-
-                w = Filter.r_to_w(r, v)
+                w = Filter.r_to_w(r, __conf__.max_speed)
                 w = omega_filter.get([w])[0]
                 w *= __conf__.omega_gain
                 p *= __conf__.position_gain
 
-                controller_ros.update_robot(v, w + p)
+                controller_ros.update_robot(__conf__.max_speed, w + p)
         else:
             controller_ros.update_robot(0.1, 0)
             if __conf__.run_flask:
