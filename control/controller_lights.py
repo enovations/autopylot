@@ -59,7 +59,7 @@ def run():
     while running:
         LED.SetAll(0, 0, 0)
         for i in range(10, 34):
-            LED.Set(i, 20, 20, 20)
+            LED.Set(i, 50, 50, 50)
 
         if direction == Direction.LEFT:
             if indicator_step == 11:
@@ -70,7 +70,7 @@ def run():
                     LED.Set(i, 0, 0, 0)
             else:
                 for i in range(9, 9 - indicator_step, -1):
-                    LED.Set(i, 20, 10, 0)
+                    LED.Set(i, 50, 25, 0)
                 indicator_step += 1
                 sleep *= 0.9
 
@@ -83,7 +83,7 @@ def run():
                     LED.Set(i, 0, 0, 0)
             else:
                 for i in range(34, 34 + indicator_step):
-                    LED.Set(i, 20, 10, 0)
+                    LED.Set(i, 50, 25, 0)
                 indicator_step += 1
                 sleep *= 0.9
 
@@ -98,9 +98,9 @@ def run():
                     LED.Set(i, 0, 0, 0)
             else:
                 for i in range(34, 34 + indicator_step):
-                    LED.Set(i, 20, 10, 0)
+                    LED.Set(i, 50, 25, 0)
                 for i in range(9, 9 - indicator_step, -1):
-                    LED.Set(i, 20, 10, 0)
+                    LED.Set(i, 50, 25, 0)
 
                 indicator_step += 1
                 sleep *= 0.9
@@ -108,7 +108,7 @@ def run():
         LED.Update()
         time.sleep(sleep)
 
-        if direction != Direction.NONE and time.time() - last_time > 2:
+        if direction != Direction.NONE and time.time() - last_time > 5:
             global direction
             direction = Direction.NONE
 
