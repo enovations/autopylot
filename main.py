@@ -137,7 +137,7 @@ def process_image():
         # transform image
         image = image_process.transform_image(image)
 
-        # find signs
+        # find tfs
         ###########################################
         # gray = cv2.bilateralFilter(image, 11, 17, 17)
         # edged = cv2.Canny(gray, 30, 200)

@@ -8,7 +8,7 @@ templates = []
 
 def load_templates():
     for i in range(2):
-        template = cv2.imread(str(i) + '.jpg')
+        template = cv2.imread('tfs/' + str(i) + '.jpg')
 
         template = cv2.resize(template, (64, 64))
 
