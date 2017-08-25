@@ -116,7 +116,7 @@ controller_lights.init()
 
 
 def process_image():
-    global sendimagedata, piimage
+    global sendimagedata, piimage, last_iteration_time
 
     while True:
         if nopi:
