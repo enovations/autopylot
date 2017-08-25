@@ -43,6 +43,7 @@ def run():
         return
 
     indicator_step = 0
+    sleep = 0.06
 
     while running:
         LED.SetAll(0, 0, 0)
@@ -51,15 +52,18 @@ def run():
 
         if direction == Direction.LEFT:
             if indicator_step == 11:
+                time.sleep(0.03)
                 indicator_step = 0
+                sleep = 0.06
                 for i in range(10):
                     LED.Set(i, 0, 0, 0)
             else:
                 for i in range(10, 10 - indicator_step, -1):
                     LED.Set(i, 20, 10, 0)
                 indicator_step += 1
+                sleep *= 0.9
         LED.Update()
-        time.sleep(0.1)
+        time.sleep(sleep)
 
     LED.SetAll(0, 0, 0)
     LED.Update()
