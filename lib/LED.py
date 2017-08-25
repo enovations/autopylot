@@ -11,8 +11,7 @@ class rumbaLED:
         # Connect to the PoKeys device
         print("Connecting to the LED controller...")
         if self.mydevice.PK_ConnectToDevice(1) != 0:
-            print("Device not found, quitting!")
-            sys.exit(0)
+            print("Device not found")
 
         self.Enable()
         self.maxLEDlvl = 50
