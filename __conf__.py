@@ -10,14 +10,14 @@ flask_threaded = True
 ###############################
 #       ROBOT SETTINGS        #
 ###############################
-max_speed = 0.2
+max_speed = 0.5
 max_w = 1.0
 
 ###############################
 #   DYNAMIC SPEED SETTINGS    #
 ###############################
 dynamic_speed = True
-ar_max = 0.02
+ar_max = 0.04
 acceleration_factor = 1.1
 deceleration_factor = 0.5
 
