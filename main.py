@@ -140,8 +140,9 @@ def process_image():
 
         # find tfs
         ###########################################
-        gray = cv2.medianBlur(image, 5)
+        # gray = cv2.medianBlur(image, 5)
         # gray = cv2.bilateralFilter(image, 11, 17, 17)
+        gray = image
         edged = cv2.Canny(gray, 30, 200)
 
         im2, contours, hierarchy = cv2.findContours(edged, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
