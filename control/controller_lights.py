@@ -53,7 +53,7 @@ def run():
 
         if direction == Direction.LEFT:
             if indicator_step == 11:
-                time.sleep(0.09)
+                time.sleep(0.12)
                 indicator_step = 0
                 sleep = 0.06
                 for i in range(10):
@@ -66,7 +66,7 @@ def run():
 
         if direction == Direction.RIGHT:
             if indicator_step == 11:
-                time.sleep(0.09)
+                time.sleep(0.12)
                 indicator_step = 0
                 sleep = 0.06
                 for i in range(34, 44):
@@ -79,7 +79,7 @@ def run():
 
         if direction == Direction.STOP:
             if indicator_step == 11:
-                time.sleep(0.09)
+                time.sleep(0.12)
                 indicator_step = 0
                 sleep = 0.06
                 for i in range(34, 44):
