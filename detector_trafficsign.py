@@ -23,15 +23,7 @@ def load_templates():
             templates.append((i, template))
 
 
-id = 0
-
-
 def match_image(image):
-    global id
-    cv2.imwrite('../znaki/' + str(id) + '.jpg', image)
-
-    id += 1
-
     curr_min = 1e20
     minx = -1
 
