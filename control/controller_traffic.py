@@ -13,5 +13,5 @@ splits = {
 aryco_id_to_split_name = {
     33: 'hodnik',
     35: 'center',
-    36: 'stranski'
+    38: 'stranski'
 }
