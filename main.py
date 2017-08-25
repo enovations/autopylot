@@ -88,9 +88,9 @@ def input_handler():
             break
 
         dest = datagram.decode('utf8')
-        controller_navigation.current_dest = dest
+        navigation.current_dest = dest
         print('dest set:', dest)
-        time.sleep(0.05)
+        time.sleep(0.1)
 
 
 if not nopi:
