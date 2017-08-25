@@ -7,7 +7,7 @@ from lib import LED as L
 LED = None
 max_led = 43
 no_led = False
-
+running = True
 
 class Direction(Enum):
     NONE = 0
@@ -35,27 +35,31 @@ def init():
 def run():
     global LED
     global no_led
+    global running
 
     if no_led:
         return
 
-    while True:
+    while running:
         if direction == Direction.NONE:
             LED.SetAll(0, 0, 0)
-            for i in range(10, 30):
+            for i in range(10, 33):
                 LED.Set(i, 20, 20, 20)
             LED.Update()
         time.sleep(0.03)
+
+    LED.SetAll(0, 0, 0)
+    LED.Update()
 
 
 def close():
     global LED
     global no_led
+    global running
 
     if no_led:
         return
 
     print('closing led')
 
-    LED.SetAll(0, 0, 0)
-    LED.Update()
+    running = False

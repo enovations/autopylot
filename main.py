@@ -116,7 +116,7 @@ controller_lights.init()
 
 
 def process_image():
-    global sendimagedata, piimage
+    global sendimagedata, piimage, last_iteration_time
 
     while True:
         if nopi:
@@ -225,8 +225,8 @@ def process_image():
             image = image_process.generate_preview(imgs, [element[2] for element in matches], dark)
             sendimagedata = cv2.imencode('.jpg', image)[1].tostring()
 
-    print(time.time()-last_iteration_time)
-    last_iteration_time = time.time()
+        print(time.time()-last_iteration_time)
+        last_iteration_time = time.time()
 
 
 if __conf__.run_flask:
