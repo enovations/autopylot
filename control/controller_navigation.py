@@ -11,7 +11,7 @@ def path_from_to(start, stop):
     while len(to_check) > 0:
         options, turns, nodes = to_check.popleft()
 
-        if stop in options:
+        if stop in options or len(turns) > 5:
             turns.append(options.index(stop))
             nodes.append(stop)
             return turns, nodes
