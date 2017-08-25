@@ -60,7 +60,14 @@ def run():
         LED.SetAll(0, 0, 0)
 
         # set main lights
-        for i in range(10, 34):
+        # for i in range(10, 34):
+        #    LED.Set(i, 50, 50, 50)
+
+        # tesla like headlights 
+        for i in range(0, 12):
+            LED.Set(i, 50, 50, 50)
+
+        for i in range(32, 44):
             LED.Set(i, 50, 50, 50)
 
         if direction == Direction.LEFT:
@@ -72,7 +79,7 @@ def run():
                     LED.Set(i, 0, 0, 0)
             else:
                 for i in range(9, 9 - indicator_step, -1):
-                    LED.Set(i, 50, 25, 0)
+                    LED.Set(i, 50, 20, 0)
                 indicator_step += 1
                 sleep *= 0.9
 
@@ -85,7 +92,7 @@ def run():
                     LED.Set(i, 0, 0, 0)
             else:
                 for i in range(34, 34 + indicator_step):
-                    LED.Set(i, 50, 25, 0)
+                    LED.Set(i, 50, 20, 0)
                 indicator_step += 1
                 sleep *= 0.9
 
@@ -100,9 +107,9 @@ def run():
                     LED.Set(i, 0, 0, 0)
             else:
                 for i in range(34, 34 + indicator_step):
-                    LED.Set(i, 50, 25, 0)
+                    LED.Set(i, 50, 20, 0)
                 for i in range(9, 9 - indicator_step, -1):
-                    LED.Set(i, 50, 25, 0)
+                    LED.Set(i, 50, 20, 0)
 
                 indicator_step += 1
                 sleep *= 0.9
