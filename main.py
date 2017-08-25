@@ -140,7 +140,7 @@ def process_image():
 
         # find tfs
         ###########################################
-        gray = cv2.cv2.medianBlur(image, 5)
+        gray = cv2.medianBlur(image, 5)
         # gray = cv2.bilateralFilter(image, 11, 17, 17)
         edged = cv2.Canny(gray, 30, 200)
 
