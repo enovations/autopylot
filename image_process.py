@@ -1,8 +1,8 @@
 import cv2
 import numpy as np
-import controller_traffic
 
 import __conf__
+import controller_traffic
 
 mask = None
 
@@ -45,6 +45,8 @@ def threshold_image(image):
 
 def generate_preview(images, positions, dark):
     img = np.vstack(images)
+
+    img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
 
     cv2.line(img, (80, 120), (80, 180 + 60), (255, 0, 255), 1)
 

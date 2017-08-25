@@ -27,7 +27,6 @@ def match_image(image):
     curr_min = 1e20
     minx = -1
 
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     image = cv2.adaptiveThreshold(image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
                                   cv2.THRESH_BINARY_INV, 5, 6)
 
