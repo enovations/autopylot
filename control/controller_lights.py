@@ -14,9 +14,10 @@ class Direction(Enum):
     NONE = 0
     LEFT = -1
     RIGHT = 1
+    STOP = 2
 
 
-direction = Direction.RIGHT
+direction = Direction.STOP
 
 
 def init():
@@ -73,6 +74,24 @@ def run():
             else:
                 for i in range(33, 33 + indicator_step):
                     LED.Set(i, 20, 10, 0)
+                indicator_step += 1
+                sleep *= 0.9
+
+        if direction == Direction.STOP:
+            if indicator_step == 11:
+                time.sleep(0.09)
+                indicator_step = 0
+                sleep = 0.06
+                for i in range(33, 43):
+                    LED.Set(i, 0, 0, 0)
+                for i in range(10):
+                    LED.Set(i, 0, 0, 0)
+            else:
+                for i in range(33, 33 + indicator_step):
+                    LED.Set(i, 20, 10, 0)
+                for i in range(10, 10 - indicator_step, -1):
+                    LED.Set(i, 20, 10, 0)
+
                 indicator_step += 1
                 sleep *= 0.9
 
