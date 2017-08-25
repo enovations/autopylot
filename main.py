@@ -27,7 +27,7 @@ if __conf__.run_flask:
 
 nopi = False
 sendimagedata = None
-omega_filter = Filter([1, 2, 3, 4, 5, 6, 7], 1)
+omega_filter = Filter([1, 2, 3, 4])
 navigation = Navigation()
 piimage = None
 last_iteration_time = time.time()
@@ -226,7 +226,7 @@ def process_image():
                 print(r, p)
 
                 w = Filter.r_to_w(r, __conf__.max_speed)
-                w = omega_filter.get([w])[0]
+                w = omega_filter.get(w)
                 w *= __conf__.omega_gain
                 p *= __conf__.position_gain
 

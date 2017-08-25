@@ -24,15 +24,14 @@ def detect(image, masks):
         for i in range(len(masks[k])):
             res, img = evaluate(image, masks[k][i])
 
-            if res > 4:
-                position = i
-                position -= len(masks[0]) // 2
-                position *= 160 // __conf__.num_of_mask_offsets
+            position = i
+            position -= len(masks[0]) // 2
+            position *= 160 // __conf__.num_of_mask_offsets
 
-                if __conf__.run_flask:
-                    matches.append([k, res, position, img, masks[k][i]])  # r, s, position, bimg, mask
-                else:
-                    matches.append([k, res, position])  # r, s, position
+            if __conf__.run_flask:
+                matches.append([k, res, position, img, masks[k][i]])  # r, s, position, bimg, mask
+            else:
+                matches.append([k, res, position])  # r, s, position
 
     matches.sort(key=lambda x: x[1], reverse=True)
 
