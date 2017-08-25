@@ -1,4 +1,9 @@
+import __conf__
+
+import time
+import threading
 import atexit
+import socket
 import os
 import socket
 import threading
@@ -9,6 +14,9 @@ import numpy as np
 
 import __conf__
 import controller_driving
+import controlles_zmigovci
+import image_process
+import detector_line
 import controller_navigation
 import controller_ros
 import controller_traffic
@@ -33,13 +41,14 @@ piimage = None
 
 
 def check_tethered_mode():
-    hostname = "google.com"
-    response = os.system("ping -c 1 > /dev/null" + hostname)
-
-    if response == 0:
-        print('network reachable, going into tethered mode (won\'t move')
+    try:
+        import urllib.request
+        urllib.request.urlopen("http://google.com").read()
+        print('network reachable, going into tethered mode (won\'t move)')
         __conf__.max_speed = 0
         __conf__.max_w = 0
+    except:
+        pass
 
 
 nounix = False
@@ -108,6 +117,9 @@ controller_ros.init()
 
 # init sign templates
 detector_trafficsign.load_templates()
+
+# init zmigovce
+controlles_zmigovci.init()
 
 
 def process_image():
@@ -190,13 +202,13 @@ def process_image():
                                  float(matches[1][0])])
                         p = min([float(matches[0][2]),
                                  float(matches[1][2])])
-                        print('left')
+                        print('right')
                     else:  # go left
                         r = max([float(matches[0][0]),
                                  float(matches[1][0])])
                         p = max([float(matches[0][2]),
                                  float(matches[1][2])])
-                        print('right')
+                        print('left')
 
                 r *= __conf__.meter_to_pixel_ratio
                 p *= __conf__.meter_to_pixel_ratio
@@ -257,3 +269,4 @@ def stop():
         stream.close()
         rawcapture.close()
         camera.close()
+    controlles_zmigovci.close()
