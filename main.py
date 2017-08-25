@@ -33,10 +33,10 @@ piimage = None
 
 
 def check_tethered_mode():
-    hostname = "google.com"
-    response = os.system("ping -c 1 > /dev/null" + hostname)
-
-    if response == 0:
+    try:
+        import urllib.request
+        urllib.request.urlopen("http://google.com").read()
+    except:
         print('network reachable, going into tethered mode (won\'t move')
         __conf__.max_speed = 0
         __conf__.max_w = 0
