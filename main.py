@@ -142,18 +142,18 @@ def process_image():
         ###########################################
         # gray = cv2.medianBlur(image, 5)
         # gray = cv2.bilateralFilter(image, 11, 17, 17)
-        gray = image
-        edged = cv2.Canny(gray, 30, 200)
-
-        im2, contours, hierarchy = cv2.findContours(edged, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-        contours = sorted(contours, key=cv2.contourArea, reverse=True)[:1]
-
-        rect = cv2.minAreaRect(contours[0])
-        box = cv2.boxPoints(rect)
-        box = np.float32(box)
-
-        matrix = cv2.getPerspectiveTransform(box, np.float32([[0, 0], [0, 64], [64, 64], [64, 0]]))
-        detector_trafficsign.process_sign(cv2.warpPerspective(image, matrix, (64, 64)))
+        # gray = image
+        # edged = cv2.Canny(gray, 30, 200)
+        #
+        # im2, contours, hierarchy = cv2.findContours(edged, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        # contours = sorted(contours, key=cv2.contourArea, reverse=True)[:1]
+        #
+        # rect = cv2.minAreaRect(contours[0])
+        # box = cv2.boxPoints(rect)
+        # box = np.float32(box)
+        #
+        # matrix = cv2.getPerspectiveTransform(box, np.float32([[0, 0], [0, 64], [64, 64], [64, 0]]))
+        # detector_trafficsign.process_sign(cv2.warpPerspective(image, matrix, (64, 64)))
         ##########################################
 
         # check for average color, invert if white line
