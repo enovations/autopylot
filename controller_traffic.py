@@ -11,7 +11,7 @@ splits = {
 
 
 aryco_id_to_split_name = {
-    31: 'lamsv',
+    31: 'lmsv',
     32: 'hodnik',
     33: 'lams'
 }

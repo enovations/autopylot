@@ -105,6 +105,8 @@ def process_image():
         # find markers
         markers = detector_aruco.detect_marker(image)
 
+        if len(markers) > 0: print(markers)
+
         image = image_process.transform_image(image)
 
         gray = cv2.bilateralFilter(image, 11, 17, 17)
@@ -177,11 +179,13 @@ def process_image():
                                  float(matches[1][0])])
                         p = min([float(matches[0][2]),
                                  float(matches[1][2])])
+                        print('left')
                     else:  # go left
                         r = max([float(matches[0][0]),
                                  float(matches[1][0])])
                         p = max([float(matches[0][2]),
                                  float(matches[1][2])])
+                        print('right')
 
                 r *= __conf__.meter_to_pixel_ratio
                 p *= __conf__.meter_to_pixel_ratio
