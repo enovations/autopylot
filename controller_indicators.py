@@ -1,7 +1,8 @@
-import LED as L
-from enum import Enum
 import threading
 import time
+from enum import Enum
+
+import LED as L
 
 LED = None
 max_led = 43
