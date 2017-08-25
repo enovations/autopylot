@@ -16,6 +16,7 @@ from detection import detector_line
 from detection import detector_trafficsign
 from util import image_process
 from util.filter import Filter
+from control import controller_driving
 
 if __conf__.run_flask:
     try:
@@ -210,28 +211,15 @@ def process_image():
                         controller_lights.set_direction(controller_lights.Direction.LEFT)
                         print('left')
 
-                # r *= __conf__.meter_to_pixel_ratio
-                # # p *= __conf__.meter_to_pixel_ratio
-                # print(r, p)
-                #
-                # v = controller_driving.get_speed(r)
-                #
-                # if len(matches) > 1:
-                #     v = 0.1
-                #
-                # w = Filter.r_to_w(r, v)
-                # omega_filter.get([w])
-                # p *= __conf__.position_gain
-                #
-                # controller_ros.update_robot(v, p)
-
                 r *= __conf__.meter_to_pixel_ratio
 
-                w = Filter.r_to_w(r, __conf__.max_speed)
+                v = controller_driving.get_speed(r)
+
+                w = Filter.r_to_w(r, v)
                 w = omega_filter.get(w)
                 w *= __conf__.omega_gain
 
-                controller_ros.update_robot(__conf__.max_speed, w + p * __conf__.position_gain)
+                controller_ros.update_robot(v, w + p * __conf__.position_gain)
         else:
             controller_ros.update_robot(0.1, 0)
             if __conf__.run_flask:
