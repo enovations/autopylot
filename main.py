@@ -27,7 +27,7 @@ if __conf__.run_flask:
 
 nopi = False
 sendimagedata = None
-omega_filter = Filter([1, 2, 3, 4], 3)
+omega_filter = Filter([1, 2, 3, 4], 1)
 navigation = Navigation()
 piimage = None
 last_iteration_time = time.time()
@@ -205,13 +205,15 @@ def process_image():
 
                 r *= __conf__.meter_to_pixel_ratio
                 p *= __conf__.meter_to_pixel_ratio
+                print(r, p)
 
                 v = controller_driving.get_speed(r)
 
                 if len(matches) > 1:
                     v = 0.1
 
-                w = Filter.r_to_w(r, v)
+                w = Filter.r_to_w(r, w + v)
+                omega_filter.get([w])
                 p *= __conf__.position_gain
 
                 controller_ros.update_robot(v, p)
