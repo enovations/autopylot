@@ -1,5 +1,6 @@
-import controller_traffic
 from collections import deque
+
+from control import controller_traffic
 
 
 def path_from_to(start, stop):

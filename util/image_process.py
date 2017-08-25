@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 import __conf__
-import controller_traffic
+from control import controller_traffic
 
 mask = None
 

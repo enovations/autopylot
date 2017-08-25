@@ -1,5 +1,4 @@
 from collections import deque
-import __conf__
 
 
 class Filter:

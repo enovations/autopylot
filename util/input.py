@@ -1,5 +1,4 @@
 import socket
-import atexit
 
 client = socket.socket(socket.AF_UNIX, socket.SOCK_DGRAM)
 client.connect('/tmp/autopylot_input_socket')

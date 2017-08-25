@@ -3,21 +3,21 @@ import socket
 import threading
 import time
 
-import cv2
-import numpy as np
-
-import __conf__
-import controller_driving
 import controller_lights
 import controller_navigation
 import controller_ros
 import controller_traffic
+import cv2
 import detector_aruco
 import detector_line
-import detector_trafficsign
 import image_process
+import numpy as np
 from controller_navigation import Navigation
-from filter import Filter
+
+import __conf__
+from control import controller_driving
+from detection import detector_trafficsign
+from util.filter import Filter
 
 if __conf__.run_flask:
     try:

@@ -1,6 +1,7 @@
-import __conf__
-import controller_traffic
 import math
+
+import __conf__
+from control import controller_traffic
 
 old_v = 0
 
