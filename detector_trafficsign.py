@@ -1,3 +1,6 @@
+from collections import deque
+from statistics import mode
+
 import cv2
 
 templates = []
@@ -31,16 +34,23 @@ def match_image(image):
     for template in templates:
         result = cv2.matchTemplate(image, templ=template[1], method=cv2.TM_SQDIFF)
         if curr_min > result[0]:
-           curr_min = result[0]
-           minx = template[0]
+            curr_min = result[0]
+            minx = template[0]
 
     return minx, curr_min
 
 
+sign_history = deque([-1 for _ in range(10)])
+
+
 def process_signs(signs):
     for sign in signs:
-        id, val = match_image(sign)
-        # if val < 25000000:
-        #     print(id)
-        # else:
-        #     print('no sign!')
+        sign_id, val = match_image(sign)
+        if val > 25000000:  # nod good enough match
+            sign_id = -1
+        sign_history.popleft()
+        sign_history.append(sign_id)
+
+    most_probable_match = mode(sign_history)
+
+    print('Sign match: ' + most_probable_match)
