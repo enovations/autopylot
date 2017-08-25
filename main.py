@@ -119,8 +119,8 @@ def process_image():
             box = cv2.boxPoints(rect)
             box = np.float32(box)
 
-            matrix = cv2.getPerspectiveTransform(box, np.float32([[0, 0], [0, 48], [48, 48], [48, 0]]))
-            img_sign = cv2.warpPerspective(image, matrix, (48, 48))
+            matrix = cv2.getPerspectiveTransform(box, np.float32([[0, 0], [0, 64], [64, 64], [64, 0]]))
+            img_sign = cv2.warpPerspective(image, matrix, (64, 64))
 
             signs.append(img_sign)
 

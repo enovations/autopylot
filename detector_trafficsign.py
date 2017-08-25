@@ -5,7 +5,9 @@ templates = []
 
 def load_templates():
     for i in range(0, 6):
-        template = cv2.imread('signs/' + str(i) + '.jpg')
+        template = cv2.imread(str(i) + '.jpg')
+
+        template = cv2.resize(template, (64, 64))
 
         template = cv2.cvtColor(template, cv2.COLOR_BGR2GRAY)
         template = cv2.adaptiveThreshold(template, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
@@ -28,9 +30,9 @@ def match_image(image):
 
     for template in templates:
         result = cv2.matchTemplate(image, templ=template[1], method=cv2.TM_SQDIFF)
-        if curr_min > result:
-            curr_min = result
-            minx = template[0]
+        if curr_min > result[0]:
+           curr_min = result[0]
+           minx = template[0]
 
     return minx, curr_min
 
