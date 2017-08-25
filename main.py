@@ -213,7 +213,10 @@ def process_image():
 
                 r *= __conf__.meter_to_pixel_ratio
 
-                v = controller_driving.get_speed(r)
+                if __conf__.dynamic_speed:
+                    v = controller_driving.get_speed(r)
+                else:
+                    v = __conf__.max_speed
 
                 w = Filter.r_to_w(r, v)
                 w = omega_filter.get(w)
