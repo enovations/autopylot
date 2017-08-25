@@ -63,7 +63,7 @@ def generate_preview(images, positions, dark, path, v):
     cv2.putText(img, 'best curve match', (1, 60 + 310), cv2.FONT_HERSHEY_PLAIN, 0.7, (180, 180, 180), 1, cv2.LINE_AA)
 
     limit = v * 3.6
-    cv2.putText(img, 'v: ' + ('{0:.1f}'.format(limit)) + ' km/h', (5, 13), cv2.FONT_HERSHEY_PLAIN, 0.8,
+    cv2.putText(img, 'v: ' + ('{0:.2f}'.format(limit)) + ' km/h', (5, 13), cv2.FONT_HERSHEY_PLAIN, 0.8,
                 (255, 255, 0), 1, cv2.LINE_AA)
     cv2.putText(img, ' > '.join(path), (5, 26), cv2.FONT_HERSHEY_PLAIN, 0.8,
                 (100, 255, 0), 1, cv2.LINE_AA)
