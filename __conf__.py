@@ -1,4 +1,5 @@
 import numpy as np
+from control import controller_traffic
 
 ###############################
 #       FLASK SETTINGS        #
@@ -43,4 +44,4 @@ min_line_match = 120
 min_match_ratio = 0.6
 min_split_r = 0.8
 
-marker_ids = {33, 35, 38}
+marker_ids = set(controller_traffic.aryco_id_to_split_name.keys())
