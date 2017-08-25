@@ -4,6 +4,7 @@ import time
 import threading
 import atexit
 import socket
+import os
 
 import cv2
 import numpy as np
@@ -33,6 +34,17 @@ omega_filter = Filter([1, 2, 3, 4], 3)
 navigation = Navigation()
 piimage = None
 
+
+def check_tethered_mode():
+    hostname = "google.com"
+    response = os.system("ping -c 1 " + hostname)
+
+    if response == 0:
+        print('network reachable, going into tethered mode (won\'t move')
+        __conf__.max_speed = 0
+        __conf__.max_w = 0
+
+
 try:
     import picamera, picamera.array
 except:
@@ -48,6 +60,8 @@ if not nopi:
 
     rawcapture = picamera.array.PiRGBArray(camera)
     stream = camera.capture_continuous(rawcapture, format='bgr', use_video_port=True)
+
+    check_tethered_mode()
 
 
 def new_image():
