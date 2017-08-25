@@ -223,7 +223,7 @@ def process_image():
 
                 r *= __conf__.meter_to_pixel_ratio
                 # p *= __conf__.meter_to_pixel_ratio s
-                print(r, p)
+                # print(r, p)
 
                 w = Filter.r_to_w(r, __conf__.max_speed)
                 w = omega_filter.get(w)
@@ -240,7 +240,7 @@ def process_image():
             image = image_process.generate_preview(imgs, [element[2] for element in matches], dark)
             sendimagedata = cv2.imencode('.jpg', image)[1].tostring()
 
-        # print(time.time()-last_iteration_time)
+        print(time.time()-last_iteration_time)
         last_iteration_time = time.time()
 
 

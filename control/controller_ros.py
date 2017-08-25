@@ -25,7 +25,6 @@ def update_robot(v, w):
     if w < -__conf__.max_w: w = -__conf__.max_w
     if v > __conf__.max_speed: v = __conf__.max_speed
 
-    print('vn gre omega;', w)
     global client
     if not nounix:
         message = str(v) + ' ' + str(w)
