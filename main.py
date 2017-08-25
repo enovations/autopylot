@@ -7,6 +7,7 @@ import cv2
 import numpy as np
 
 import __conf__
+from control import controller_driving
 from control import controller_lights
 from control import controller_ros
 from control import controller_traffic
@@ -16,7 +17,6 @@ from detection import detector_line
 from detection import detector_trafficsign
 from util import image_process
 from util.filter import Filter
-from control import controller_driving
 
 if __conf__.run_flask:
     try:
@@ -133,7 +133,8 @@ def process_image():
 
         for marker in markers:
             corners = marker[2]
-            cv2.fillPoly(image, corners, (255, 255, 255))
+            print(corners)
+            # cv2.fillPoly(image, corners, (255, 255, 255))
 
         if __conf__.run_flask:
             imgs = [cv2.resize(image, __conf__.proc_dim)]
