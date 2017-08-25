@@ -34,7 +34,7 @@ piimage = None
 
 def check_tethered_mode():
     hostname = "google.com"
-    response = os.system("ping -c 1 " + hostname)
+    response = os.system("ping -c 1 > /dev/null" + hostname)
 
     if response == 0:
         print('network reachable, going into tethered mode (won\'t move')
