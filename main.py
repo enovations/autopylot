@@ -222,7 +222,7 @@ def process_image():
                 p = matches[0][2]
 
                 r *= __conf__.meter_to_pixel_ratio
-                # p *= __conf__.meter_to_pixel_ratio
+                # p *= __conf__.meter_to_pixel_ratio s
                 print(r, p)
 
                 w = Filter.r_to_w(r, __conf__.max_speed)
