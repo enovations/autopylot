@@ -23,11 +23,3 @@ def detect_marker(image):
         else:
             res.append((ids[i][0], False))
     return res
-
-
-cap = cv2.VideoCapture(0)
-
-while True:
-    _, img = cap.read()
-    res = detect_marker(img)
-    print(res)
