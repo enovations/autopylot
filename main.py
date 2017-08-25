@@ -105,6 +105,8 @@ def process_image():
         # find markers
         markers = detector_aruco.detect_marker(image)
 
+        if len(markers) > 0: print(markers)
+
         image = image_process.transform_image(image)
 
         gray = cv2.bilateralFilter(image, 11, 17, 17)
