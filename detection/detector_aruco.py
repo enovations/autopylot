@@ -19,7 +19,7 @@ def detect_marker(image):
             continue
 
         if corners[i][0][0][1] < corners[i][0][3][1]:
-            res.append((ids[i][0], False, corners[i][0]))
+            res.append((ids[i][0], False, corners[i]))
         else:
-            res.append((ids[i][0], True, corners[i][0]))
+            res.append((ids[i][0], True, corners[i]))
     return res
