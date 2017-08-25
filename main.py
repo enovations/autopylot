@@ -211,21 +211,6 @@ def process_image():
                         controller_lights.set_direction(controller_lights.Direction.LEFT)
                         print('left')
 
-                # r *= __conf__.meter_to_pixel_ratio
-                # # p *= __conf__.meter_to_pixel_ratio
-                # print(r, p)
-                #
-                # v = controller_driving.get_speed(r)
-                #
-                # if len(matches) > 1:
-                #     v = 0.1
-                #
-                # w = Filter.r_to_w(r, v)
-                # omega_filter.get([w])
-                # p *= __conf__.position_gain
-                #
-                # controller_ros.update_robot(v, p)
-
                 r *= __conf__.meter_to_pixel_ratio
 
                 v = controller_driving.get_speed(r)
