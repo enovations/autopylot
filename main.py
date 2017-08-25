@@ -214,7 +214,7 @@ def process_image():
                 w = Filter.r_to_w(r, v)
                 p *= __conf__.position_gain
 
-                controller_ros.update_robot(v, w + p * __conf__.position_gain)
+                controller_ros.update_robot(v, w + p)
         else:
             controller_ros.update_robot(0.1, 0)
             if __conf__.run_flask:
@@ -225,7 +225,7 @@ def process_image():
             image = image_process.generate_preview(imgs, [element[2] for element in matches], dark)
             sendimagedata = cv2.imencode('.jpg', image)[1].tostring()
 
-        print(time.time()-last_iteration_time)
+        # print(time.time()-last_iteration_time)
         last_iteration_time = time.time()
 
 

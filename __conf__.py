@@ -20,7 +20,7 @@ deccl_filter_factor = 0.35
 pixel_25cm_distance = 40
 first_cut_to_image_edge_in_pixels = 17
 meter_to_pixel_ratio = 0.25 / pixel_25cm_distance  # ratio of pixels on screen to meters in real world
-position_gain = -0.12
+position_gain = -0.1
 num_of_mask_offsets = 10
 angularvel_factor_p = 50
 
