@@ -226,7 +226,7 @@ def process_image():
                 print(r, p)
 
                 w = Filter.r_to_w(r, __conf__.max_speed)
-                w = omega_filter.get(w)
+                # w = omega_filter.get(w)
                 w *= __conf__.omega_gain
                 p *= __conf__.position_gain
 
