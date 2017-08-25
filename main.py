@@ -212,11 +212,11 @@ def process_image():
                 if len(matches) > 1:
                     v = 0.1
 
-                w = Filter.r_to_w(r, w + v)
+                w = Filter.r_to_w(r, w)
                 omega_filter.get([w])
                 p *= __conf__.position_gain
 
-                controller_ros.update_robot(v, p)
+                controller_ros.update_robot(v, w + p)
         else:
             controller_ros.update_robot(0.1, 0)
             if __conf__.run_flask:
