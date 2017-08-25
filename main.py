@@ -132,7 +132,7 @@ def process_image():
 
         for marker in markers:
             corners = marker[2]
-            cv2.fillPoly(image, np.array([corners]), (255, 255, 255))
+            cv2.fillPoly(image, corners, (255, 255, 255))
 
         if __conf__.run_flask:
             imgs = [cv2.resize(image, __conf__.proc_dim)]

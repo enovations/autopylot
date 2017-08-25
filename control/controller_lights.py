@@ -58,6 +58,8 @@ def run():
 
     while running:
         LED.SetAll(0, 0, 0)
+
+        # set main lights
         for i in range(10, 34):
             LED.Set(i, 50, 50, 50)
 
