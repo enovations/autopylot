@@ -41,6 +41,6 @@ proc_dim = (160, 120)
 # line detection bounds
 min_line_match = 120
 min_match_ratio = 0.6
-min_split_r = 1.3
+min_split_r = 0.8
 
 marker_ids = {33, 35, 38}
