@@ -43,4 +43,4 @@ min_line_match = 120
 min_match_ratio = 0.6
 min_split_r = 1.3
 
-marker_ids = {33, 35}
+marker_ids = {33, 35, 38}
