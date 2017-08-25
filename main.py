@@ -30,6 +30,7 @@ sendimagedata = None
 omega_filter = Filter([1, 2, 3, 4], 3)
 navigation = Navigation()
 piimage = None
+last_iteration_time = time.time()
 
 
 def check_tethered_mode():
@@ -223,6 +224,9 @@ def process_image():
         if __conf__.run_flask:
             image = image_process.generate_preview(imgs, [element[2] for element in matches], dark)
             sendimagedata = cv2.imencode('.jpg', image)[1].tostring()
+
+    print(time.time()-last_iteration_time)
+    last_iteration_time = time.time()
 
 
 if __conf__.run_flask:
