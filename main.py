@@ -30,6 +30,7 @@ omega_filter = Filter([1, 2, 3, 4])
 navigation = Navigation()
 piimage = None
 last_iteration_time = time.time()
+path = []
 
 
 def check_tethered_mode():
@@ -115,7 +116,7 @@ controller_lights.init()
 
 
 def process_image():
-    global sendimagedata, piimage, last_iteration_time
+    global sendimagedata, piimage, last_iteration_time, path
 
     while True:
         if nopi:
@@ -230,7 +231,7 @@ def process_image():
                 imgs.append(np.zeros((60, 160, 1), dtype=np.uint8))
 
         if __conf__.run_flask:
-            image = image_process.generate_preview(imgs, [element[2] for element in matches], dark)
+            image = image_process.generate_preview(imgs, [element[2] for element in matches], dark, path, v)
             sendimagedata = cv2.imencode('.jpg', image)[1].tostring()
 
         # print(time.time()-last_iteration_time)
