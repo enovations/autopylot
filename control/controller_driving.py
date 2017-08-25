@@ -13,11 +13,13 @@ def get_speed(r):
         return controller_traffic.speed_limit
 
     v = math.sqrt(__conf__.ar_max * abs(r))
-    v = min(v, controller_traffic.speed_limit)
+    v = min(v, __conf__.max_speed)
+
+    return v
 
     if abs(v) > abs(old_v):
-        old_v = (old_v * (1 - __conf__.accel_filter_factor) + v * __conf__.accel_filter_factor)
+        old_v = v * __conf__.acceleration_factor
     else:
-        old_v = (old_v * (1 - __conf__.deccl_filter_factor) + v * __conf__.deccl_filter_factor)
+        old_v = v * __conf__.deceleration_factor
 
     return old_v
