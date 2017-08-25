@@ -36,10 +36,11 @@ def check_tethered_mode():
     try:
         import urllib.request
         urllib.request.urlopen("http://google.com").read()
-    except:
         print('network reachable, going into tethered mode (won\'t move')
         __conf__.max_speed = 0
         __conf__.max_w = 0
+    except:
+        pass
 
 
 try:
@@ -222,7 +223,7 @@ def process_image():
             image = image_process.generate_preview(imgs, [element[2] for element in matches], dark)
             sendimagedata = cv2.imencode('.jpg', image)[1].tostring()
 
-        print('aa')
+        # print('aa')
 
 
 if __conf__.run_flask:
