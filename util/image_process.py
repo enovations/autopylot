@@ -67,8 +67,9 @@ def generate_preview(images, positions, dark, path, v, dest):
                 (255, 255, 0), 1, cv2.LINE_AA)
     cv2.putText(img, '->'.join(path), (5, 26), cv2.FONT_HERSHEY_PLAIN, 0.8,
                 (50, 180, 0), 1, cv2.LINE_AA)
-    cv2.putText(img, 'dest: ' + dest, (5, 39), cv2.FONT_HERSHEY_PLAIN, 0.8,
-                (50, 180, 0), 1, cv2.LINE_AA)
+    if dest is not None:
+        cv2.putText(img, 'dest: ' + dest, (5, 39), cv2.FONT_HERSHEY_PLAIN, 0.8,
+                    (50, 180, 0), 1, cv2.LINE_AA)
     if dark:
         cv2.putText(img, 'DARK', (123, 13), cv2.FONT_HERSHEY_PLAIN, 0.8,
                     (0, 0, 255), 1, cv2.LINE_AA)
