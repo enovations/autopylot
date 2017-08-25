@@ -9,13 +9,14 @@ max_led = 43
 no_led = False
 running = True
 
+
 class Direction(Enum):
     NONE = 0
     LEFT = -1
     RIGHT = 1
 
 
-direction = Direction.NONE
+direction = Direction.LEFT
 
 
 def init():
@@ -26,6 +27,7 @@ def init():
     except:
         no_led = True
         return
+
     LED.SetAll(0, 0, 0)
     LED.Update()
     t = threading.Thread(target=run)
@@ -40,12 +42,24 @@ def run():
     if no_led:
         return
 
+    indicator_step = 0
+
     while running:
         if direction == Direction.NONE:
             LED.SetAll(0, 0, 0)
             for i in range(10, 33):
                 LED.Set(i, 20, 20, 20)
-            LED.Update()
+
+        elif direction == Direction.LEFT:
+            if indicator_step == 10:
+                indicator_step = 0
+                for i in range(10):
+                    LED.Set(i, 0, 0, 0)
+            else:
+                for i in range(indicator_step):
+                    LED.Set(i, 20, 0, 0)
+                indicator_step += 1
+        LED.Update()
         time.sleep(0.03)
 
     LED.SetAll(0, 0, 0)
