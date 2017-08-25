@@ -228,7 +228,8 @@ def process_image():
                 v = controller_driving.get_speed(r)
 
                 w = Filter.r_to_w(r, v)
-                # omega_filter.get([w])
+                w = omega_filter.get([w])[0]
+                w *= __conf__.omega_gain
                 p *= __conf__.position_gain
 
                 controller_ros.update_robot(v, w + p)
