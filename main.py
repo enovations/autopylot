@@ -257,8 +257,8 @@ else:
 @atexit.register
 def stop():
     controller_ros.close()
+    controller_lights.close()
     if not nopi:
         stream.close()
         rawcapture.close()
         camera.close()
-    controller_lights.close()
